@@ -1,0 +1,7 @@
+so_long
+
+.vscode
+
+bin
+*.o
+*.a
