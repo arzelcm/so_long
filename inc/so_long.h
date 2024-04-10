@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:06:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/09 18:34:47 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/10 11:37:35 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include "map.h"
 # include "context.h"
 
-
-void	handle_map(int argc, char **argv, t_context *context);
+void	handle_map(int argc, char **argv, t_map *map, t_context *context);
 
 #endif

@@ -6,12 +6,15 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/09 19:45:44 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/10 17:47:30 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# TODO: If any lib recompiles, it has to relink program!
+# TODO: Download mlx and libft if not contained!
+
 NAME = so_long
-DEBUG_NAME = so_long_d
+DEBUG_NAME = so_long_debug
 
 #----COLORS----#
 DEF_COLOR = \033[1;39m
@@ -92,17 +95,17 @@ $(BIN_DIR)%.o: $(SRCS_DIR)%.c Makefile
 	@mkdir -p $(BIN_DIR)
 	@$(CC) $(CCFLAGS) -I$(INC_DIR) -MMD -c $< -o $@
 else
-$(BIN_DIR)%_debug.o: %.c Makefile
+$(BIN_DIR)%_debug.o: $(SRCS_DIR)%.c Makefile
 	@printf "$(CIAN)Compiling: $(PINK)$(notdir $<)...$(DEF_COLOR)\n"
 	@mkdir -p $(BIN_DIR)
-	@$(CC) -g $(CCFLAGS) -MMD -c $< -o $@
+	@$(CC) -g $(CCFLAGS) -I$(INC_DIR) -MMD -c $< -o $@
 endif
 
-clean:
+clean: libft_clean mlx_clean
 	@rm -rf $(BIN_DIR)
 	@echo "$(RED)bin/ deleted$(DEF_COLOR)"
 
-fclean: libft_fclean clean mainclean
+fclean: libft_fclean clean mainclean mlx_clean
 	@rm -f $(NAME) $(DEBUG_NAME)
 	@echo "$(RED)Executable deleted$(DEF_COLOR)\n"
 
@@ -121,6 +124,10 @@ make_libft:
 
 make_mlx:
 	@$(MAKE) --no-print-directory -C $(MLX_DIR)
+	@echo ""
+
+mlx_clean:
+	@$(MAKE) --no-print-directory -C $(MLX_DIR) clean
 	@echo ""
 
 libft_clean:
