@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:28:06 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/10 22:02:10 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/11 20:05:10 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	push_string(char *new, char ***matrix, size_t last_i, t_context *context)
 
 	tmp = safe_malloc(sizeof(char *) * (last_i + 1), context);
 	i = 0;
-	while (i < last_i && *matrix)
+	while (i < last_i && matrix && *matrix)
 	{
 		tmp[i] = (*matrix)[i];
 		i++;
@@ -68,9 +68,9 @@ void	push_char(char new, char **str, t_context *context)
 	size_t	last_i;
 
 	last_i = ft_strlen(*str);
-	tmp = safe_malloc(sizeof(char) * (last_i + 1), context);
+	tmp = safe_malloc(sizeof(char) * (last_i + 2), context);
 	ft_strlcpy(tmp, *str, last_i + 1);
-	tmp[last_i] = new;
+	tmp[last_i ] = new;
 	tmp[last_i + 1] = '\0';
 	free(*str);
 	*str = tmp;

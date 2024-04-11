@@ -5,3 +5,5 @@ so_long
 bin
 *.o
 *.a
+
+.DS_Store

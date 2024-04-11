@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/10 21:30:16 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/11 16:52:03 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,33 @@
 # define EXIT 'E'
 # define PLAYER 'P'
 
+typedef struct	s_position
+{
+	size_t	i;
+	size_t	j;
+}	t_position;
+
+typedef struct	s_player
+{
+	t_position position;
+	size_t	i;
+	size_t	j;
+
+}	t_player;
 typedef struct s_map
 {
+	t_player player;
 	char	*path;
 	char	**spaces;
 	char	*elems;
-	size_t	max_x;
 	size_t	max_y;
+	size_t	max_x;
 }	t_map;
+
+typedef struct s_accessible_elems
+{
+	int			exit;
+	int			collectibles;
+}	t_elems;
 
 #endif
