@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/11 16:52:03 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/12 17:21:04 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,7 @@ typedef struct s_accessible_elems
 	int			exit;
 	int			collectibles;
 }	t_elems;
+
+void	terminate_map(t_map *map);
 
 #endif

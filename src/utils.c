@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:28:06 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/11 20:05:10 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/12 19:09:04 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	error(t_context *context)
 	(void) context;
 	exit(EXIT_FAILURE);
 }
-void	free_matrix(void **matrix)
+void	free_matrix(char **matrix, size_t len)
 {
-	int	i;
+	size_t	i;
 
 	if (matrix)
 	{
 		i = 0;
-		while (*(matrix + i))
+		while (i < len && *(matrix + i))
 			free(*(matrix + i++));
 		free(matrix);
 	}

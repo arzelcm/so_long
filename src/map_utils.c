@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/11 17:32:59 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/12 19:55:26 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,16 @@ t_map *copy_map(t_map *map, t_context *context)
 	map->spaces = safe_malloc(sizeof(char *) * context->map.max_y, context);
 	i = -1;
 	while (++i < context->map.max_y)
-		push_string(context->map.spaces[i], &map->spaces, i, context);
+		push_string(ft_strdup(context->map.spaces[i]), &map->spaces, i, context);
+	map->elems = NULL;
 	map->max_x = context->map.max_x;
 	map->max_y = context->map.max_y;
 	return (map);
+}
+
+void	terminate_map(t_map *map)
+{
+	free_matrix(map->spaces, map->max_y);
+	if (map->elems)
+		free(map->elems);
 }

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/11 20:55:51 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/12 20:24:02 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	has_valid_path_map(t_context *context)
 	elems.exit = 0;
 	find_accessible_elems(copy_map(&accessible_map, context),
 		&elems, context->map.player.position.i, context->map.player.position.j);
+	terminate_map(&accessible_map);
 	ft_printf("collectibles: %i, exit: %i\n", elems.collectibles, elems.exit);
 	return (elems.exit
 		&& elems.collectibles == ft_stroccurrences(context->map.elems, COLLECTIBLE));
@@ -86,6 +87,7 @@ void	check_map(t_context *context)
 {
 	char	*message;
 
+	print_map(&context->map);
 	if (ft_stroccurrences(context->map.elems, PLAYER) != 1)
 		message = ": map must have one starting position for player";
 	else if (ft_stroccurrences(context->map.elems, EXIT) != 1)
@@ -145,7 +147,7 @@ void	set_map(char *path, t_context *context)
 		}
 		context->map.max_y++;
 	}
-	close(fd);
+	safe_close(&fd, context);
 	if (!correct)
 		custom_error("map must be rectangular!", context);
 }
@@ -180,5 +182,5 @@ void	handle_map(char **argv, t_context *context)
 	init_map(&context->map, argv[1], context);
 	set_map(argv[1], context);
 	check_map(context);
-	// print_map(&context->map);
+	print_map(&context->map);
 }

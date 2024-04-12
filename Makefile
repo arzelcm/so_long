@@ -6,12 +6,13 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/11 19:41:22 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/12 20:12:58 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # TODO: If any lib recompiles, it has to relink program!
 # TODO: Download mlx and libft if not contained!
+# TODO: Check Cflags!
 
 NAME = so_long
 DEBUG_NAME = so_long_debug
@@ -29,7 +30,7 @@ CIAN = \033[1;36m
 
 #----COMPILER----#
 CC = cc
-CCFLAGS = -g -Wall -Werror -Wextra -fsanitize=address -O3
+CCFLAGS = -g -Wall -Werror -Wextra -O3 #-fsanitize=address
 
 #----LIBFT----#
 LIBFT_DIR = lib/libft/

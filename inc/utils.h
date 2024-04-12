@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:27:06 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/10 21:44:34 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/12 19:05:39 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	custom_error(char *message, t_context *context);
 
 void	error(t_context *context);
 
-void	free_matrix(void **matrix);
+void	free_matrix(char **matrix, size_t len);
 
 void	push_string(char *new, char ***matrix, size_t i, t_context *context);
 
