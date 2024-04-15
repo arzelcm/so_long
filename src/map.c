@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/15 14:27:10 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:36:37 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	check_map(t_context *context)
 		message = ": player must be able to exit the map";
 	else
 		return ;
+	write(2, "Error\n", 6);
 	write(2, context->map.path, ft_strlen(context->map.path));
 	custom_error(message, context);
 }
@@ -119,6 +120,7 @@ void	push_elems(char *str, size_t i, t_context *context)
 		if (elem != WALL && elem != EMPTY && elem != PLAYER
 			&& elem != EXIT && elem != COLLECTIBLE)
 		{
+			write(2, "Error\n", 6);
 			write(2, context->map.filename, ft_strlen(context->map.filename));
 			write(2, ": ", 2);
 			write(2, &elem, 1);
@@ -161,6 +163,8 @@ void	set_map(char *path, t_context *context)
 	}
 	safe_close(&fd, context);
 	if (!correct)
+		write(2, "Error\n", 6);
+	if (!correct)
 		custom_error("map must be rectangular!", context);
 }
 
@@ -169,6 +173,7 @@ void	check_extension(t_map *map, t_context *context)
 	if (ft_strlen(map->filename) <= 4
 		|| ft_strnrcmp(map->filename, ".ber", 4) != EQUAL_STRINGS)
 	{
+		write(2, "Error\n", 6);
 		write(STDERR_FILENO, map->filename, ft_strlen(map->filename));
 		custom_error(": invalid file extension, only .ber is allowed!",
 			context);
