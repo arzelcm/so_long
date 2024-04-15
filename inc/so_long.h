@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:06:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/11 16:58:45 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:16:38 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define SO_LONG_H
 
 # define PROGRAM_NAME "so_long"
+# define ESC_KEYCODE 53
 
 # include "../lib/libft/libft.h"
 # include "../lib/mlx/mlx.h"

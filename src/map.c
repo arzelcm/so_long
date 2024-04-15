@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/15 14:36:37 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/15 18:51:07 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ int	has_valid_path_map(t_context *context)
 	find_accessible_elems(copy_map(&accessible_map, context),
 		&elems, context->map.player.position.i, context->map.player.position.j);
 	terminate_map(&accessible_map);
-	ft_printf("collectibles: %i, exit: %i\n", elems.collectibles, elems.exit);
 	return (elems.exit
 		&& elems.collectibles == ft_stroccurrences(context->map.elems, COLLECTIBLE));
 }
@@ -133,7 +132,7 @@ void	push_elems(char *str, size_t i, t_context *context)
 			context->map.player.position.j = j;
 		}
 		if (elem != EMPTY && elem != WALL)
-			push_char(str[j], &context->map.elems, context);
+			push_char(elem, &context->map.elems, context);
 		j++;
 	}
 }
@@ -189,6 +188,7 @@ void	init_map(t_map *map, char *path, t_context *context)
 	map->max_x = 0;
 	map->path = path;
 	map->filename = ft_filename(path);
+	map->name = ft_substr(map->filename, 0, ft_strlen(map->filename) - 4);
 }
 
 void	handle_map(char **argv, t_context *context)
@@ -197,5 +197,5 @@ void	handle_map(char **argv, t_context *context)
 	check_extension(&context->map, context);
 	set_map(argv[1], context);
 	check_map(context);
-	print_map(&context->map);
+	// print_map(&context->map);
 }
