@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/12 17:21:04 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/15 13:55:45 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_map
 {
 	t_player player;
 	char	*path;
+	char	*filename;
 	char	**spaces;
 	char	*elems;
 	size_t	max_y;

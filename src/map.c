@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/12 20:24:02 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/15 14:27:10 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,14 @@ void	find_accessible_elems(t_map *map, t_elems *elems, size_t i, size_t j)
 	else if (map->spaces[i][j] == COLLECTIBLE)
 		elems->collectibles++;
 	map->spaces[i][j] = 'A';
-	find_accessible_elems(map, elems, i, j + 1);
-	find_accessible_elems(map, elems, i, j - 1);
-	find_accessible_elems(map, elems, i + 1, j);
-	find_accessible_elems(map, elems, i - 1, j);
+	if (map->spaces[i][j + 1] != 'A')
+		find_accessible_elems(map, elems, i, j + 1);
+	if (map->spaces[i][j - 1] != 'A')
+		find_accessible_elems(map, elems, i, j - 1);
+	if (map->spaces[i + 1][j] != 'A')
+		find_accessible_elems(map, elems, i + 1, j);
+	if (map->spaces[i - 1][j] != 'A')
+		find_accessible_elems(map, elems, i - 1, j);
 }
 
 int	has_valid_path_map(t_context *context)
@@ -87,7 +91,6 @@ void	check_map(t_context *context)
 {
 	char	*message;
 
-	print_map(&context->map);
 	if (ft_stroccurrences(context->map.elems, PLAYER) != 1)
 		message = ": map must have one starting position for player";
 	else if (ft_stroccurrences(context->map.elems, EXIT) != 1)
@@ -113,13 +116,22 @@ void	push_elems(char *str, size_t i, t_context *context)
 	while (str[j])
 	{
 		elem = str[j];
-		if (elem != EMPTY && elem != WALL)
-			push_char(str[j], &context->map.elems, context);
-		if (elem == PLAYER)
+		if (elem != WALL && elem != EMPTY && elem != PLAYER
+			&& elem != EXIT && elem != COLLECTIBLE)
+		{
+			write(2, context->map.filename, ft_strlen(context->map.filename));
+			write(2, ": ", 2);
+			write(2, &elem, 1);
+			custom_error(" is not a valid map element. Only 1, 0, P, C and E are.",
+				context);
+		}
+		else if (elem == PLAYER)
 		{
 			context->map.player.position.i = i;
 			context->map.player.position.j = j;
 		}
+		if (elem != EMPTY && elem != WALL)
+			push_char(str[j], &context->map.elems, context);
 		j++;
 	}
 }
@@ -152,15 +164,12 @@ void	set_map(char *path, t_context *context)
 		custom_error("map must be rectangular!", context);
 }
 
-void	check_extension(char *path, t_context *context)
+void	check_extension(t_map *map, t_context *context)
 {
-	char	*filename;
-
-	filename = ft_filename(path);
-	if (ft_strlen(filename) <= 4
-		|| ft_strnrcmp(filename, ".ber", 4) != EQUAL_STRINGS)
+	if (ft_strlen(map->filename) <= 4
+		|| ft_strnrcmp(map->filename, ".ber", 4) != EQUAL_STRINGS)
 	{
-		write(STDERR_FILENO, filename, ft_strlen(filename));
+		write(STDERR_FILENO, map->filename, ft_strlen(map->filename));
 		custom_error(": invalid file extension, only .ber is allowed!",
 			context);
 	}
@@ -169,17 +178,18 @@ void	check_extension(char *path, t_context *context)
 void	init_map(t_map *map, char *path, t_context *context)
 {
 	(void) context;
-	map->path = path;
 	map->spaces = NULL;
 	map->elems = NULL;
 	map->max_y = 0;
 	map->max_x = 0;
+	map->path = path;
+	map->filename = ft_filename(path);
 }
 
 void	handle_map(char **argv, t_context *context)
 {
-	check_extension(argv[1], context);
 	init_map(&context->map, argv[1], context);
+	check_extension(&context->map, context);
 	set_map(argv[1], context);
 	check_map(context);
 	print_map(&context->map);
