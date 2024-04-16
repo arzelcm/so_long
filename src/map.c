@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/15 18:51:07 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:35:33 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "safe_utils.h"
 #include "utils.h"
 #include "so_long.h"
+#include "player.h"
 
 void	print_map(t_map *map)
 {
@@ -27,7 +28,7 @@ void	print_map(t_map *map)
 	while (++i < map->max_y)
 		ft_printf("%s\n", map->spaces[i]);
 	ft_printf("Elems: %s\n", map->elems);
-	ft_printf("Player pos: (%i, %i)\n", map->player.position.i, map->player.position.j);
+	ft_printf("Player pos: (%i, %i)\n", map->player.position.y, map->player.position.x);
 }
 
 int	is_closed_map(t_map *map)
@@ -80,7 +81,7 @@ int	has_valid_path_map(t_context *context)
 	elems.collectibles = 0;
 	elems.exit = 0;
 	find_accessible_elems(copy_map(&accessible_map, context),
-		&elems, context->map.player.position.i, context->map.player.position.j);
+		&elems, context->map.player.position.y, context->map.player.position.x);
 	terminate_map(&accessible_map);
 	return (elems.exit
 		&& elems.collectibles == ft_stroccurrences(context->map.elems, COLLECTIBLE));
@@ -128,8 +129,8 @@ void	push_elems(char *str, size_t i, t_context *context)
 		}
 		else if (elem == PLAYER)
 		{
-			context->map.player.position.i = i;
-			context->map.player.position.j = j;
+			context->map.player.position.y = i;
+			context->map.player.position.x = j;
 		}
 		if (elem != EMPTY && elem != WALL)
 			push_char(elem, &context->map.elems, context);
@@ -189,6 +190,9 @@ void	init_map(t_map *map, char *path, t_context *context)
 	map->path = path;
 	map->filename = ft_filename(path);
 	map->name = ft_substr(map->filename, 0, ft_strlen(map->filename) - 4);
+	map->position.y = 0;
+	map->position.x = 0;
+	init_player(&map->player);
 }
 
 void	handle_map(char **argv, t_context *context)

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/15 18:45:18 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:28:44 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,23 @@
 
 typedef struct s_position
 {
-	size_t	i;
-	size_t	j;
+	size_t	y;
+	size_t	x;
 }	t_position;
 
 typedef struct s_player
 {
 	t_position	position;
-	size_t		i;
-	size_t		j;
-
+	int			collectibles;
 }	t_player;
+
+typedef struct s_texture
+{
+	int		x_size;
+	int		y_size;
+	void	*img;
+}	t_texture;
+
 typedef struct s_map
 {
 	t_player	player;
@@ -39,6 +45,9 @@ typedef struct s_map
 	char		*name;
 	char		**spaces;
 	char		*elems;
+	t_texture	wall;
+	t_texture	empty_space;
+	t_position	position;
 	size_t		max_y;
 	size_t		max_x;
 }	t_map;
@@ -50,5 +59,7 @@ typedef struct s_accessible_elems
 }	t_elems;
 
 void	terminate_map(t_map *map);
+
+void	print_map(t_map *map);
 
 #endif

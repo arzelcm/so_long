@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/15 17:30:21 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/16 15:36:28 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ CIAN = \033[1;36m
 
 #----COMPILER----#
 CC = cc
-CCFLAGS = -g -Wall -Werror -Wextra -O3 -fsanitize=address
+CCFLAGS = -g -Wall -Werror -Wextra -O3 #-fsanitize=address
 
 #----LIBFT----#
 LIBFT_DIR = lib/libft/
@@ -51,7 +51,10 @@ SRCS =	so_long.c \
 		utils.c \
 		map.c \
 		map_utils.c \
-		safe_utils.c
+		safe_utils.c \
+		map_parser.c \
+		actuator.c \
+		player.c
 OBJS = $(SRCS:%.c=$(BIN_DIR)%.o)
 DEPS = $(OBJS:%.o=%.d)
 

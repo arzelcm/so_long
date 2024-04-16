@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:58:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/15 18:41:44 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:07:35 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,7 @@ void	terminate(t_context *context)
 void	init_mlx(t_context *context)
 {
 	context->mlx = mlx_init();
-}
-
-int	on_key_down(int key, t_context *context)
-{
-	if (key == ESC_KEYCODE)
-	{
-		mlx_destroy_window(context->mlx, context->window);
-		exit(EXIT_SUCCESS);
-	}
-	return (0);
-}
-
-void	open_map(t_map *map, t_context *context)
-{
-	void	*img;
-	int		height;
-
-	context->window = mlx_new_window(context->mlx, 1920, 1080, map->name);
-	mlx_key_hook(context->window, on_key_down, context);
-	height = 500;
-	img = mlx_xpm_file_to_image(context->mlx, "./assets/sprites/Leafs2.xpm", &height, &height);
-	mlx_put_image_to_window(context->mlx, context->window, img, 20, 20);
-	mlx_loop(context->mlx);
+	mlx_mouse_hide();
 }
 
 int	main(int argc, char **argv)
@@ -57,7 +35,7 @@ int	main(int argc, char **argv)
 		custom_error("Incorrect arguments. Usage: ./so_long map.ber", &context);
 	handle_map(argv, &context);
 	init_mlx(&context);
-	open_map(&context.map, &context);
+	use_map(&context.map, &context);
 	terminate(&context);
 	return (0);
 }
