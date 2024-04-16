@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 15:57:04 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/16 20:26:33 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,23 @@ void	parse_map(t_map *map, t_context *context)
 	// TODO: put exit, player and collectibles
 	x_factr = map->empty_space.x_size;
 	y_factr = map->empty_space.y_size;
-	y = map->position.y;
 	// ft_printf("Window width: %i, height: %i\n", context->window.width, context->window.height);
 	// ft_printf("max_x: %i, max_y: %i\n", map->max_x, map->max_y);
+	initial_y = ft_normalize(map->position.y, 0, map->max_y - context->window.height / y_factr);
+	initial_x = ft_normalize(map->position.x, 0, map->max_x - context->window.width / x_factr);
+	ft_printf("initial_x: %i, initial_y: %i\n", initial_x, initial_y);
+	y = 0;
 	// TODO: Remove ??
-	initial_y = 0;
-	initial_x = 0;
-
-	y = initial_y;
 	mlx_clear_window(context->mlx, context->window.ref);
-	while (y < map->max_y && y - initial_y < (size_t) context->window.height / y_factr)
+	while (y < map->max_y && y < (size_t) context->window.height / y_factr)
 	{
-		x = initial_x;
+		x = 0;
 		while (x < map->max_x && x < (size_t) context->window.width / x_factr)
 		{
-			if (map->spaces[y][x] == EMPTY)
+			if (map->spaces[y + initial_y][x + initial_x] == EMPTY)
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->empty_space.img, x * x_factr, y * y_factr);
-			else if (map->spaces[y][x] == WALL)
+			else if (map->spaces[y + initial_y][x + initial_x] == WALL)
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->wall.img, x * x_factr, y * y_factr);
 			x++;
@@ -80,11 +79,24 @@ void	parse_map(t_map *map, t_context *context)
 	// print_map(map);
 }
 
+void	set_map_initial_pos(t_map *map, t_context *context)
+{
+	long	x_middle;
+	long	y_middle;
+
+	x_middle = context->window.width / 2 / map->wall.x_size;
+	y_middle = context->window.height / 2 / map->wall.y_size;
+
+	map->position.x = (long) map->player.position.x - x_middle;
+	map->position.y = (long) map->player.position.y - y_middle;
+}
+
 void	use_map(t_map *map, t_context *context)
 {
 	init_texture(&map->wall, WALL_TEXTURE, context->mlx);
 	init_texture(&map->empty_space, EMPTY_TEXTURE, context->mlx);
 	init_window(&map->wall, &map->empty_space, map, context);
+	set_map_initial_pos(map, context);
 	parse_map(map, context);
 	mlx_key_hook(context->window.ref, on_key_down, context);
 	mlx_loop(context->mlx);

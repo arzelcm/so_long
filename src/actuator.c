@@ -6,11 +6,17 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 15:41:40 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/16 20:07:00 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	move_map_position(long x_increment, long y_increment, t_map *map)
+{
+	map->position.x += x_increment;
+	map->position.y += y_increment;
+}
 
 void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 {
@@ -47,7 +53,11 @@ void	move(int key, t_context *context)
 		move_player(&context->map.player, context->map.player.position.x + 1,
 			context->map.player.position.y, context);
 	if (pos.y != context->map.player.position.y || pos.x != context->map.player.position.x )
+	{
+		move_map_position(context->map.player.position.x - pos.x,
+			context->map.player.position.y - pos.y, &context->map);
 		parse_map(&context->map, context);
+	}
 }
 
 int	on_key_down(int key, t_context *context)

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 14:28:44 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/16 20:02:15 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ typedef struct s_position
 	size_t	y;
 	size_t	x;
 }	t_position;
+
+typedef struct s_lposition
+{
+	long	y;
+	long	x;
+}	t_lposition;
 
 typedef struct s_player
 {
@@ -47,7 +53,7 @@ typedef struct s_map
 	char		*elems;
 	t_texture	wall;
 	t_texture	empty_space;
-	t_position	position;
+	t_lposition	position;
 	size_t		max_y;
 	size_t		max_x;
 }	t_map;
