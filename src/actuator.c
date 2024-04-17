@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/17 15:49:32 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/17 20:34:47 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void game_over(t_context *context)
 	// close_map();
 	if (context->map.player.collectibles == ft_stroccurrences(context->map.elems, COLLECTIBLE))
 	{
-		ft_printf("YEAH!!! YOU WON!\n");
+		ft_printf("\033[2KYEAH!!! YOU WON!\nMovements: %i\n", context->map.player.movements);
 		exit(EXIT_SUCCESS);
 	}
-	ft_printf("You lost :(\nCollectibles collected: %i/%i\n", context->map.player.collectibles, ft_stroccurrences(context->map.elems, COLLECTIBLE));
+	ft_printf("\033[2KYou lost :(\nCollectibles collected: %i/%i\nMovements: %i\n", context->map.player.collectibles, ft_stroccurrences(context->map.elems, COLLECTIBLE), context->map.player.movements);
 	exit(EXIT_FAILURE);
 }
 
@@ -34,18 +34,20 @@ void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 {
 	if (context->map.spaces[y][x] == WALL)
 		return ;
-	else if (context->map.spaces[y][x] == EXIT)
-		game_over(context);
 	else if (context->map.spaces[y][x] == COLLECTIBLE)
 	{
 		player->collectibles++;
 		context->map.spaces[y][x] = EMPTY;
-		ft_printf("Collectibles amount: %i\n", player->collectibles);
+		// ft_printf("Collectibles amount: %i\n", player->collectibles);
 	}
 	context->map.spaces[player->position.y][player->position.x] = EMPTY;
 	player->position.y = y;
 	player->position.x = x;
+	player->movements++;
+	if (context->map.spaces[y][x] == EXIT)
+		game_over(context);
 	context->map.spaces[y][x] = PLAYER;
+	ft_printf("Movements: %i\n\033[1F", player->movements);
 }
 
 void	move(int key, t_context *context)

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/17 16:21:13 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/17 20:06:31 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	parse_map(t_map *map, t_context *context)
 	// ft_printf("max_x: %i, max_y: %i\n", map->max_x, map->max_y);
 	initial_y = ft_normalize(map->position.y, 0, map->max_y - context->window.height / y_factr);
 	initial_x = ft_normalize(map->position.x, 0, map->max_x - context->window.width / x_factr);
-	ft_printf("initial_x: %i, initial_y: %i\n", initial_x, initial_y);
+	// ft_printf("initial_x: %i, initial_y: %i\n", initial_x, initial_y);
 	y = 0;
 	// TODO: Remove ??
 	mlx_clear_window(context->mlx, context->window.ref);

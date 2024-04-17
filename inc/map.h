@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 20:02:15 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/17 20:18:22 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_player
 {
 	t_position	position;
 	int			collectibles;
+	size_t		movements;
 }	t_player;
 
 typedef struct s_texture
