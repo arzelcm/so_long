@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 20:07:00 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:57:22 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,25 @@ void	move_map_position(long x_increment, long y_increment, t_map *map)
 	map->position.x += x_increment;
 	map->position.y += y_increment;
 }
+void game_over(t_context *context)
+{
+	// TODO: Check if is needed to terminate something!
+	// close_map();
+	if (context->map.player.collectibles == ft_stroccurrences(context->map.elems, COLLECTIBLE))
+	{
+		ft_printf("YEAH!!! YOU WON!\n");
+		exit(EXIT_SUCCESS);
+	}
+	ft_printf("You lost :(\nCollectibles collected: %i/%i\n", context->map.player.collectibles, ft_stroccurrences(context->map.elems, COLLECTIBLE));
+	exit(EXIT_FAILURE);
+}
 
 void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 {
-	// TODO: Add exit logic!!
 	if (context->map.spaces[y][x] == WALL)
 		return ;
+	else if (context->map.spaces[y][x] == EXIT)
+		game_over(context);
 	else if (context->map.spaces[y][x] == COLLECTIBLE)
 	{
 		player->collectibles++;
