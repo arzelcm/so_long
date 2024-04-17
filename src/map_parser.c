@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/17 12:32:56 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:24:59 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	use_map(t_map *map, t_context *context)
 	init_window(&map->wall, &map->empty_space, map, context);
 	set_map_initial_pos(map, context);
 	parse_map(map, context);
-	mlx_do_key_autorepeaton(context->mlx);
-	mlx_key_hook(context->window.ref, on_key_down, context);
+	mlx_hook(context->window.ref, 2, 1L << 0, on_key_down, context);
 	mlx_loop(context->mlx);
 }
