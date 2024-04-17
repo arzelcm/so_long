@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/17 12:57:22 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:49:32 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ void	move(int key, t_context *context)
 	t_position pos;
 
 	pos = context->map.player.position;
-	if (key == UP_KEYCODE)
+	if (key == UP_KEYCODE || key == K_KEYCODE || key == W_KEYCODE)
 		move_player(&context->map.player, context->map.player.position.x,
 			context->map.player.position.y - 1, context);
-	else if (key == DOWN_KEYCODE)
+	else if (key == DOWN_KEYCODE || key == J_KEYCODE || key == S_KEYCODE)
 		move_player(&context->map.player, context->map.player.position.x,
 			context->map.player.position.y + 1, context);
-	else if (key == LEFT_KEYCODE)
+	else if (key == LEFT_KEYCODE || key == H_KEYCODE || key == A_KEYCODE)
 		move_player(&context->map.player, context->map.player.position.x - 1,
 			context->map.player.position.y, context);
-	else if (key == RIGHT_KEYCODE)
+	else if (key == RIGHT_KEYCODE || key == L_KEYCODE || key == D_KEYCODE)
 		move_player(&context->map.player, context->map.player.position.x + 1,
 			context->map.player.position.y, context);
 	if (pos.y != context->map.player.position.y || pos.x != context->map.player.position.x )
@@ -81,7 +81,6 @@ int	on_key_down(int key, t_context *context)
 		mlx_destroy_window(context->mlx, context->window.ref);
 		exit(EXIT_SUCCESS);
 	}
-	else if (key <= 126 && key >= 123)
-		move(key, context);
+	move(key, context);
 	return (0);
 }
