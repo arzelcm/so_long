@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:58:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 13:07:35 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:19:14 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	terminate(t_context *context)
 void	init_mlx(t_context *context)
 {
 	context->mlx = mlx_init();
-	mlx_mouse_hide();
 }
 
 int	main(int argc, char **argv)
