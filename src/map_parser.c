@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 20:26:33 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:32:56 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	init_window(t_texture *wall, t_texture *empty_space,
 	context->window.title = context->map.name;
 	context->window.width = empty_space->x_size * map->max_x;
 	context->window.height = empty_space->y_size * map->max_y;
-	if (context->window.width > 1920)
-		context->window.width = 1920;
-	if (context->window.height > 1080)
-		context->window.height = 1080;
+	if (context->window.width > WINDOW_MAX_WIDTH)
+		context->window.width = WINDOW_MAX_WIDTH;
+	if (context->window.height > WINDOW_MAX_HEIGHT)
+		context->window.height = WINDOW_MAX_HEIGHT;
 	context->window.ref = mlx_new_window(context->mlx, context->window.width,
 							context->window.height, map->name);
 }
@@ -98,6 +98,7 @@ void	use_map(t_map *map, t_context *context)
 	init_window(&map->wall, &map->empty_space, map, context);
 	set_map_initial_pos(map, context);
 	parse_map(map, context);
+	mlx_do_key_autorepeaton(context->mlx);
 	mlx_key_hook(context->window.ref, on_key_down, context);
 	mlx_loop(context->mlx);
 }
