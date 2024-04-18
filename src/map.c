@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 15:35:33 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:53:45 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,42 +55,96 @@ int	is_closed_map(t_map *map)
 
 void	find_accessible_elems(t_map *map, t_elems *elems, size_t i, size_t j)
 {
-	if (i < 0 || j < 0 || i >= map->max_y || j >= map->max_x
-		|| map->spaces[i][j] == 'A' || map->spaces[i][j] == WALL)
-		return ;
-	else if (map->spaces[i][j] == EXIT)
+	if (map->spaces[i][j] == EXIT)
 		elems->exit++;
 	else if (map->spaces[i][j] == COLLECTIBLE)
 		elems->collectibles++;
 	map->spaces[i][j] = 'A';
-	if (map->spaces[i][j + 1] != 'A')
+	elems->iterations++;
+	if (map->spaces[i][j + 1] != 'A' && map->spaces[i][j + 1] != WALL)
 		find_accessible_elems(map, elems, i, j + 1);
-	if (map->spaces[i][j - 1] != 'A')
+	if (map->spaces[i][j - 1] != 'A' && map->spaces[i][j - 1] != WALL)
 		find_accessible_elems(map, elems, i, j - 1);
-	if (map->spaces[i + 1][j] != 'A')
+	if (map->spaces[i + 1][j] != 'A' && map->spaces[i + 1][j] != WALL)
 		find_accessible_elems(map, elems, i + 1, j);
-	if (map->spaces[i - 1][j] != 'A')
+	if (map->spaces[i - 1][j] != 'A' && map->spaces[i - 1][j] != WALL)
 		find_accessible_elems(map, elems, i - 1, j);
+}
+void	find_accessible_elems_iter(t_map *map, t_elems *elems)
+{
+	t_pos_stack	*stack;
+
+	stack = new_pos(map->player.position.x, map->player.position.y);
+	while (stack)
+	{
+		if (map->spaces[stack->pos.y][stack->pos.x] == 'A' || map->spaces[stack->pos.y][stack->pos.x] == WALL)
+		{
+			shift_pos(&stack);
+			continue ;
+		}
+		else if (map->spaces[stack->pos.y][stack->pos.x] == EXIT)
+			elems->exit++;
+		else if (map->spaces[stack->pos.y][stack->pos.x] == COLLECTIBLE)
+			elems->collectibles++;
+		map->spaces[stack->pos.y][stack->pos.x] = 'A';
+		if (map->spaces[stack->pos.y][stack->pos.x + 1] != 'A'
+				&& map->spaces[stack->pos.y][stack->pos.x + 1] != WALL)
+			push_pos(stack, stack->pos.x + 1, stack->pos.y);
+		if (map->spaces[stack->pos.y][stack->pos.x - 1] != 'A'
+				&& map->spaces[stack->pos.y][stack->pos.x - 1] != WALL)
+			push_pos(stack, stack->pos.x - 1, stack->pos.y);
+		if (map->spaces[stack->pos.y + 1][stack->pos.x] != 'A'
+				&& map->spaces[stack->pos.y + 1][stack->pos.x] != WALL)
+			push_pos(stack, stack->pos.x, stack->pos.y + 1);
+		if (map->spaces[stack->pos.y - 1][stack->pos.x] != 'A'
+				&& map->spaces[stack->pos.y - 1][stack->pos.x] != WALL)
+			push_pos(stack, stack->pos.x, stack->pos.y - 1);
+		shift_pos(&stack);
+		elems->iterations++;
+	}
 }
 
 int	has_valid_path_map(t_context *context)
 {
 	t_elems	elems;
-	t_map	accessible_map;
+	// t_map	accessible_map_rec;
+	t_map	accessible_map_iter;
+
+	// copy_map(&accessible_map_rec, context);
+	copy_map(&accessible_map_iter, context);
+
+	// ft_printf("---------------\n\n\n");
+	// elems.collectibles = 0;
+	// elems.exit = 0;
+	// elems.iterations = 0;
+	// find_accessible_elems(&accessible_map_rec, &elems,
+	// 	context->map.player.position.y, context->map.player.position.x);
+	// ft_printf("Rec_elems {iterations: %i, exit: %i, collectibles: %i}\n", elems.iterations, elems.exit, elems.collectibles);
+	// print_map(&accessible_map_rec);
+	// ft_printf("\n\n");
 
 	elems.collectibles = 0;
 	elems.exit = 0;
-	find_accessible_elems(copy_map(&accessible_map, context),
-		&elems, context->map.player.position.y, context->map.player.position.x);
-	terminate_map(&accessible_map);
+	elems.iterations = 0;
+	find_accessible_elems_iter(&accessible_map_iter, &elems);
+	ft_printf("Iter_elems {iterations: %i, exit: %i, collectibles: %i}\n", elems.iterations, elems.exit, elems.collectibles);
+	// print_map(&accessible_map_iter);
+	// ft_printf("\n\n");
+
+	// print_map(&context->map);
+	
+	// terminate_map(&accessible_map_rec);
+	terminate_map(&accessible_map_iter);
+	exit(0);
 	return (elems.exit
 		&& elems.collectibles == ft_stroccurrences(context->map.elems, COLLECTIBLE));
 }
 
 void	check_map(t_context *context)
 {
-	char	*message;
+	char	*message = "a";
 
+	message[0] = 'b';
 	if (ft_stroccurrences(context->map.elems, PLAYER) != 1)
 		message = ": map must have one starting position for player";
 	else if (ft_stroccurrences(context->map.elems, EXIT) != 1)

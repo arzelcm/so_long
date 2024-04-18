@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/16 13:09:45 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:36:31 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_map *copy_map(t_map *map, t_context *context)
 	map->elems = NULL;
 	map->max_x = context->map.max_x;
 	map->max_y = context->map.max_y;
+	map->player.position.x = context->map.player.position.x;
+	map->player.position.y = context->map.player.position.y;
 	return (map);
 }
 

@@ -6,5 +6,6 @@ so_long_debug
 bin
 *.o
 *.a
+log
 
 .DS_Store

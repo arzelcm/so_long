@@ -6,12 +6,15 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/17 20:18:22 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/18 14:27:34 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_H
 # define MAP_H
+
+# include <stddef.h>
+
 # define EMPTY '0'
 # define WALL '1'
 # define COLLECTIBLE 'C'
@@ -63,10 +66,24 @@ typedef struct s_accessible_elems
 {
 	int			exit;
 	int			collectibles;
+	size_t		iterations;
 }	t_elems;
 
-void	terminate_map(t_map *map);
+typedef struct s_pos_stack
+{
+	t_position			pos;
+	struct s_pos_stack	*next;
 
-void	print_map(t_map *map);
+}	t_pos_stack;
+
+void		terminate_map(t_map *map);
+
+void		print_map(t_map *map);
+
+t_pos_stack	*new_pos(size_t x, size_t y);
+
+void		shift_pos(t_pos_stack **stack);
+
+void		push_pos(t_pos_stack *stack, size_t x, size_t y);
 
 #endif
