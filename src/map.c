@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/19 20:38:16 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/19 22:08:35 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	print_map(t_map *map)
 	while (++i < map->max_y)
 		ft_printf("%s\n", map->spaces[i]);
 	ft_printf("Elems: %s\n", map->elems);
-	ft_printf("Player pos: (%i, %i)\n", map->player.position.y, map->player.position.x);
+	ft_printf("Player pos: (%i, %i)\n", map->player.pos.y, map->player.pos.x);
 }
 
 int	is_closed_map(t_map *map)
@@ -74,7 +74,7 @@ void	find_accessible_elems_iter(t_map *map, t_elems *elems)
 {
 	t_pos_stack	*stack;
 
-	stack = new_pos(map->player.position.x, map->player.position.y);
+	stack = new_pos(map->player.pos.x, map->player.pos.y);
 	while (stack)
 	{
 		if (map->spaces[stack->pos.y][stack->pos.x] == 'A' || map->spaces[stack->pos.y][stack->pos.x] == WALL)
@@ -109,22 +109,21 @@ int	has_valid_path_map(t_map *map)
 	t_elems	elems;
 	t_map	accessible_map;
 	size_t	stack_call_size;
+	size_t	prev_stack_size;
 
 	copy_map(&accessible_map, map);
 	elems.collectibles = 0;
 	elems.exit = 0;
 	elems.iterations = 0;
-	// TODO: Fix calculation
-	stack_call_size = sizeof(&accessible_map) + sizeof(&elems) + sizeof(map->player.position.y)
-		+ sizeof(map->player.position.x);
-	ft_printf("x: %i, y: %i, walls: %i\n", map->max_x, map->max_y, map->walls_amount);
-	if ((map->max_x * map->max_y - map->walls_amount) * stack_call_size + 500 > MAX_STACK_SIZE_KB * 1024 * 4){
-		ft_printf("iter");find_accessible_elems_iter(&accessible_map, &elems);}
-	else{
-		ft_printf("recursive");find_accessible_elems(&accessible_map, &elems,
-			map->player.position.y, map->player.position.x);}
+	stack_call_size = sizeof(&accessible_map) + sizeof(&elems) + sizeof(map->player.pos.y)
+		+ sizeof(map->player.pos.x);
+	prev_stack_size = 500; // Don't know how to calculate this
+	if ((map->max_x * map->max_y - map->walls_amount) * stack_call_size + prev_stack_size > MAX_STACK_SIZE_KB * 1024)
+		find_accessible_elems_iter(&accessible_map, &elems);
+	else
+		find_accessible_elems(&accessible_map, &elems,
+			map->player.pos.y, map->player.pos.x);
 	terminate_map(&accessible_map);
-	exit(1);
 	return (elems.exit &&
 				elems.collectibles == ft_stroccurrences(map->elems, COLLECTIBLE));
 }
@@ -172,8 +171,8 @@ void	push_elems(char *str, size_t i, t_context *context)
 		}
 		else if (elem == PLAYER)
 		{
-			context->map.player.position.y = i;
-			context->map.player.position.x = j;
+			context->map.player.pos.y = i;
+			context->map.player.pos.x = j;
 		}
 		else if (str[j] == WALL)
 			context->map.walls_amount++;

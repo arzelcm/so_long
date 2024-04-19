@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/17 20:06:31 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:27:01 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	set_map_initial_pos(t_map *map, t_context *context)
 	x_middle = context->window.width / 2 / map->wall.x_size;
 	y_middle = context->window.height / 2 / map->wall.y_size;
 
-	map->position.x = (long) map->player.position.x - x_middle;
-	map->position.y = (long) map->player.position.y - y_middle;
+	map->position.x = (long) map->player.pos.x - x_middle;
+	map->position.y = (long) map->player.pos.y - y_middle;
 }
 
 void	use_map(t_map *map, t_context *context)
@@ -98,7 +98,9 @@ void	use_map(t_map *map, t_context *context)
 	init_window(&map->wall, &map->empty_space, map, context);
 	set_map_initial_pos(map, context);
 	parse_map(map, context);
+	mlx_do_key_autorepeatoff(context->mlx);
 	mlx_hook(context->window.ref, 2, 1L << 0, on_key_down, context);
+	mlx_hook(context->window.ref, 3, 1L << 0, on_key_up, context);
 	mlx_hook(context->window.ref, 17, 0, (int (*)(void *))exit, 0);
 	mlx_loop(context->mlx);
 }

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/19 20:38:20 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/19 21:27:01 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	copy_map(t_map *dst, t_map *src)
 	dst->elems = NULL;
 	dst->max_x = src->max_x;
 	dst->max_y = src->max_y;
-	dst->player.position.x = src->player.position.x;
-	dst->player.position.y = src->player.position.y;
+	dst->player.pos.x = src->player.pos.x;
+	dst->player.pos.y = src->player.pos.y;
 }
 
 void	terminate_map(t_map *map)
