@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/18 14:27:34 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/19 13:41:59 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_map
 	t_lposition	position;
 	size_t		max_y;
 	size_t		max_x;
+	size_t		walls_amount;
 }	t_map;
 
 typedef struct s_accessible_elems

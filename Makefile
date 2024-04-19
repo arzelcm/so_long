@@ -6,13 +6,14 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/18 12:44:06 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/19 20:35:25 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # TODO: If any lib recompiles, it has to relink program!
 # TODO: Download mlx and libft if not contained!
 # TODO: Check Cflags!
+# TODO: Define max stack call size!!!!! ulimit -s
 
 NAME = so_long
 DEBUG_NAME = so_long_debug
@@ -30,7 +31,7 @@ CIAN = \033[1;36m
 
 #----COMPILER----#
 CC = cc
-CCFLAGS = -g -Wall -Werror -Wextra -O3 -fsanitize=address
+CCFLAGS = -g -Wall -Werror -Wextra -O3 #-fsanitize=address
 
 #----LIBFT----#
 LIBFT_DIR = lib/libft/
@@ -77,6 +78,9 @@ endif
 #----EXEC----#
 EXEC_PROGRAM = ./$(NAME) input date cat cat ls output
 
+#----DEFINES----#
+MAX_STACK_SIZE_KB = $(shell ulimit -s)
+
 #----RULES----#
 all:
 	@$(MAKE) --no-print-directory make_libft
@@ -86,7 +90,7 @@ all:
 ifndef BONUS
 $(NAME): $(OBJS)
 	@printf "$(BLUE)Linking objects and creating program...$(DEF_COLOR)\n"
-	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit  -o $(NAME)
+	@$(CC) $(CCFLAGS) $(OBJS) -D MAX_STACK_SIZE_KB=$(MAX_STACK_SIZE_KB) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 	@echo "$(GREEN)[✓] $(PINK)$(NAME)$(GREEN) created!!!$(DEF_COLOR)"
 else
 $(NAME): $(BOBJS)

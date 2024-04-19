@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/18 18:53:45 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:38:16 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,40 +104,29 @@ void	find_accessible_elems_iter(t_map *map, t_elems *elems)
 	}
 }
 
-int	has_valid_path_map(t_context *context)
+int	has_valid_path_map(t_map *map)
 {
 	t_elems	elems;
-	// t_map	accessible_map_rec;
-	t_map	accessible_map_iter;
+	t_map	accessible_map;
+	size_t	stack_call_size;
 
-	// copy_map(&accessible_map_rec, context);
-	copy_map(&accessible_map_iter, context);
-
-	// ft_printf("---------------\n\n\n");
-	// elems.collectibles = 0;
-	// elems.exit = 0;
-	// elems.iterations = 0;
-	// find_accessible_elems(&accessible_map_rec, &elems,
-	// 	context->map.player.position.y, context->map.player.position.x);
-	// ft_printf("Rec_elems {iterations: %i, exit: %i, collectibles: %i}\n", elems.iterations, elems.exit, elems.collectibles);
-	// print_map(&accessible_map_rec);
-	// ft_printf("\n\n");
-
+	copy_map(&accessible_map, map);
 	elems.collectibles = 0;
 	elems.exit = 0;
 	elems.iterations = 0;
-	find_accessible_elems_iter(&accessible_map_iter, &elems);
-	ft_printf("Iter_elems {iterations: %i, exit: %i, collectibles: %i}\n", elems.iterations, elems.exit, elems.collectibles);
-	// print_map(&accessible_map_iter);
-	// ft_printf("\n\n");
-
-	// print_map(&context->map);
-	
-	// terminate_map(&accessible_map_rec);
-	terminate_map(&accessible_map_iter);
-	exit(0);
-	return (elems.exit
-		&& elems.collectibles == ft_stroccurrences(context->map.elems, COLLECTIBLE));
+	// TODO: Fix calculation
+	stack_call_size = sizeof(&accessible_map) + sizeof(&elems) + sizeof(map->player.position.y)
+		+ sizeof(map->player.position.x);
+	ft_printf("x: %i, y: %i, walls: %i\n", map->max_x, map->max_y, map->walls_amount);
+	if ((map->max_x * map->max_y - map->walls_amount) * stack_call_size + 500 > MAX_STACK_SIZE_KB * 1024 * 4){
+		ft_printf("iter");find_accessible_elems_iter(&accessible_map, &elems);}
+	else{
+		ft_printf("recursive");find_accessible_elems(&accessible_map, &elems,
+			map->player.position.y, map->player.position.x);}
+	terminate_map(&accessible_map);
+	exit(1);
+	return (elems.exit &&
+				elems.collectibles == ft_stroccurrences(map->elems, COLLECTIBLE));
 }
 
 void	check_map(t_context *context)
@@ -153,7 +142,7 @@ void	check_map(t_context *context)
 		message = ": map must have at least one collectible";
 	else if (!is_closed_map(&context->map))
 		message = ": map must be sorrounded by walls";
-	else if (!has_valid_path_map(context))
+	else if (!has_valid_path_map(&context->map))
 		message = ": player must be able to exit the map";
 	else
 		return ;
@@ -186,6 +175,8 @@ void	push_elems(char *str, size_t i, t_context *context)
 			context->map.player.position.y = i;
 			context->map.player.position.x = j;
 		}
+		else if (str[j] == WALL)
+			context->map.walls_amount++;
 		if (elem != EMPTY && elem != WALL)
 			push_char(elem, &context->map.elems, context);
 		j++;
@@ -241,6 +232,7 @@ void	init_map(t_map *map, char *path, t_context *context)
 	map->elems = NULL;
 	map->max_y = 0;
 	map->max_x = 0;
+	map->walls_amount = 0;
 	map->path = path;
 	map->filename = ft_filename(path);
 	map->name = ft_substr(map->filename, 0, ft_strlen(map->filename) - 4);
