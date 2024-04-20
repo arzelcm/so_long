@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/19 22:08:35 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:09:14 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ void	print_map(t_map *map)
 
 	ft_printf("Opened map: %s\n", map->path);
 	i = -1;
-	while (++i < map->max_y)
-		ft_printf("%s\n", map->spaces[i]);
+	(void) i;
+	// while (++i < map->max_y)
+	// 	ft_printf("%s\n", map->spaces[i]);
 	ft_printf("Elems: %s\n", map->elems);
 	ft_printf("Player pos: (%i, %i)\n", map->player.pos.y, map->player.pos.x);
+	ft_printf("players: %i, exits: %i, collectibles: %i, walls: %i\n", map->player_amount, map->exit_amount, map->collectible_amount, map->walls_amount);
 }
 
 int	is_closed_map(t_map *map)
@@ -73,34 +75,37 @@ void	find_accessible_elems(t_map *map, t_elems *elems, size_t i, size_t j)
 void	find_accessible_elems_iter(t_map *map, t_elems *elems)
 {
 	t_pos_stack	*stack;
+	t_pos_stack	*actual_stack;
 
 	stack = new_pos(map->player.pos.x, map->player.pos.y);
 	while (stack)
 	{
-		if (map->spaces[stack->pos.y][stack->pos.x] == 'A' || map->spaces[stack->pos.y][stack->pos.x] == WALL)
+		actual_stack = stack;
+		stack = stack->next;
+		elems->iterations++;
+		if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == 'A' || map->spaces[actual_stack->pos.y][actual_stack->pos.x] == WALL)
 		{
-			shift_pos(&stack);
+			free(actual_stack);
 			continue ;
 		}
-		else if (map->spaces[stack->pos.y][stack->pos.x] == EXIT)
+		else if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == EXIT)
 			elems->exit++;
-		else if (map->spaces[stack->pos.y][stack->pos.x] == COLLECTIBLE)
+		else if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == COLLECTIBLE)
 			elems->collectibles++;
-		map->spaces[stack->pos.y][stack->pos.x] = 'A';
-		if (map->spaces[stack->pos.y][stack->pos.x + 1] != 'A'
-				&& map->spaces[stack->pos.y][stack->pos.x + 1] != WALL)
-			push_pos(stack, stack->pos.x + 1, stack->pos.y);
-		if (map->spaces[stack->pos.y][stack->pos.x - 1] != 'A'
-				&& map->spaces[stack->pos.y][stack->pos.x - 1] != WALL)
-			push_pos(stack, stack->pos.x - 1, stack->pos.y);
-		if (map->spaces[stack->pos.y + 1][stack->pos.x] != 'A'
-				&& map->spaces[stack->pos.y + 1][stack->pos.x] != WALL)
-			push_pos(stack, stack->pos.x, stack->pos.y + 1);
-		if (map->spaces[stack->pos.y - 1][stack->pos.x] != 'A'
-				&& map->spaces[stack->pos.y - 1][stack->pos.x] != WALL)
-			push_pos(stack, stack->pos.x, stack->pos.y - 1);
-		shift_pos(&stack);
-		elems->iterations++;
+		map->spaces[actual_stack->pos.y][actual_stack->pos.x] = 'A';
+		if (map->spaces[actual_stack->pos.y][actual_stack->pos.x + 1] != 'A'
+				&& map->spaces[actual_stack->pos.y][actual_stack->pos.x + 1] != WALL)
+			push_pos(&stack, actual_stack->pos.x + 1, actual_stack->pos.y);
+		if (map->spaces[actual_stack->pos.y][actual_stack->pos.x - 1] != 'A'
+				&& map->spaces[actual_stack->pos.y][actual_stack->pos.x - 1] != WALL)
+			push_pos(&stack, actual_stack->pos.x - 1, actual_stack->pos.y);
+		if (map->spaces[actual_stack->pos.y + 1][actual_stack->pos.x] != 'A'
+				&& map->spaces[actual_stack->pos.y + 1][actual_stack->pos.x] != WALL)
+			push_pos(&stack, actual_stack->pos.x, actual_stack->pos.y + 1);
+		if (map->spaces[actual_stack->pos.y - 1][actual_stack->pos.x] != 'A'
+				&& map->spaces[actual_stack->pos.y - 1][actual_stack->pos.x] != WALL)
+			push_pos(&stack, actual_stack->pos.x, actual_stack->pos.y - 1);
+		free(actual_stack);
 	}
 }
 
@@ -108,49 +113,43 @@ int	has_valid_path_map(t_map *map)
 {
 	t_elems	elems;
 	t_map	accessible_map;
-	size_t	stack_call_size;
-	size_t	prev_stack_size;
 
 	copy_map(&accessible_map, map);
 	elems.collectibles = 0;
 	elems.exit = 0;
 	elems.iterations = 0;
-	stack_call_size = sizeof(&accessible_map) + sizeof(&elems) + sizeof(map->player.pos.y)
-		+ sizeof(map->player.pos.x);
-	prev_stack_size = 500; // Don't know how to calculate this
-	if ((map->max_x * map->max_y - map->walls_amount) * stack_call_size + prev_stack_size > MAX_STACK_SIZE_KB * 1024)
-		find_accessible_elems_iter(&accessible_map, &elems);
-	else
-		find_accessible_elems(&accessible_map, &elems,
-			map->player.pos.y, map->player.pos.x);
+	find_accessible_elems_iter(&accessible_map, &elems);
+	// find_accessible_elems(&accessible_map, &elems,
+	// 	map->player.pos.y, map->player.pos.x);
+	// ft_printf("coll: %i, exit: %i, iterations: %i\n", elems.collectibles, elems.exit, elems.iterations);
 	terminate_map(&accessible_map);
+	exit(0);
 	return (elems.exit &&
 				elems.collectibles == ft_stroccurrences(map->elems, COLLECTIBLE));
 }
 
-void	check_map(t_context *context)
+void	check_map(t_map *map, t_context *context)
 {
-	char	*message = "a";
+	char	*message;
 
-	message[0] = 'b';
-	if (ft_stroccurrences(context->map.elems, PLAYER) != 1)
+	if (map->player_amount != 1)
 		message = ": map must have one starting position for player";
-	else if (ft_stroccurrences(context->map.elems, EXIT) != 1)
+	else if (map->exit_amount != 1)
 		message = ": map must have one exit";
-	else if (ft_stroccurrences(context->map.elems, COLLECTIBLE) < 1)
+	else if (map->collectible_amount < 1)
 		message = ": map must have at least one collectible";
-	else if (!is_closed_map(&context->map))
+	else if (!is_closed_map(map))
 		message = ": map must be sorrounded by walls";
-	else if (!has_valid_path_map(&context->map))
+	else if (!has_valid_path_map(map))
 		message = ": player must be able to exit the map";
 	else
 		return ;
 	write(2, "Error\n", 6);
-	write(2, context->map.path, ft_strlen(context->map.path));
+	write(2, map->path, ft_strlen(map->path));
 	custom_error(message, context);
 }
 
-void	push_elems(char *str, size_t i, t_context *context)
+void	push_elems(char *str, size_t i, t_map *map, t_context *context)
 {
 	size_t	j;
 	char	elem;
@@ -163,7 +162,7 @@ void	push_elems(char *str, size_t i, t_context *context)
 			&& elem != EXIT && elem != COLLECTIBLE)
 		{
 			write(2, "Error\n", 6);
-			write(2, context->map.filename, ft_strlen(context->map.filename));
+			write(2, map->filename, ft_strlen(map->filename));
 			write(2, ": ", 2);
 			write(2, &elem, 1);
 			custom_error(" is not a valid map element. Only 1, 0, P, C and E are.",
@@ -171,13 +170,19 @@ void	push_elems(char *str, size_t i, t_context *context)
 		}
 		else if (elem == PLAYER)
 		{
-			context->map.player.pos.y = i;
-			context->map.player.pos.x = j;
+			map->player_amount++;
+			map->player.pos.y = i;
+			map->player.pos.x = j;
+
 		}
 		else if (str[j] == WALL)
-			context->map.walls_amount++;
+			map->walls_amount++;
+		else if (str[j] == EXIT)
+			map->exit_amount++;
+		else if (str[j] == COLLECTIBLE)
+			map->collectible_amount++;
 		if (elem != EMPTY && elem != WALL)
-			push_char(elem, &context->map.elems, context);
+			push_char(elem, &map->elems, context);
 		j++;
 	}
 }
@@ -200,7 +205,7 @@ void	set_map(char *path, t_context *context)
 		{
 			push_string(line, &context->map.spaces,
 				context->map.max_y, context);
-			push_elems(line, context->map.max_y, context);
+			push_elems(line, context->map.max_y, &context->map, context);
 			line = get_next_line(fd, 0);
 		}
 		context->map.max_y++;
@@ -232,6 +237,9 @@ void	init_map(t_map *map, char *path, t_context *context)
 	map->max_y = 0;
 	map->max_x = 0;
 	map->walls_amount = 0;
+	map->collectible_amount = 0;
+	map->exit_amount = 0;
+	map->player_amount = 0;
 	map->path = path;
 	map->filename = ft_filename(path);
 	map->name = ft_substr(map->filename, 0, ft_strlen(map->filename) - 4);
@@ -245,6 +253,6 @@ void	handle_map(char **argv, t_context *context)
 	init_map(&context->map, argv[1], context);
 	check_extension(&context->map, context);
 	set_map(argv[1], context);
-	check_map(context);
+	check_map(&context->map, context);
 	// print_map(&context->map);
 }

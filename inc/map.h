@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/19 21:26:21 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:00:00 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,15 @@ typedef struct s_map
 	size_t		max_y;
 	size_t		max_x;
 	size_t		walls_amount;
+	size_t		collectible_amount;
+	int			exit_amount;
+	int			player_amount;
 }	t_map;
 
 typedef struct s_accessible_elems
 {
 	int			exit;
-	int			collectibles;
+	size_t		collectibles;
 	size_t		iterations;
 }	t_elems;
 
@@ -86,6 +89,8 @@ t_pos_stack	*new_pos(size_t x, size_t y);
 
 void		shift_pos(t_pos_stack **stack);
 
-void		push_pos(t_pos_stack *stack, size_t x, size_t y);
+void		push_pos(t_pos_stack **stack, size_t x, size_t y);
+
+void		terminate_stack(t_pos_stack *stack);
 
 #endif

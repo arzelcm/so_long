@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/19 23:21:32 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/20 13:53:32 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ CIAN = \033[1;36m
 
 #----COMPILER----#
 CC = cc
-CCFLAGS = -g -Wall -Werror -Wextra #-O3 #-fsanitize=address
+CCFLAGS = -g -Wall -Werror -Wextra -O3 #-fsanitize=address #-O3 
 
 #----LIBFT----#
 LIBFT_DIR = lib/libft/

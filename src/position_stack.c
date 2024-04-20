@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:19:03 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/18 18:51:41 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 13:59:38 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,27 @@ t_pos_stack	*new_pos(size_t x, size_t y)
 
 void	shift_pos(t_pos_stack **stack)
 {
-	t_pos_stack	*aux;
-
-	aux = (*stack)->next;
-	free(*stack);
-	*stack = aux;
+	*stack = (*stack)->next;
 }
 
-void	push_pos(t_pos_stack *stack, size_t x, size_t y)
+void	push_pos(t_pos_stack **stack, size_t x, size_t y)
 {
-	while (stack->next)
-		stack = stack->next;
-	stack->next = new_pos(x, y);
+	t_pos_stack *new;
+
+	new = new_pos(x, y);
+	new->next = *stack;
+	*stack = new;
+}
+
+void	terminate_stack(t_pos_stack *stack)
+{
+	t_pos_stack *aux;
+
+	while (stack)
+	{
+		ft_printf("Freeing %p\n", stack);
+		aux = stack->next;
+		free(stack);
+		stack = aux;
+	}
 }
