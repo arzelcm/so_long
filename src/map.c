@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 14:23:22 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:46:54 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "utils.h"
 #include "so_long.h"
 #include "player.h"
+#include "loader.h"
 
 void	print_map(t_map *map)
 {
@@ -39,6 +40,7 @@ int	is_closed_map(t_map *map)
 	size_t	j;
 	int		closed;
 
+	// TODO: Check it while checking accessible path!
 	closed = 1;
 	i = 0;
 	while (map && i < map->max_y && closed)
@@ -191,13 +193,18 @@ void	set_map(char *path, t_context *context)
 	char	*line;
 	int		fd;
 	int		correct;
+	size_t	loaded;
 
+	(void) loaded;
+	update_loading("Loading map", 0);
 	correct = 1;
+	loaded = 0;
 	fd = safe_open(path, O_RDONLY, context);
 	line = get_next_line(fd, 0);
 	context->map.max_x = ft_strlen(line);
 	while (line && correct)
 	{
+		loaded += sizeof(char) * (context->map.max_x + 1);
 		if (context->map.max_x != ft_strlen(line))
 			correct = 0;
 		else
@@ -214,6 +221,7 @@ void	set_map(char *path, t_context *context)
 		write(2, "Error\n", 6);
 	if (!correct)
 		custom_error("map must be rectangular!", context);
+	update_loading("Loading map", 100);
 }
 
 void	check_extension(t_map *map, t_context *context)

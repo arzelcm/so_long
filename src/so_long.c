@@ -6,13 +6,14 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:58:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/19 20:58:45 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:23:30 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "utils.h"
 #include <fcntl.h>
+#include "loader.h"
 
 // TODO: Refactor error management! Should have Error\n in every error!
 

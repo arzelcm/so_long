@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 14:31:09 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:29:42 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "utils.h"
 #include "actuator.h"
 #include "map.h"
+#include "loader.h"
 
 void	init_texture(t_texture *texture, char *img_path, void *mlx)
 {
@@ -93,8 +94,10 @@ void	set_map_initial_pos(t_map *map, t_context *context)
 
 void	use_map(t_map *map, t_context *context)
 {
+	update_loading("Building map", 0);
 	init_texture(&map->wall, WALL_TEXTURE, context->mlx);
 	init_texture(&map->empty_space, EMPTY_TEXTURE, context->mlx);
+	update_loading("Building map", 100);
 	init_window(&map->wall, &map->empty_space, map, context);
 	set_map_initial_pos(map, context);
 	parse_map(map, context);
