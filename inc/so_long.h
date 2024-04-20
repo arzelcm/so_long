@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:06:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/19 13:39:02 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 15:56:06 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define S_KEYCODE 1
 # define D_KEYCODE 2
 
-# define WINDOW_MAX_WIDTH 1920
-# define WINDOW_MAX_HEIGHT 1080
+# define WINDOW_MAX_WIDTH 1422
+# define WINDOW_MAX_HEIGHT 800
 # define TEXTURE_SIZE 50
 # define EMPTY_TEXTURE "./assets/textures/empty-space.xpm"
 # define WALL_TEXTURE "./assets/textures/wall.xpm"

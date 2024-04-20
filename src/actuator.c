@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 14:22:06 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 16:02:49 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ void game_over(t_context *context)
 {
 	// TODO: Check if is needed to terminate something!
 	// close_map();
-	if (context->map.player.collectibles == ft_stroccurrences(context->map.elems, COLLECTIBLE))
+	if (context->map.player.collectibles == context->map.collectible_amount)
 	{
 		ft_printf("\033[2KYEAH!!! YOU WON!\nMovements: %i\n", context->map.player.movements);
 		exit(EXIT_SUCCESS);
 	}
-	ft_printf("\033[2KYou lost :(\nCollectibles collected: %i/%i\nMovements: %i\n", context->map.player.collectibles, ft_stroccurrences(context->map.elems, COLLECTIBLE), context->map.player.movements);
+	ft_printf("\033[2KYou lost :(\nCollectibles collected: %i/%i\nMovements: %i\n", context->map.player.collectibles, context->map.collectible_amount, context->map.player.movements);
 	exit(EXIT_FAILURE);
 }
 
