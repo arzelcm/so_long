@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/19 21:31:24 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:22:06 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 	while (player->moving
 			&& context->map.spaces[player->pos.y + y][player->pos.x + x] != WALL)
 	{
+		player->moving = 0;
 		if (context->map.spaces[player->pos.y + y][player->pos.x + x] == WALL)
 			return ;
 		else if (context->map.spaces[player->pos.y + y][player->pos.x + x] == COLLECTIBLE)
@@ -52,7 +53,7 @@ void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 			game_over(context);
 		context->map.spaces[player->pos.y][player->pos.x] = PLAYER;
 		ft_printf("Movements: %i\n\033[1F", player->movements);
-		usleep(1000000);
+		// usleep(1000000);
 		// ft_printf("(%i, %i), Movements: %i\n", player->pos.y, player->pos.x, player->movements);
 	}
 	player->moving = 0;

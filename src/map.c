@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 14:09:14 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/20 14:23:22 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,8 @@ int	has_valid_path_map(t_map *map)
 	// 	map->player.pos.y, map->player.pos.x);
 	// ft_printf("coll: %i, exit: %i, iterations: %i\n", elems.collectibles, elems.exit, elems.iterations);
 	terminate_map(&accessible_map);
-	exit(0);
-	return (elems.exit &&
-				elems.collectibles == ft_stroccurrences(map->elems, COLLECTIBLE));
+	return (elems.exit == map->exit_amount &&
+				elems.collectibles == map->collectible_amount);
 }
 
 void	check_map(t_map *map, t_context *context)
