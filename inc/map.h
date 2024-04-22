@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 16:03:22 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:40:07 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,21 @@ typedef struct s_lposition
 	long	x;
 }	t_lposition;
 
-typedef struct s_player
-{
-	t_position	pos;
-	int			moving;
-	size_t		collectibles;
-	size_t		movements;
-}	t_player;
-
 typedef struct s_texture
 {
 	int		x_size;
 	int		y_size;
 	void	*img;
 }	t_texture;
+
+typedef struct s_player
+{
+	t_position	pos;
+	int			moving;
+	size_t		collectibles;
+	size_t		movements;
+	t_texture	texture;
+}	t_player;
 
 typedef struct s_map
 {
