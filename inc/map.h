@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/22 17:40:07 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:22:16 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_map
 	char		*elems;
 	t_texture	wall;
 	t_texture	empty_space;
+	t_texture	collectible;
+	t_texture	exit;
 	t_lposition	position;
 	size_t		max_y;
 	size_t		max_x;

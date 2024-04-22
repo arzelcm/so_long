@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/22 17:51:02 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:30:37 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,20 @@ void	parse_map(t_map *map, t_context *context)
 			else if (map->spaces[y + initial_y][x + initial_x] == WALL)
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->wall.img, x * x_factr, y * y_factr);
+			else if (map->spaces[y + initial_y][x + initial_x] == EXIT)
+			{
+				mlx_put_image_to_window(context->mlx, context->window.ref,
+					map->empty_space.img, x * x_factr, y * y_factr);
+				mlx_put_image_to_window(context->mlx, context->window.ref,
+					map->exit.img, x * x_factr, y * y_factr);
+			}
+			else if (map->spaces[y + initial_y][x + initial_x] == COLLECTIBLE)
+			{
+				mlx_put_image_to_window(context->mlx, context->window.ref,
+					map->empty_space.img, x * x_factr, y * y_factr);
+				mlx_put_image_to_window(context->mlx, context->window.ref,
+					map->collectible.img, x * x_factr, y * y_factr);
+			}
 			else if (map->spaces[y + initial_y][x + initial_x] == PLAYER)
 			{
 				mlx_put_image_to_window(context->mlx, context->window.ref,
@@ -104,6 +118,8 @@ void	use_map(t_map *map, t_context *context)
 	update_loading("Building map", 0);
 	init_texture(&map->wall, "./assets/textures/wall.xpm", context->mlx);
 	init_texture(&map->empty_space, "./assets/textures/empty-space.xpm", context->mlx);
+	init_texture(&map->collectible, "./assets/sprites/fish.xpm", context->mlx);
+	init_texture(&map->exit, "./assets/sprites/bed.xpm", context->mlx);
 	init_texture(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm", context->mlx);
 	update_loading("Building map", 100);
 	init_window(&map->wall, &map->empty_space, map, context);
