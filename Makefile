@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/22 14:34:09 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/22 14:51:15 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,14 +112,14 @@ $(BIN_DIR)%_debug.o: $(SRCS_DIR)%.c Makefile
 	@$(CC) -g $(CCFLAGS) -I$(INC_DIR) -MMD -c $< -o $@
 endif
 
-clean: libft_clean mlx_clean
+clean: libft_clean
 	@rm -rf $(BIN_DIR)
 	@echo "$(RED)bin/ deleted$(DEF_COLOR)"
+	@-$(MAKE) mlx_clean --no-print-directory 
 
-fclean: libft_fclean clean mainclean mlx_clean
-	@rm -f $(NAME) $(DEBUG_NAME)
+fclean: libft_fclean clean mainclean
+	@rm -rf $(NAME) $(DEBUG_NAME) $(MLX_DIR)
 	@echo "$(RED)Executable deleted$(DEF_COLOR)\n"
-	@rm -rf lib/mlx
 
 re: fclean all
 
@@ -134,8 +134,8 @@ make_libft:
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) bonus
 	@echo ""
 
-make_mlx: lib/mlx
-	@$(MAKE) --no-print-directory -C $(MLX_DIR)
+make_mlx: $(MLX_DIR)
+	@$(MAKE) --no-print-directory -C $(MLX_DIR) $(MLX_LIB_ALONE)
 	@echo ""
 
 mlx_clean:
@@ -187,29 +187,29 @@ debug:
 debug_bonus:
 	@$(MAKE) --no-print-directory bonus DEBUG=1
 
-lib/mlx:
+$(MLX_DIR):
 ifeq ($(OS),Windows_NT)
 	@echo "Not supported on windows. Sorry not sorry :)"
 else
 ifeq ($(UNAME_S),Darwin)
 	@curl -O https://cdn.intra.42.fr/document/document/22167/minilibx_opengl.tgz
 	@mv minilibx_opengl.tgz lib
-	@rm -rf lib/mlx
-	@mkdir -p lib/mlx
-	@tar -xpf lib/minilibx_opengl.tgz -C lib/mlx --strip-components 1
+	@rm -rf $(MLX_DIR)
+	@mkdir -p $(MLX_DIR)
+	@tar -xpf lib/minilibx_opengl.tgz -C $(MLX_DIR) --strip-components 1
 	@rm -rf lib/minilibx_opengl.tgz
 else
 	@-sudo apt-get install curl clang
 	@curl -O https://cdn.intra.42.fr/document/document/22166/minilibx-linux.tgz
 	@mv minilibx-linux.tgz lib
-	@rm -rf lib/mlx
-	@mkdir -p lib/mlx
-	@tar -xpf lib/minilibx-linux.tgz -C lib/mlx --strip-components 1
+	@rm -rf $(MLX_DIR)
+	@mkdir -p $(MLX_DIR)
+	@tar -xpf lib/minilibx-linux.tgz -C $(MLX_DIR) --strip-components 1
 	@rm -rf lib/minilibx-linux.tgz
 endif
 endif
 
-install: lib/mlx
+install: $(MLX_DIR)
 	@echo mlx downloaded and functional!
 
 .PHONY: all \
