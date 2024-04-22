@@ -1,13 +1,13 @@
 so_long
 so_long_debug
-
-.vscode
-
 bin
 *.o
 *.a
 log
 
-.DS_Store
-
 lib/mlx
+test
+
+.vscode
+
+.DS_Store
