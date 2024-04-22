@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/20 16:14:48 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/22 14:34:09 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ CIAN = \033[1;36m
 
 #----COMPILER----#
 CC = cc
-CCFLAGS = -g -Wall -Werror -Wextra -O3 #-fsanitize=address #-O3 
+CCFLAGS = -g -Wall -Werror -Wextra -O3 #-fsanitize=address
 
 #----LIBFT----#
 LIBFT_DIR = lib/libft/
@@ -79,22 +79,22 @@ endif
 #----EXEC----#
 EXEC_PROGRAM = ./$(NAME) input date cat cat ls output
 
-#----DEFINES----#
-MAX_STACK_SIZE_KB = $(shell ulimit -s)
+#----OS COMPATIBILITY----#
+UNAME_S = $(shell uname -s)
 
 #----RULES----#
 all:
-	@$(MAKE) --no-print-directory make_libft
 	@$(MAKE) --no-print-directory make_mlx
+	@$(MAKE) --no-print-directory make_libft
 	@$(MAKE) --no-print-directory $(NAME)
 
 ifndef BONUS
-$(NAME): $(OBJS)
+$(NAME): $(MLX_LIB) $(LIBFT_LIB) $(OBJS)
 	@printf "$(BLUE)Linking objects and creating program...$(DEF_COLOR)\n"
-	@$(CC) $(CCFLAGS) $(OBJS) -D MAX_STACK_SIZE_KB=$(MAX_STACK_SIZE_KB) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
 	@echo "$(GREEN)[✓] $(PINK)$(NAME)$(GREEN) created!!!$(DEF_COLOR)"
 else
-$(NAME): $(BOBJS)
+$(NAME): $(MLX_LIB) $(LIBFT_LIB) $(BOBJS)
 	@echo "$(BLUE)\nLinking objects and creating binary program...$(DEF_COLOR)"
 	@$(CC) $(CCFLAGS) $(BOBJS) $(LIBFT_LIB) $(MLX_LIB) -o $(NAME)
 	@echo "$(GREEN)[✓] $(PINK)$(NAME) Bonus$(GREEN) created!!!$(DEF_COLOR)"
@@ -119,6 +119,7 @@ clean: libft_clean mlx_clean
 fclean: libft_fclean clean mainclean mlx_clean
 	@rm -f $(NAME) $(DEBUG_NAME)
 	@echo "$(RED)Executable deleted$(DEF_COLOR)\n"
+	@rm -rf lib/mlx
 
 re: fclean all
 
@@ -133,7 +134,7 @@ make_libft:
 	@$(MAKE) --no-print-directory -C $(LIBFT_DIR) bonus
 	@echo ""
 
-make_mlx:
+make_mlx: lib/mlx
 	@$(MAKE) --no-print-directory -C $(MLX_DIR)
 	@echo ""
 
@@ -186,6 +187,31 @@ debug:
 debug_bonus:
 	@$(MAKE) --no-print-directory bonus DEBUG=1
 
+lib/mlx:
+ifeq ($(OS),Windows_NT)
+	@echo "Not supported on windows. Sorry not sorry :)"
+else
+ifeq ($(UNAME_S),Darwin)
+	@curl -O https://cdn.intra.42.fr/document/document/22167/minilibx_opengl.tgz
+	@mv minilibx_opengl.tgz lib
+	@rm -rf lib/mlx
+	@mkdir -p lib/mlx
+	@tar -xpf lib/minilibx_opengl.tgz -C lib/mlx --strip-components 1
+	@rm -rf lib/minilibx_opengl.tgz
+else
+	@-sudo apt-get install curl clang
+	@curl -O https://cdn.intra.42.fr/document/document/22166/minilibx-linux.tgz
+	@mv minilibx-linux.tgz lib
+	@rm -rf lib/mlx
+	@mkdir -p lib/mlx
+	@tar -xpf lib/minilibx-linux.tgz -C lib/mlx --strip-components 1
+	@rm -rf lib/minilibx-linux.tgz
+endif
+endif
+
+install: lib/mlx
+	@echo mlx downloaded and functional!
+
 .PHONY: all \
 		clean \
 		fclean \
@@ -207,7 +233,8 @@ debug_bonus:
 		test \
 		t \
 		debug \
-		b
+		b \
+		install
 
 -include $(DEPS)
 -include $(BDEPS)

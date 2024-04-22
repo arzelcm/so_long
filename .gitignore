@@ -9,3 +9,5 @@ bin
 log
 
 .DS_Store
+
+lib/mlx
