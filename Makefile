@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/22 14:51:15 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/22 15:45:45 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,9 @@ endif
 EXEC_PROGRAM = ./$(NAME) input date cat cat ls output
 
 #----OS COMPATIBILITY----#
+ifneq ($(OS),Windows_NT)
 UNAME_S = $(shell uname -s)
+endif
 
 #----RULES----#
 all:
@@ -189,7 +191,7 @@ debug_bonus:
 
 $(MLX_DIR):
 ifeq ($(OS),Windows_NT)
-	@echo "Not supported on windows. Sorry not sorry :)"
+	@printf "$(RED)Not supported on windows. Sorry not sorry :)$(DEF_COLOR)"
 else
 ifeq ($(UNAME_S),Darwin)
 	@curl -O https://cdn.intra.42.fr/document/document/22167/minilibx_opengl.tgz
@@ -210,7 +212,7 @@ endif
 endif
 
 install: $(MLX_DIR)
-	@echo mlx downloaded and functional!
+	@printf "$(GREEN)mlx downloaded and functional!\n$(DEF_COLOR)"
 
 .PHONY: all \
 		clean \
