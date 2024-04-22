@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 16:02:49 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:40:20 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void game_over(t_context *context)
 		ft_printf("\033[2KYEAH!!! YOU WON!\nMovements: %i\n", context->map.player.movements);
 		exit(EXIT_SUCCESS);
 	}
-	ft_printf("\033[2KYou lost :(\nCollectibles collected: %i/%i\nMovements: %i\n", context->map.player.collectibles, context->map.collectible_amount, context->map.player.movements);
-	exit(EXIT_FAILURE);
+	// ft_printf("\033[2KYou lost :(\nCollectibles collected: %i/%i\nMovements: %i\n", context->map.player.collectibles, context->map.collectible_amount, context->map.player.movements);
+	// exit(EXIT_FAILURE);
 }
 
 void	move_player(t_player *player, size_t x, size_t y, t_context *context)
@@ -45,12 +45,15 @@ void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 			context->map.spaces[player->pos.y + y][player->pos.x + x] = EMPTY;
 			// ft_printf("Collectibles amount: %i\n", player->collectibles);
 		}
+		else if (context->map.spaces[player->pos.y + y][player->pos.x + x] == EXIT)
+		{
+			game_over(context);
+			return;
+		}
 		context->map.spaces[player->pos.y][player->pos.x] = EMPTY;
 		player->pos.y += y;
 		player->pos.x += x;
 		player->movements++;
-		if (context->map.spaces[player->pos.y][player->pos.x] == EXIT)
-			game_over(context);
 		context->map.spaces[player->pos.y][player->pos.x] = PLAYER;
 		ft_printf("Movements: %i\n\033[1F", player->movements);
 		// usleep(1000000);
