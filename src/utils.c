@@ -19,8 +19,7 @@
 
 void	custom_error(char *message, t_context *context)
 {
-	write(STDERR_FILENO, message, ft_strlen(message));
-	write(STDERR_FILENO, "\n", 1);
+	ft_printff(STDERR_FILENO, "%s\n", message);
 	(void) context;
 	exit(EXIT_FAILURE);
 }

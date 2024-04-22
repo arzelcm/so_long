@@ -85,7 +85,6 @@ void	move(int key, t_context *context)
 
 int	on_key_down(int key, t_context *context)
 {
-	// ft_printf("Key pressed: %i\n", key);
 	if (key == ESC_KEYCODE)
 	{
 		mlx_destroy_window(context->mlx, context->window.ref);

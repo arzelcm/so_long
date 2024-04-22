@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/22 15:45:45 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/22 23:55:26 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ CIAN = \033[1;36m
 
 #----COMPILER----#
 CC = cc
-CCFLAGS = -g -Wall -Werror -Wextra -O3 #-fsanitize=address
+CCFLAGS = -Wall -Werror -Wextra -g -O3 #-fsanitize=address
 
 #----LIBFT----#
 LIBFT_DIR = lib/libft/
@@ -57,7 +57,8 @@ SRCS =	so_long.c \
 		actuator.c \
 		player.c \
 		position_stack.c \
-		loader.c
+		loader.c \
+		window.c
 OBJS = $(SRCS:%.c=$(BIN_DIR)%.o)
 DEPS = $(OBJS:%.o=%.d)
 
@@ -81,7 +82,10 @@ EXEC_PROGRAM = ./$(NAME) input date cat cat ls output
 
 #----OS COMPATIBILITY----#
 ifneq ($(OS),Windows_NT)
-UNAME_S = $(shell uname -s)
+	UNAME_S = $(shell uname -s)
+	ifeq ($(UNAME_S),Darwin)
+		DARWIN_FLAGS = -framework OpenGL -framework AppKit
+	endif
 endif
 
 #----RULES----#
@@ -93,12 +97,12 @@ all:
 ifndef BONUS
 $(NAME): $(MLX_LIB) $(LIBFT_LIB) $(OBJS)
 	@printf "$(BLUE)Linking objects and creating program...$(DEF_COLOR)\n"
-	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit -o $(NAME)
+	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx $(DARWIN_FLAGS) -o $(NAME)
 	@echo "$(GREEN)[✓] $(PINK)$(NAME)$(GREEN) created!!!$(DEF_COLOR)"
 else
 $(NAME): $(MLX_LIB) $(LIBFT_LIB) $(BOBJS)
 	@echo "$(BLUE)\nLinking objects and creating binary program...$(DEF_COLOR)"
-	@$(CC) $(CCFLAGS) $(BOBJS) $(LIBFT_LIB) $(MLX_LIB) -o $(NAME)
+	@$(CC) $(CCFLAGS) $(BOBJS) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx $(DARWIN_FLAGS) -o $(NAME)
 	@echo "$(GREEN)[✓] $(PINK)$(NAME) Bonus$(GREEN) created!!!$(DEF_COLOR)"
 endif
 
@@ -137,7 +141,7 @@ make_libft:
 	@echo ""
 
 make_mlx: $(MLX_DIR)
-	@$(MAKE) --no-print-directory -C $(MLX_DIR) $(MLX_LIB_ALONE)
+	@$(MAKE) --no-print-directory -C $(MLX_DIR)
 	@echo ""
 
 mlx_clean:
@@ -201,7 +205,7 @@ ifeq ($(UNAME_S),Darwin)
 	@tar -xpf lib/minilibx_opengl.tgz -C $(MLX_DIR) --strip-components 1
 	@rm -rf lib/minilibx_opengl.tgz
 else
-	@-sudo apt-get install curl clang
+	@-sudo apt-get install gcc make xorg libxext-dev libbsd-dev curl clang
 	@curl -O https://cdn.intra.42.fr/document/document/22166/minilibx-linux.tgz
 	@mv minilibx-linux.tgz lib
 	@rm -rf $(MLX_DIR)

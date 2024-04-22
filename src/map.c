@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 16:46:54 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/22 22:35:41 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,21 +133,21 @@ void	check_map(t_map *map, t_context *context)
 {
 	char	*message;
 
+	(void) context;
 	if (map->player_amount != 1)
-		message = ": map must have one starting position for player";
+		message = "map must have one starting position for player";
 	else if (map->exit_amount != 1)
-		message = ": map must have one exit";
+		message = "map must have one exit";
 	else if (map->collectible_amount < 1)
-		message = ": map must have at least one collectible";
+		message = "map must have at least one collectible";
 	else if (!is_closed_map(map))
-		message = ": map must be sorrounded by walls";
+		message = "map must be sorrounded by walls";
 	else if (!has_valid_path_map(map))
-		message = ": player must be able to exit the map";
+		message = "player must be able to exit the map";
 	else
 		return ;
-	write(2, "Error\n", 6);
-	write(2, map->path, ft_strlen(map->path));
-	custom_error(message, context);
+	ft_printff(STDERR_FILENO, "Error\n%s: %s\n", map->path, message);
+	exit(EXIT_FAILURE);
 }
 
 void	push_elems(char *str, size_t i, t_map *map, t_context *context)
@@ -162,11 +162,8 @@ void	push_elems(char *str, size_t i, t_map *map, t_context *context)
 		if (elem != WALL && elem != EMPTY && elem != PLAYER
 			&& elem != EXIT && elem != COLLECTIBLE)
 		{
-			write(2, "Error\n", 6);
-			write(2, map->filename, ft_strlen(map->filename));
-			write(2, ": ", 2);
-			write(2, &elem, 1);
-			custom_error(" is not a valid map element. Only 1, 0, P, C and E are.",
+			ft_printff(STDERR_FILENO, "Error\nin %s, %c: ", map->filename, elem);
+			custom_error("is not a valid map element. Only 1, 0, P, C and E are.",
 				context);
 		}
 		else if (elem == PLAYER)
@@ -218,9 +215,10 @@ void	set_map(char *path, t_context *context)
 	}
 	safe_close(&fd, context);
 	if (!correct)
-		write(2, "Error\n", 6);
-	if (!correct)
+	{
+		ft_printff(STDERR_FILENO, "Error\n");
 		custom_error("map must be rectangular!", context);
+	}
 	update_loading("Loading map", 100);
 }
 
@@ -229,9 +227,8 @@ void	check_extension(t_map *map, t_context *context)
 	if (ft_strlen(map->filename) <= 4
 		|| ft_strnrcmp(map->filename, ".ber", 4) != EQUAL_STRINGS)
 	{
-		write(2, "Error\n", 6);
-		write(STDERR_FILENO, map->filename, ft_strlen(map->filename));
-		custom_error(": invalid file extension, only .ber is allowed!",
+		ft_printff(STDERR_FILENO, "Error\n%s: ", map->filename);
+		custom_error("invalid file extension, only .ber is allowed!",
 			context);
 	}
 }

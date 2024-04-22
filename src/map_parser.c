@@ -128,6 +128,6 @@ void	use_map(t_map *map, t_context *context)
 	// mlx_do_key_autorepeatoff(context->mlx);
 	mlx_hook(context->window.ref, 2, 1L << 0, on_key_down, context);
 	mlx_hook(context->window.ref, 3, 1L << 0, on_key_up, context);
-	mlx_hook(context->window.ref, 17, 0, (int (*)(void *))exit, 0);
+	mlx_hook(context->window.ref, 17, 0, on_destroy, 0);
 	mlx_loop(context->mlx);
 }

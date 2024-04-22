@@ -15,5 +15,6 @@
 
 int	on_destroy(t_context *context)
 {
+	(void) context;
 	exit(EXIT_SUCCESS);
 }
