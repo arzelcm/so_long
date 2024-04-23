@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/22 23:55:26 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/23 13:12:13 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,16 @@ ifneq ($(OS),Windows_NT)
 	ifeq ($(UNAME_S),Darwin)
 		DARWIN_FLAGS = -framework OpenGL -framework AppKit
 	endif
+else
+	UNAME_S = Windows
 endif
+
+#----MACROS----#
+ifeq ($(UNAME_S),Darwin)
+	WINDOW_MAX_WIDTH = $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print substr($$3, 2, length($$3)) - 70}')
+	WINDOW_MAX_HEIGHT = $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print $$5 - 70}')
+endif
+CCFLAGS += -D WINDOW_MAX_HEIGHT=$(WINDOW_MAX_HEIGHT) -D WINDOW_MAX_WIDTH=$(WINDOW_MAX_WIDTH)
 
 #----RULES----#
 all:
