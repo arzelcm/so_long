@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/24 12:45:06 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/24 12:49:22 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,7 @@ else
 endif
 
 #----MACROS----#
+export GNL_BUFFER_SIZE := 50000
 ifeq ($(UNAME_S),Darwin)
 	WINDOW_MAX_WIDTH := $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print substr($$3, 2, length($$3)) - 70}')
 	WINDOW_MAX_HEIGHT := $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print $$5 - 70}')

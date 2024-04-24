@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/22 22:35:41 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:06:09 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ int	has_valid_path_map(t_map *map)
 	t_elems	elems;
 	t_map	accessible_map;
 
+	update_loading("Checking map...", 0);
 	copy_map(&accessible_map, map);
 	elems.collectibles = 0;
 	elems.exit = 0;
@@ -125,6 +126,7 @@ int	has_valid_path_map(t_map *map)
 	// 	map->player.pos.y, map->player.pos.x);
 	// ft_printf("coll: %i, exit: %i, iterations: %i\n", elems.collectibles, elems.exit, elems.iterations);
 	terminate_map(&accessible_map);
+	update_loading("Checking map...", 100);
 	return (elems.exit == map->exit_amount &&
 				elems.collectibles == map->collectible_amount);
 }
