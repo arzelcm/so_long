@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:27:06 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/12 19:05:39 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:35:00 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 # include <stdlib.h>
 # include "context.h"
 
-void	custom_error(char *message, t_context *context);
+void	custom_error(char *message);
 
-void	error(t_context *context);
+void	error(void);
 
 void	free_matrix(char **matrix, size_t len);
 
-void	push_string(char *new, char ***matrix, size_t i, t_context *context);
+void	push_string(char *new, char ***matrix, size_t i);
 
-void	push_char(char new, char **str, t_context *context);
+void	push_char(char new, char **str);
 
 #endif

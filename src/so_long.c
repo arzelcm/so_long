@@ -32,8 +32,8 @@ int	main(int argc, char **argv)
 	t_context	context;
 
 	if (argc != 2)
-		custom_error("Incorrect arguments. Usage: ./so_long map.ber", &context);
-	handle_map(argv, &context);
+		custom_error("Incorrect arguments. Usage: ./so_long map.ber");
+	handle_map(argv, &context.map);
 	init_mlx(&context);
 	use_map(&context.map, &context);
 	terminate(&context);

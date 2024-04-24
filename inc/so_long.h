@@ -50,10 +50,6 @@
 # include "map.h"
 # include "context.h"
 
-void	handle_map(char **argv, t_context *context);
-
-void	copy_map(t_map *dst, t_map *src);
-
 void	use_map(t_map *map, t_context *context);
 
 void	parse_map(t_map *map, t_context *context);

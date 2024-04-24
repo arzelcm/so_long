@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 14:06:40 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:32:02 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ void	init_window(t_texture *wall, t_texture *empty_space,
 			t_map *map, t_context *context)
 {
 	if (wall->x_size != wall->y_size || wall->x_size != empty_space->x_size || wall->y_size != empty_space->y_size)
-		custom_error("Texture .xpm images must be square and have exactly the same size!",
-			context);
+		custom_error("Texture .xpm images must be square and have exactly the same size!");
 	context->window.title = context->map.name;
 	context->window.width = empty_space->x_size * map->max_x;
 	context->window.height = empty_space->y_size * map->max_y;

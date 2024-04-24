@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:19:03 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 13:59:38 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:33:34 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_pos_stack	*new_pos(size_t x, size_t y)
 {
 	t_pos_stack *pos;
 
-	pos = safe_malloc(sizeof(t_pos_stack), NULL);
+	pos = safe_malloc(sizeof(t_pos_stack));
 	pos->next = NULL;
 	pos->pos.x = x;
 	pos->pos.y = y;

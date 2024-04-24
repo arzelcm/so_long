@@ -6,13 +6,12 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 13:44:43 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:39:29 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "map.h"
-#include "context.h"
 #include "../lib/libft/libft.h"
 #include "safe_utils.h"
 #include "utils.h"
@@ -110,11 +109,10 @@ int	has_valid_path_map(t_map *map)
 				elems.collectibles == map->collectible_amount);
 }
 
-void	check_map(t_map *map, t_context *context)
+void	check_map(t_map *map)
 {
 	char	*message;
 
-	(void) context;
 	if (map->player_amount != 1)
 		message = "map must have one starting position for player";
 	else if (map->exit_amount != 1)
@@ -131,7 +129,7 @@ void	check_map(t_map *map, t_context *context)
 	exit(EXIT_FAILURE);
 }
 
-void	push_elems(char *str, size_t i, t_map *map, t_context *context)
+void	push_elems(char *str, size_t i, t_map *map)
 {
 	size_t	j;
 	char	elem;
@@ -144,8 +142,7 @@ void	push_elems(char *str, size_t i, t_map *map, t_context *context)
 			&& elem != EXIT && elem != COLLECTIBLE)
 		{
 			ft_printff(STDERR_FILENO, "Error\nin %s, %c: ", map->filename, elem);
-			custom_error("is not a valid map element. Only 1, 0, P, C and E are.",
-				context);
+			custom_error("is not a valid map element. Only 1, 0, P, C and E are.");
 		}
 		else if (elem == PLAYER)
 		{
@@ -161,62 +158,56 @@ void	push_elems(char *str, size_t i, t_map *map, t_context *context)
 		else if (str[j] == COLLECTIBLE)
 			map->collectible_amount++;
 		if (elem != EMPTY && elem != WALL)
-			push_char(elem, &map->elems, context);
+			push_char(elem, &map->elems);
 		j++;
 	}
 }
 
-void	set_map(char *path, t_context *context)
+void	set_map(char *path, t_map *map)
 {
 	char	*line;
 	int		fd;
 	int		correct;
-	size_t	loaded;
 
-	(void) loaded;
 	update_loading("Loading map", 0);
 	correct = 1;
-	loaded = 0;
-	fd = safe_open(path, O_RDONLY, context);
+	fd = safe_open(path, O_RDONLY);
 	line = get_next_line(fd, 0);
-	context->map.max_x = ft_strlen(line);
+	map->max_x = ft_strlen(line);
 	while (line && correct)
 	{
-		loaded += sizeof(char) * (context->map.max_x + 1);
-		if (context->map.max_x != ft_strlen(line))
+		if (map->max_x != ft_strlen(line))
 			correct = 0;
 		else
 		{
-			push_string(line, &context->map.spaces,
-				context->map.max_y, context);
-			push_elems(line, context->map.max_y, &context->map, context);
+			push_string(line, &map->spaces,
+				map->max_y);
+			push_elems(line, map->max_y, map);
 			line = get_next_line(fd, 0);
 		}
-		context->map.max_y++;
+		map->max_y++;
 	}
-	safe_close(&fd, context);
+	safe_close(&fd);
 	if (!correct)
 	{
 		ft_printff(STDERR_FILENO, "Error\n");
-		custom_error("map must be rectangular!", context);
+		custom_error("map must be rectangular!");
 	}
 	update_loading("Loading map", 100);
 }
 
-void	check_extension(t_map *map, t_context *context)
+void	check_extension(t_map *map)
 {
 	if (ft_strlen(map->filename) <= 4
 		|| ft_strnrcmp(map->filename, ".ber", 4) != EQUAL_STRINGS)
 	{
 		ft_printff(STDERR_FILENO, "Error\n%s: ", map->filename);
-		custom_error("invalid file extension, only .ber is allowed!",
-			context);
+		custom_error("invalid file extension, only .ber is allowed!");
 	}
 }
 
-void	init_map(t_map *map, char *path, t_context *context)
+void	init_map(t_map *map, char *path)
 {
-	(void) context;
 	map->spaces = NULL;
 	map->elems = NULL;
 	map->max_y = 0;
@@ -233,11 +224,11 @@ void	init_map(t_map *map, char *path, t_context *context)
 	init_player(&map->player);
 }
 
-void	handle_map(char **argv, t_context *context)
+void	handle_map(char **argv, t_map *map)
 {
-	init_map(&context->map, argv[1], context);
-	check_extension(&context->map, context);
-	set_map(argv[1], context);
-	check_map(&context->map, context);
-	// print_map(&context->map);
+	init_map(map, argv[1]);
+	check_extension(map);
+	set_map(argv[1], map);
+	check_map(map);
+	// print_map(map);
 }

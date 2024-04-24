@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/22 20:22:16 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:41:30 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct s_pos_stack
 
 }	t_pos_stack;
 
+void		handle_map(char **argv, t_map *map);
+
 void		terminate_map(t_map *map);
 
 void		print_map(t_map *map);
@@ -95,5 +97,7 @@ void		shift_pos(t_pos_stack **stack);
 void		push_pos(t_pos_stack **stack, size_t x, size_t y);
 
 void		terminate_stack(t_pos_stack *stack);
+
+void		copy_map(t_map *dst, t_map *src);
 
 #endif

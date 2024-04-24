@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:21:21 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/22 23:35:07 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:44:07 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <fcntl.h>
 
 
-int	safe_open(const char *path, int mode, t_context *context)
+int	safe_open(const char *path, int mode)
 {
 	int	res;
 
@@ -25,12 +25,12 @@ int	safe_open(const char *path, int mode, t_context *context)
 	if (res == -1)
 	{
 		ft_printff(STDERR_FILENO, "Error\n%s: ", path);
-		custom_error("No such file or directory", context);
+		custom_error("No such file or directory");
 	}
 	return (res);
 }
 
-int	safe_close(int *fd, t_context *context)
+int	safe_close(int *fd)
 {
 	int	res;
 
@@ -38,17 +38,17 @@ int	safe_close(int *fd, t_context *context)
 		return (-1);
 	res = close(*fd);
 	if (res == -1)
-		error(context);
+		error();
 	*fd = -1;
 	return (res);
 }
 
-void	*safe_malloc(size_t size, t_context *context)
+void	*safe_malloc(size_t size)
 {
 	void	*res;
 
 	res = malloc(size);
 	if (!res)
-		error(context);
+		error();
 	return (res);
 }
