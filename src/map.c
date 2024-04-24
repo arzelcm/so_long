@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 12:06:09 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:30:22 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,7 @@ int	is_closed_map(t_map *map)
 	}
 	return (closed);
 }
-
-void	find_accessible_elems(t_map *map, t_elems *elems, size_t i, size_t j)
-{
-	if (map->spaces[i][j] == EXIT)
-		elems->exit++;
-	else if (map->spaces[i][j] == COLLECTIBLE)
-		elems->collectibles++;
-	map->spaces[i][j] = 'A';
-	elems->iterations++;
-	if (map->spaces[i][j + 1] != 'A' && map->spaces[i][j + 1] != WALL)
-		find_accessible_elems(map, elems, i, j + 1);
-	if (map->spaces[i][j - 1] != 'A' && map->spaces[i][j - 1] != WALL)
-		find_accessible_elems(map, elems, i, j - 1);
-	if (map->spaces[i + 1][j] != 'A' && map->spaces[i + 1][j] != WALL)
-		find_accessible_elems(map, elems, i + 1, j);
-	if (map->spaces[i - 1][j] != 'A' && map->spaces[i - 1][j] != WALL)
-		find_accessible_elems(map, elems, i - 1, j);
-}
-void	find_accessible_elems_iter(t_map *map, t_elems *elems)
+void	find_accessible_elems(t_map *map, t_elems *elems)
 {
 	t_pos_stack	*stack;
 	t_pos_stack	*actual_stack;
@@ -121,12 +103,10 @@ int	has_valid_path_map(t_map *map)
 	elems.collectibles = 0;
 	elems.exit = 0;
 	elems.iterations = 0;
-	find_accessible_elems_iter(&accessible_map, &elems);
-	// find_accessible_elems(&accessible_map, &elems,
-	// 	map->player.pos.y, map->player.pos.x);
-	// ft_printf("coll: %i, exit: %i, iterations: %i\n", elems.collectibles, elems.exit, elems.iterations);
+	find_accessible_elems(&accessible_map, &elems);
 	terminate_map(&accessible_map);
 	update_loading("Checking map...", 100);
+	exit(0);
 	return (elems.exit == map->exit_amount &&
 				elems.collectibles == map->collectible_amount);
 }
