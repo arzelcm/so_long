@@ -6,28 +6,28 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/22 16:40:20 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:51:38 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include "mlx.h"
+#include "libft.h"
+#include "map_parser.h"
 
 void	move_map_position(long x_increment, long y_increment, t_map *map)
 {
 	map->position.x += x_increment;
 	map->position.y += y_increment;
 }
+
 void game_over(t_context *context)
 {
-	// TODO: Check if is needed to terminate something!
-	// close_map();
 	if (context->map.player.collectibles == context->map.collectible_amount)
 	{
 		ft_printf("\033[2KYEAH!!! YOU WON!\nMovements: %i\n", context->map.player.movements);
 		exit(EXIT_SUCCESS);
 	}
-	// ft_printf("\033[2KYou lost :(\nCollectibles collected: %i/%i\nMovements: %i\n", context->map.player.collectibles, context->map.collectible_amount, context->map.player.movements);
-	// exit(EXIT_FAILURE);
 }
 
 void	move_player(t_player *player, size_t x, size_t y, t_context *context)
@@ -43,7 +43,6 @@ void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 		{
 			player->collectibles++;
 			context->map.spaces[player->pos.y + y][player->pos.x + x] = EMPTY;
-			// ft_printf("Collectibles amount: %i\n", player->collectibles);
 		}
 		else if (context->map.spaces[player->pos.y + y][player->pos.x + x] == EXIT)
 		{
@@ -56,8 +55,6 @@ void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 		player->movements++;
 		context->map.spaces[player->pos.y][player->pos.x] = PLAYER;
 		ft_printf("Movements: %i\n\033[1F", player->movements);
-		// usleep(1000000);
-		// ft_printf("(%i, %i), Movements: %i\n", player->pos.y, player->pos.x, player->movements);
 	}
 	player->moving = 0;
 }

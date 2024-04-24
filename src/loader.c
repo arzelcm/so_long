@@ -6,11 +6,11 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:06:36 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/20 16:17:34 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:51:43 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/libft/libft.h"
+#include "libft.h"
 
 void	update_loading(char *message, int value)
 {

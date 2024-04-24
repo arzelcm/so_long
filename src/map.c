@@ -6,18 +6,18 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 16:39:29 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:51:53 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include "map.h"
-#include "../lib/libft/libft.h"
+#include "libft.h"
 #include "safe_utils.h"
 #include "utils.h"
-#include "so_long.h"
-#include "player.h"
 #include "loader.h"
+#include "position_stack.h"
+#include "map.h"
+// #include <sys/stat.h>
 
 void	print_map(t_map *map)
 {
@@ -55,6 +55,7 @@ int	is_closed_map(t_map *map)
 	}
 	return (closed);
 }
+
 void	find_accessible_elems(t_map *map, t_elems *elems)
 {
 	t_pos_stack	*stack;

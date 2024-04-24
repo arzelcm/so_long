@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/24 12:49:22 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/24 16:55:54 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,19 +34,22 @@ CIAN = \033[1;36m
 CC = cc
 CCFLAGS = -Wall -Werror -Wextra -g -O3 #-fsanitize=address
 
+#----DIRS----#
+BIN_DIR = bin/
+INC_DIR = inc/
+SRCS_DIR = src/
+INCLUDES = -I$(INC_DIR) 
+
 #----LIBFT----#
 LIBFT_DIR = lib/libft/
 LIBFT_LIB = $(LIBFT_DIR)libft.a
+INCLUDES += -I$(LIBFT_DIR) 
 
 #----MLX----#
 MLX_DIR = lib/mlx/
 MLX_LIB_ALONE = libmlx.a
 MLX_LIB = $(MLX_DIR)$(MLX_LIB_ALONE)
-
-#----DIRS----#
-BIN_DIR = bin/
-INC_DIR = inc/
-SRCS_DIR = src/
+INCLUDES += -I$(MLX_DIR) 
 
 #----MANDATORY----#
 SRCS =	so_long.c \
@@ -123,12 +126,12 @@ ifndef DEBUG
 $(BIN_DIR)%.o: $(SRCS_DIR)%.c Makefile
 	@printf "$(CIAN)Compiling: $(PINK)$(notdir $<)...$(DEF_COLOR)\n"
 	@mkdir -p $(BIN_DIR)
-	@$(CC) $(CCFLAGS) -I$(INC_DIR) -MMD -c $< -o $@
+	@$(CC) $(CCFLAGS) $(INCLUDES) -MMD -c $< -o $@
 else
 $(BIN_DIR)%_debug.o: $(SRCS_DIR)%.c Makefile
 	@printf "$(CIAN)Compiling: $(PINK)$(notdir $<)...$(DEF_COLOR)\n"
 	@mkdir -p $(BIN_DIR)
-	@$(CC) -g $(CCFLAGS) -I$(INC_DIR) -MMD -c $< -o $@
+	@$(CC) -g $(CCFLAGS) $(INCLUDES) -MMD -c $< -o $@
 endif
 
 clean: libft_clean

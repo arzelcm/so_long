@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window.c                                           :+:      :+:    :+:   */
+/*   texture.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 16:11:17 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:53:46 by arcanava         ###   ########.fr       */
+/*   Created: 2024/04/24 18:45:07 by arcanava          #+#    #+#             */
+/*   Updated: 2024/04/24 18:45:59 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
+#ifndef TEXTURE_H
+# define TEXTURE_H
 
-int	on_destroy(void)
+typedef struct s_texture
 {
-	exit(EXIT_SUCCESS);
-}
+	int		x_size;
+	int		y_size;
+	void	*img;
+}	t_texture;
+
+#endif

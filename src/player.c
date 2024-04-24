@@ -6,11 +6,10 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:35:59 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/19 21:26:39 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:52:35 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
 #include "map.h"
 
 void	init_player(t_player *player)

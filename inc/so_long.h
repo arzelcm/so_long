@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 13:06:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/23 12:58:36 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:48:53 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,5 @@
 # define TEXTURE_SIZE 50
 # define EMPTY_TEXTURE "./assets/textures/empty-space.xpm"
 # define WALL_TEXTURE "./assets/textures/wall.xpm"
-
-# define MAX_STACK_SIZE_KB 8192
-
-# include "../lib/libft/libft.h"
-# include "../lib/mlx/mlx.h"
-
-# include "map.h"
-# include "context.h"
-
-void	use_map(t_map *map, t_context *context);
-
-void	parse_map(t_map *map, t_context *context);
-
-int		on_destroy(t_context *context);
 
 #endif

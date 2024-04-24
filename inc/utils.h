@@ -6,16 +6,14 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:27:06 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 16:35:00 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:49:28 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_H
 # define UTILS_H
 
-# include <unistd.h>
 # include <stdlib.h>
-# include "context.h"
 
 void	custom_error(char *message);
 

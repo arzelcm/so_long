@@ -6,15 +6,16 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 16:32:02 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:52:23 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
 #include "utils.h"
 #include "actuator.h"
-#include "map.h"
 #include "loader.h"
+#include "mlx.h"
+#include "libft.h"
+#include "window.h"
 
 void	init_texture(t_texture *texture, char *img_path, void *mlx)
 {
@@ -127,6 +128,6 @@ void	use_map(t_map *map, t_context *context)
 	// mlx_do_key_autorepeatoff(context->mlx);
 	mlx_hook(context->window.ref, 2, 1L << 0, on_key_down, context);
 	mlx_hook(context->window.ref, 3, 1L << 0, on_key_up, context);
-	mlx_hook(context->window.ref, 17, 0, on_destroy, 0);
+	mlx_hook(context->window.ref, 17, 0, on_destroy, NULL);
 	mlx_loop(context->mlx);
 }

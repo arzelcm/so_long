@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window.c                                           :+:      :+:    :+:   */
+/*   window.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 16:11:17 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:53:46 by arcanava         ###   ########.fr       */
+/*   Created: 2024/04/24 17:10:29 by arcanava          #+#    #+#             */
+/*   Updated: 2024/04/24 17:46:38 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
+#ifndef WINDOW_H
+# define WINDOW_H
 
-int	on_destroy(void)
-{
-	exit(EXIT_SUCCESS);
-}
+int	on_destroy(void);
+
+#endif

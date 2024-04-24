@@ -6,13 +6,12 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 16:31:36 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:52:31 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../lib/libft/libft.h"
+#include "libft.h"
 #include "map.h"
-#include "context.h"
 #include "utils.h"
 #include "safe_utils.h"
 

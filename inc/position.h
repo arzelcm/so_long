@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window.c                                           :+:      :+:    :+:   */
+/*   position.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/17 16:11:17 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:53:46 by arcanava         ###   ########.fr       */
+/*   Created: 2024/04/24 18:28:03 by arcanava          #+#    #+#             */
+/*   Updated: 2024/04/24 18:48:34 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
+#ifndef POSITION_H
+# define POSITION_H
 
-int	on_destroy(void)
+# include "stdlib.h"
+
+typedef struct s_position
 {
-	exit(EXIT_SUCCESS);
-}
+	size_t	y;
+	size_t	x;
+}	t_position;
+
+#endif

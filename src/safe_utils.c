@@ -6,16 +6,13 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:21:21 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 16:44:07 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:52:49 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-#include "../lib/libft/libft.h"
-#include "safe_utils.h"
-#include <stddef.h>
+#include "libft.h"
 #include <fcntl.h>
-
 
 int	safe_open(const char *path, int mode)
 {
