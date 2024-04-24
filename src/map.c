@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 13:30:22 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:44:43 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ int	has_valid_path_map(t_map *map)
 	find_accessible_elems(&accessible_map, &elems);
 	terminate_map(&accessible_map);
 	update_loading("Checking map...", 100);
-	exit(0);
 	return (elems.exit == map->exit_amount &&
 				elems.collectibles == map->collectible_amount);
 }

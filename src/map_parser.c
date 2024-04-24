@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/22 20:32:54 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:06:40 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	init_window(t_texture *wall, t_texture *empty_space,
 	context->window.width = empty_space->x_size * map->max_x;
 	context->window.height = empty_space->y_size * map->max_y;
 	if (context->window.width > WINDOW_MAX_WIDTH)
-		context->window.width = WINDOW_MAX_WIDTH;
+		context->window.width = ft_closest_multiple(WINDOW_MAX_WIDTH, wall->x_size);
 	if (context->window.height > WINDOW_MAX_HEIGHT)
-		context->window.height = WINDOW_MAX_HEIGHT;
+		context->window.height = ft_closest_multiple(WINDOW_MAX_HEIGHT, wall->y_size);
 	context->window.ref = mlx_new_window(context->mlx, context->window.width,
 							context->window.height, map->name);
 }
