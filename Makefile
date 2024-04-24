@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/23 13:12:13 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/24 12:45:06 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@
 # TODO: Download mlx and libft if not contained!
 # TODO: Check Cflags!
 # TODO: Define max stack call size!!!!! ulimit -s
+# TODO: -I of all inc
 
 NAME = so_long
 DEBUG_NAME = so_long_debug
@@ -85,6 +86,8 @@ ifneq ($(OS),Windows_NT)
 	UNAME_S = $(shell uname -s)
 	ifeq ($(UNAME_S),Darwin)
 		DARWIN_FLAGS = -framework OpenGL -framework AppKit
+	else
+		DARWIN_FLAGS = -lXext -lX11
 	endif
 else
 	UNAME_S = Windows
@@ -92,10 +95,10 @@ endif
 
 #----MACROS----#
 ifeq ($(UNAME_S),Darwin)
-	WINDOW_MAX_WIDTH = $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print substr($$3, 2, length($$3)) - 70}')
-	WINDOW_MAX_HEIGHT = $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print $$5 - 70}')
+	WINDOW_MAX_WIDTH := $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print substr($$3, 2, length($$3)) - 70}')
+	WINDOW_MAX_HEIGHT := $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print $$5 - 70}')
+	CCFLAGS += -D WINDOW_MAX_HEIGHT=$(WINDOW_MAX_HEIGHT) -D WINDOW_MAX_WIDTH=$(WINDOW_MAX_WIDTH)
 endif
-CCFLAGS += -D WINDOW_MAX_HEIGHT=$(WINDOW_MAX_HEIGHT) -D WINDOW_MAX_WIDTH=$(WINDOW_MAX_WIDTH)
 
 #----RULES----#
 all:
@@ -205,8 +208,7 @@ debug_bonus:
 $(MLX_DIR):
 ifeq ($(OS),Windows_NT)
 	@printf "$(RED)Not supported on windows. Sorry not sorry :)$(DEF_COLOR)"
-else
-ifeq ($(UNAME_S),Darwin)
+else ifeq ($(UNAME_S),Darwin)
 	@curl -O https://cdn.intra.42.fr/document/document/22167/minilibx_opengl.tgz
 	@mv minilibx_opengl.tgz lib
 	@rm -rf $(MLX_DIR)
@@ -221,7 +223,6 @@ else
 	@mkdir -p $(MLX_DIR)
 	@tar -xpf lib/minilibx-linux.tgz -C $(MLX_DIR) --strip-components 1
 	@rm -rf lib/minilibx-linux.tgz
-endif
 endif
 
 install: $(MLX_DIR)
@@ -253,3 +254,4 @@ install: $(MLX_DIR)
 
 -include $(DEPS)
 -include $(BDEPS)
+.SILENT:
