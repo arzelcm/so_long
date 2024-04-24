@@ -16,6 +16,7 @@
 #include "mlx.h"
 #include "libft.h"
 #include "window.h"
+#include "so_long.h"
 
 void	init_texture(t_texture *texture, char *img_path, void *mlx)
 {
