@@ -13,9 +13,8 @@
 #include "utils.h"
 #include "context.h"
 #include "safe_utils.h"
-#include "../lib/libft/libft.h"
+#include "libft.h"
 #include "so_long.h"
-#include <stdio.h>
 
 void	custom_error(char *message)
 {
