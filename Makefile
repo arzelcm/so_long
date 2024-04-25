@@ -6,15 +6,11 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/24 16:55:54 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/25 15:09:02 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# TODO: If any lib recompiles, it has to relink program!
-# TODO: Download mlx and libft if not contained!
 # TODO: Check Cflags!
-# TODO: Define max stack call size!!!!! ulimit -s
-# TODO: -I of all inc
 
 NAME = so_long
 DEBUG_NAME = so_long_debug
