@@ -73,7 +73,12 @@ void	find_accessible_elems(t_map *map, t_elems *elems)
 			continue ;
 		}
 		else if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == EXIT)
+		{
 			elems->exit++;
+			map->spaces[actual_stack->pos.y][actual_stack->pos.x] = 'A';
+			free(actual_stack);
+			continue ;
+		}
 		else if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == COLLECTIBLE)
 			elems->collectibles++;
 		map->spaces[actual_stack->pos.y][actual_stack->pos.x] = 'A';
@@ -123,7 +128,7 @@ void	check_map(t_map *map)
 	else if (!is_closed_map(map))
 		message = "map must be sorrounded by walls";
 	else if (!has_valid_path_map(map))
-		message = "player must be able to exit the map";
+		message = "collectibles and exit must be acessible by player";
 	else
 		return ;
 	ft_printff(STDERR_FILENO, "Error\n%s: %s\n\033[?25h", map->path, message);
