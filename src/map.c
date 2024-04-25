@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 20:42:58 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 22:33:02 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,12 @@ void	find_accessible_elems(t_map *map, t_elems *elems)
 {
 	t_pos_stack	*stack;
 	t_pos_stack	*actual_stack;
+	// size_t		i;
+	// size_t		iterations;
 
+	// iterations = map->max_x - 1 * map->max_x - 1 - map->walls_amount - map->collectible_amount;
+	// i = 0;
+	// TODO: Calculate loader in a thread
 	stack = new_pos(map->player.pos.x, map->player.pos.y);
 	while (stack)
 	{
@@ -93,6 +98,7 @@ void	find_accessible_elems(t_map *map, t_elems *elems)
 				&& map->spaces[actual_stack->pos.y - 1][actual_stack->pos.x] != WALL)
 			push_pos(&stack, actual_stack->pos.x, actual_stack->pos.y - 1);
 		free(actual_stack);
+		// update_loading("Checking map", ++i * 100 / iterations);
 	}
 }
 
@@ -201,7 +207,7 @@ void	set_map(char *path, t_map *map)
 			line = get_next_line(fd, 0);
 		}
 		map->max_y++;
-		update_loading("Loading map", ++i * map->max_x * 100 / map->size);
+		// update_loading("Loading map", ++i * map->max_x * sizeof(char) * 100 / map->size);
 	}
 	safe_close(&fd);
 	if (!correct)
