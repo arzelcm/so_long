@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:51:53 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:09:32 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ int	has_valid_path_map(t_map *map)
 	t_elems	elems;
 	t_map	accessible_map;
 
-	update_loading("Checking map...", 0);
+	update_loading("Checking map", 0);
 	copy_map(&accessible_map, map);
 	elems.collectibles = 0;
 	elems.exit = 0;
 	elems.iterations = 0;
 	find_accessible_elems(&accessible_map, &elems);
 	terminate_map(&accessible_map);
-	update_loading("Checking map...", 100);
+	update_loading("Checking map", 100);
 	return (elems.exit == map->exit_amount &&
 				elems.collectibles == map->collectible_amount);
 }
@@ -126,7 +126,7 @@ void	check_map(t_map *map)
 		message = "player must be able to exit the map";
 	else
 		return ;
-	ft_printff(STDERR_FILENO, "Error\n%s: %s\n", map->path, message);
+	ft_printff(STDERR_FILENO, "Error\n%s: %s\n\033[?25h", map->path, message);
 	exit(EXIT_FAILURE);
 }
 

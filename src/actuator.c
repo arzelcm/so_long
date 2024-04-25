@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:51:38 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:15:56 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void game_over(t_context *context)
 {
 	if (context->map.player.collectibles == context->map.collectible_amount)
 	{
-		ft_printf("\033[2KYEAH!!! YOU WON!\nMovements: %i\n", context->map.player.movements);
+		ft_printf("\033[1A\033[2KYEAH!!! YOU WON!\nMovements: %i\n\033[?25h", context->map.player.movements);
 		exit(EXIT_SUCCESS);
 	}
 }
@@ -54,7 +54,7 @@ void	move_player(t_player *player, size_t x, size_t y, t_context *context)
 		player->pos.x += x;
 		player->movements++;
 		context->map.spaces[player->pos.y][player->pos.x] = PLAYER;
-		ft_printf("Movements: %i\n\033[1F", player->movements);
+		ft_printf("\033[1A\033[2KMovements: %i\n", player->movements);
 	}
 	player->moving = 0;
 }
@@ -85,6 +85,7 @@ int	on_key_down(int key, t_context *context)
 	if (key == ESC_KEYCODE)
 	{
 		mlx_destroy_window(context->mlx, context->window.ref);
+		ft_printf("\033[?25h");
 		exit(EXIT_SUCCESS);
 	}
 	move(key, context);

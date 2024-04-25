@@ -6,13 +6,14 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 16:11:17 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:53:46 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:08:07 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "stdlib.h"
+#include "libft.h"
 
 int	on_destroy(void)
 {
+	ft_printf("\033[?25h");
 	exit(EXIT_SUCCESS);
 }
