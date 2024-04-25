@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 12:15:56 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:20:54 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void game_over(t_context *context)
 		ft_printf("\033[1A\033[2KYEAH!!! YOU WON!\nMovements: %i\n\033[?25h", context->map.player.movements);
 		exit(EXIT_SUCCESS);
 	}
+	else
+		ft_printf("\a");
 }
 
 void	move_player(t_player *player, size_t x, size_t y, t_context *context)
