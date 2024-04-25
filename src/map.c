@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 13:22:28 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:00:34 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	is_closed_map(t_map *map)
 	size_t	j;
 	int		closed;
 
-	// TODO: Check it while checking accessible path!
 	closed = 1;
 	i = 0;
 	while (map && i < map->max_y && closed)

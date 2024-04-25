@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:52:31 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:49:40 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	copy_map(t_map *dst, t_map *src)
 	dst->spaces = safe_malloc(sizeof(char *) * src->max_y);
 	i = -1;
 	while (++i < src->max_y)
-		push_string(ft_strdup(src->spaces[i]), &dst->spaces, i);
+		dst->spaces[i] = ft_strdup(src->spaces[i]);
 	dst->elems = NULL;
 	dst->max_x = src->max_x;
 	dst->max_y = src->max_y;
