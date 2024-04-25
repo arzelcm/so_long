@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:47:47 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:35:31 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include "position.h"
 # include "player.h"
 # include "texture.h"
+#include <sys/stat.h>
 
 typedef struct s_lposition
 {
@@ -47,6 +48,7 @@ typedef struct s_map
 	size_t		max_x;
 	size_t		walls_amount;
 	size_t		collectible_amount;
+	off_t		size;
 	int			exit_amount;
 	int			player_amount;
 }	t_map;

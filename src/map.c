@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 16:00:34 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 20:42:58 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "loader.h"
 #include "position_stack.h"
 #include "map.h"
-// #include <sys/stat.h>
 
 void	print_map(t_map *map)
 {
@@ -168,15 +167,26 @@ void	push_elems(char *str, size_t i, t_map *map)
 	}
 }
 
+void	set_map_size(t_map *map, int fd)
+{
+	struct stat	stat;
+
+	fstat(fd, &stat);
+	map->size = stat.st_size;
+}
+
 void	set_map(char *path, t_map *map)
 {
 	char	*line;
 	int		fd;
 	int		correct;
+	size_t	i;
 
 	update_loading("Loading map", 0);
 	correct = 1;
 	fd = safe_open(path, O_RDONLY);
+	set_map_size(map, fd);
+	i = 1;
 	line = get_next_line(fd, 0);
 	map->max_x = ft_strlen(line);
 	while (line && correct)
@@ -191,6 +201,7 @@ void	set_map(char *path, t_map *map)
 			line = get_next_line(fd, 0);
 		}
 		map->max_y++;
+		update_loading("Loading map", ++i * map->max_x * 100 / map->size);
 	}
 	safe_close(&fd);
 	if (!correct)
@@ -198,7 +209,6 @@ void	set_map(char *path, t_map *map)
 		ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n");
 		custom_error("map must be rectangular!");
 	}
-	update_loading("Loading map", 100);
 }
 
 void	check_extension(t_map *map)
