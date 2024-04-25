@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:21:21 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:52:49 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 13:22:39 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	safe_open(const char *path, int mode)
 	res = open(path, mode);
 	if (res == -1)
 	{
-		ft_printff(STDERR_FILENO, "Error\n%s: ", path);
+		ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n%s: ", path);
 		custom_error("No such file or directory");
 	}
 	return (res);

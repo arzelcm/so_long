@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:28:06 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 12:04:08 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 13:23:23 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	custom_error(char *message)
 
 void	error(void)
 {
+	ft_printf("\033[1A\033[2K\033[?25h");
 	perror(PROGRAM_NAME);
-	ft_printf("\033[?25h");
 	exit(EXIT_FAILURE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 12:09:32 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/25 13:22:28 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	check_map(t_map *map)
 		message = "collectibles and exit must be acessible by player";
 	else
 		return ;
-	ft_printff(STDERR_FILENO, "Error\n%s: %s\n\033[?25h", map->path, message);
+	ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n%s: %s\n\033[?25h", map->path, message);
 	exit(EXIT_FAILURE);
 }
 
@@ -147,7 +147,7 @@ void	push_elems(char *str, size_t i, t_map *map)
 		if (elem != WALL && elem != EMPTY && elem != PLAYER
 			&& elem != EXIT && elem != COLLECTIBLE)
 		{
-			ft_printff(STDERR_FILENO, "Error\nin %s, %c: ", map->filename, elem);
+			ft_printff(STDERR_FILENO, "\033[1A\033[2KError\nin %s, %c: ", map->filename, elem);
 			custom_error("is not a valid map element. Only 1, 0, P, C and E are.");
 		}
 		else if (elem == PLAYER)
@@ -196,7 +196,7 @@ void	set_map(char *path, t_map *map)
 	safe_close(&fd);
 	if (!correct)
 	{
-		ft_printff(STDERR_FILENO, "Error\n");
+		ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n");
 		custom_error("map must be rectangular!");
 	}
 	update_loading("Loading map", 100);
@@ -207,7 +207,7 @@ void	check_extension(t_map *map)
 	if (ft_strlen(map->filename) <= 4
 		|| ft_strnrcmp(map->filename, ".ber", 4) != EQUAL_STRINGS)
 	{
-		ft_printff(STDERR_FILENO, "Error\n%s: ", map->filename);
+		ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n%s: ", map->filename);
 		custom_error("invalid file extension, only .ber is allowed!");
 	}
 }
