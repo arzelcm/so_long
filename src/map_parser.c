@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 15:09:21 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:07:52 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_texture(t_texture *texture, char *img_path, void *mlx)
 		&texture->x_size, &texture->y_size);
 }
 
-void	init_window(t_texture *wall, t_texture *empty_space,
+void	set_window(t_texture *wall, t_texture *empty_space,
 			t_map *map, t_context *context)
 {
 	if (wall->x_size != wall->y_size || wall->x_size != empty_space->x_size || wall->y_size != empty_space->y_size)
@@ -108,6 +108,13 @@ void	set_map_initial_pos(t_map *map, t_context *context)
 	map->position.y = (long) map->player.pos.y - y_middle;
 }
 
+void	move_map_position(long x_increment, long y_increment, t_context *context)
+{
+	context->map.position.x += x_increment;
+	context->map.position.y += y_increment;
+	parse_map(&context->map, context);
+}
+
 void	use_map(t_map *map, t_context *context)
 {
 	update_loading("Building map", 0);
@@ -117,12 +124,13 @@ void	use_map(t_map *map, t_context *context)
 	init_texture(&map->exit, "./assets/sprites/bed.xpm", context->mlx);
 	init_texture(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm", context->mlx);
 	update_loading("Building map", 100);
-	init_window(&map->wall, &map->empty_space, map, context);
+	set_window(&map->wall, &map->empty_space, map, context);
 	set_map_initial_pos(map, context);
 	parse_map(map, context);
-	// mlx_do_key_autorepeatoff(context->mlx);
+	mlx_do_key_autorepeatoff(context->mlx);
 	mlx_hook(context->window.ref, 2, 1L << 0, on_key_down, context);
 	mlx_hook(context->window.ref, 3, 1L << 0, on_key_up, context);
 	mlx_hook(context->window.ref, 17, 0, on_destroy, NULL);
+	mlx_loop_hook(context->mlx, background_loop, context);
 	mlx_loop(context->mlx);
 }

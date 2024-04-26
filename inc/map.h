@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 20:35:31 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:18:28 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ void		terminate_map(t_map *map);
 void		print_map(t_map *map);
 
 void		copy_map(t_map *dst, t_map *src);
+
+void		move_player(t_player *player, size_t x, size_t y, t_map *map);
 
 #endif

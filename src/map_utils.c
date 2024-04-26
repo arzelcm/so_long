@@ -6,12 +6,12 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 15:49:40 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:17:37 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "map.h"
+#include "context.h"
 #include "utils.h"
 #include "safe_utils.h"
 
@@ -35,4 +35,37 @@ void	terminate_map(t_map *map)
 	free_matrix(map->spaces, map->max_y);
 	if (map->elems)
 		free(map->elems);
+}
+
+void game_over(t_player *player, t_map *map)
+{
+	if (player->collectibles == map->collectible_amount)
+	{
+		ft_printf("\033[1A\033[2KYEAH!!! YOU WON!\nMovements: %i\n\033[?25h", map->player.movements);
+		exit(EXIT_SUCCESS);
+	}
+	else
+		ft_printf("\a");
+}
+
+void	move_player(t_player *player, size_t x, size_t y, t_map *map)
+{
+	if (map->spaces[player->pos.y + y][player->pos.x + x] == WALL)
+		return ;
+	else if (map->spaces[player->pos.y + y][player->pos.x + x] == COLLECTIBLE)
+	{
+		player->collectibles++;
+		map->spaces[player->pos.y + y][player->pos.x + x] = EMPTY;
+	}
+	else if (map->spaces[player->pos.y + y][player->pos.x + x] == EXIT)
+	{
+		game_over(player, map);
+		return;
+	}
+	map->spaces[player->pos.y][player->pos.x] = EMPTY;
+	player->pos.y += y;
+	player->pos.x += x;
+	player->movements++;
+	map->spaces[player->pos.y][player->pos.x] = PLAYER;
+	ft_printf("\033[1A\033[2KMovements: %i\n", player->movements);
 }

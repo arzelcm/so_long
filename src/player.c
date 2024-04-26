@@ -6,11 +6,12 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:35:59 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:52:35 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:17:50 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "map.h"
+#include "so_long.h"
+#include "player.h"
 
 void	init_player(t_player *player)
 {
@@ -18,5 +19,22 @@ void	init_player(t_player *player)
 	player->pos.y = 0;
 	player->collectibles = 0;
 	player->movements = 0;
-	player->moving = 0;
+	player->moving_up = 0;
+	player->moving_down = 0;
+	player->moving_left = 0;
+	player->moving_right = 0;
+	player->movement_iterations = 0;
+}
+
+void	update_player_movement(int key, t_player *player, int moving)
+{
+	if (key == UP_KEYCODE || key == K_KEYCODE || key == W_KEYCODE)
+		player->moving_up = moving;
+	else if (key == DOWN_KEYCODE || key == J_KEYCODE || key == S_KEYCODE)
+		player->moving_down = moving;
+	else if (key == LEFT_KEYCODE || key == H_KEYCODE || key == A_KEYCODE)
+		player->moving_left = moving;
+	else if (key == RIGHT_KEYCODE || key == L_KEYCODE || key == D_KEYCODE)
+		player->moving_right = moving;
+	player->movement_iterations = 0;
 }

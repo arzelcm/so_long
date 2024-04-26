@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 17:05:25 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/24 18:50:41 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:05:59 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,7 @@
 void	use_map(t_map *map, t_context *context);
 
 void	parse_map(t_map *map, t_context *context);
+
+void	move_map_position(long x_increment, long y_increment, t_context *context);
 
 #endif
