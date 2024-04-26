@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 22:33:02 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/26 18:01:56 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void	set_map(char *path, t_map *map)
 			line = get_next_line(fd, 0);
 		}
 		map->max_y++;
-		// update_loading("Loading map", ++i * map->max_x * sizeof(char) * 100 / map->size);
+		update_loading("Loading map", ++i * map->max_x * sizeof(char) * 100 / map->size);
 	}
 	safe_close(&fd);
 	if (!correct)
