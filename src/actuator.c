@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 21:19:12 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:31:33 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "mlx.h"
 #include "libft.h"
 #include "map_parser.h"
+#include "actuator.h"
 
 int	on_key_down(int key, t_context *context)
 {
@@ -37,7 +38,7 @@ void	check_player_movement(t_context *context)
 {
 	t_position pos;
 
-	if (context->map.player.movement_iterations++ % 700 != 0)
+	if (context->map.player.movement_iterations++ % KEY_ITERATION_DELAY != 0)
 		return ;
 	pos = context->map.player.pos;
 	if (context->map.player.moving_up)
@@ -58,4 +59,14 @@ int background_loop(t_context *context)
 	check_player_movement(context);
 	context->window.loop_iter++;
 	return (1);
+}
+
+void set_actuator(t_context *context)
+{
+	mlx_do_key_autorepeatoff(context->mlx);
+	mlx_hook(context->window.ref, 2, 1L << 0, on_key_down, context);
+	mlx_hook(context->window.ref, 3, 1L << 0, on_key_up, context);
+	mlx_hook(context->window.ref, 17, 0, on_destroy, NULL);
+	mlx_loop_hook(context->mlx, background_loop, context);
+	mlx_loop(context->mlx);
 }
