@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:32:36 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 21:17:46 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 21:10:23 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,16 @@
 
 typedef struct s_player
 {
-	t_position	pos;
-	size_t		collectibles;
-	int			moving_up;
-	int			moving_down;
-	int			moving_left;
-	int			moving_right;
-	size_t		movements;
-	size_t		movement_iterations;
-	t_texture	texture;
+	t_position		pos;
+	size_t			collectibles;
+	int				moving_up;
+	int				moving_down;
+	int				moving_left;
+	int				moving_right;
+	size_t			movements;
+	size_t			movement_iterations;
+	t_texture		texture;
+	unsigned int	acceleration;
 }	t_player;
 
 void	init_player(t_player *player);

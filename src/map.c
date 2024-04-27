@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 17:41:27 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:48:54 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,5 +296,6 @@ void	handle_map(char **argv, t_map *map)
 	check_extension(map);
 	set_map(argv[1], map);
 	check_map(map);
+	// TODO: Passar la norminette
 	// print_map(map);
 }

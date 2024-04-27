@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 12:17:25 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:34:44 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,37 @@ void game_over(t_player *player, t_map *map)
 		ft_printf("\a");
 }
 
+// TODO: tile should be an enum!!!
+int	check_collitions(t_map *map, char tile)
+{
+	if (tile == WALL)
+	{
+		map->player.acceleration = 0;
+		return (0);
+	}
+	else if (tile == COLLECTIBLE)
+	{
+		map->player.acceleration = 0;
+		map->player.collectibles++;
+		tile = EMPTY;
+	}
+	else if (tile == EXIT)
+	{
+		game_over(&map->player, map);
+		return (0);
+	}
+	return (1);
+}
+
 void	move_player(t_player *player, size_t x, size_t y, t_map *map)
 {
-	if (map->spaces[player->pos.y + y][player->pos.x + x] == WALL)
+	if (!check_collitions(map, map->spaces[player->pos.y + y][player->pos.x + x]))
 		return ;
-	else if (map->spaces[player->pos.y + y][player->pos.x + x] == COLLECTIBLE)
-	{
-		player->collectibles++;
-		map->spaces[player->pos.y + y][player->pos.x + x] = EMPTY;
-	}
-	else if (map->spaces[player->pos.y + y][player->pos.x + x] == EXIT)
-	{
-		game_over(player, map);
-		return;
-	}
 	map->spaces[player->pos.y][player->pos.x] = EMPTY;
 	player->pos.y += y;
 	player->pos.x += x;
 	player->movements++;
 	map->spaces[player->pos.y][player->pos.x] = PLAYER;
+	player->acceleration += 300 + 200 / player->acceleration;
 	ft_printf("\033[1A\033[2KMovements: %i\n", player->movements);
 }
