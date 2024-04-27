@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 21:33:16 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 22:47:06 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,20 @@ void	use_map(t_map *map, t_context *context)
 {
 	update_loading("Building map", 0);
 	init_texture(&map->wall, "./assets/textures/wall.xpm", context->mlx);
+	update_loading("Building map", 10);
 	init_texture(&map->empty_space, "./assets/textures/empty-space.xpm", context->mlx);
+	update_loading("Building map", 20);
 	init_texture(&map->collectible, "./assets/sprites/fish.xpm", context->mlx);
+	update_loading("Building map", 30);
 	init_texture(&map->exit, "./assets/sprites/bed.xpm", context->mlx);
+	update_loading("Building map", 50);
 	init_texture(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm", context->mlx);
-	update_loading("Building map", 100);
+	update_loading("Building map", 70);
 	set_window(&map->wall, &map->empty_space, map, context);
+	update_loading("Building map", 90);
 	set_map_initial_pos(map, context);
+	update_loading("Building map", 100);
 	parse_map(map, context);
+	ft_printf("\033[1A\033[2KMovements: %i\n", context->map.player.movements);
 	set_actuator(context);
 }
