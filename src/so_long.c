@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:58:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 21:08:19 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:26:13 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 #include "map_parser.h"
 #include "libft.h"
 #include "window.h"
+#include <signal.h>
+
+void	terminate(int sig)
+{
+	ft_printf("%i\n\033[?25h\n", sig);
+	exit(EXIT_FAILURE);
+}
 
 void	init_context(t_context *context)
 {
@@ -34,6 +41,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		custom_error("Incorrect arguments. Usage: ./so_long map.ber");
 	ft_printf("\033[?25l\n");
+	signal(SIGINT, terminate);
 	init_context(&context);
 	handle_map(argv, &context.map);
 	init_mlx(&context);

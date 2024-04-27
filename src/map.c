@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 17:09:31 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:23:07 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ void	find_accessible_elems(t_checking_status *check_status)
 	pthread_join(thread_id, NULL);
 	pthread_mutex_destroy(&check_status->iteration_mutex);
 	pthread_mutex_destroy(&check_status->checked_mutex);
-	exit(0);
 }
 
 int	has_valid_path_map(t_map *map)
