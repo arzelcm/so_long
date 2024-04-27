@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 16:06:36 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/25 11:55:14 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:34:01 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,5 @@
 
 void	update_loading(char *message, int value)
 {
-	ft_printf("\033[1A\033[2K%s... (%i / 100)\n", message, value);
+	ft_printf("\033[1A\033[2K%s --> [%i%%]\n", message, value);
 }

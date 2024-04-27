@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 17:23:07 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:41:27 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,11 @@ void	find_accessible_elems(t_checking_status *check_status)
 			push_pos(&stack, actual_stack->pos.x, actual_stack->pos.y - 1);
 		free(actual_stack);
 	}
-	update_loading("Checking map", 100);
 	pthread_mutex_lock(&check_status->checked_mutex);
 	map->checked = 1;
 	pthread_mutex_unlock(&check_status->checked_mutex);
 	pthread_join(thread_id, NULL);
+	update_loading("Checking map", 100);
 	pthread_mutex_destroy(&check_status->iteration_mutex);
 	pthread_mutex_destroy(&check_status->checked_mutex);
 }
@@ -248,7 +248,9 @@ void	set_map(char *path, t_map *map)
 			line = get_next_line(fd, 0);
 		}
 		map->max_y++;
-		update_loading("Loading map", ++i * map->max_x * sizeof(char) * 100 / map->size);
+		i++;
+		if (i % 100 == 0)
+			update_loading("Loading map", i * map->max_x * sizeof(char) * 100 / map->size);
 	}
 	safe_close(&fd);
 	if (!correct)
@@ -256,6 +258,7 @@ void	set_map(char *path, t_map *map)
 		ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n");
 		custom_error("map must be rectangular!");
 	}
+	update_loading("Loading map", 100);
 }
 
 void	check_extension(t_map *map)
