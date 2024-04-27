@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 18:01:56 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 17:09:31 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,57 @@ int	is_closed_map(t_map *map)
 	return (closed);
 }
 
-void	find_accessible_elems(t_map *map, t_elems *elems)
+void	*check_progress(void *param)
+{
+	size_t				iterations;
+	t_checking_status	*check_status;
+	size_t				i;
+	size_t				curr_iteration;
+	int					complete;
+
+	check_status = (t_checking_status *) param;
+	i = 1;
+	curr_iteration = 0;
+	complete = 0;
+	iterations = (check_status->map.max_x) * (check_status->map.max_x) - check_status->map.walls_amount - check_status->map.collectible_amount;
+	while(1)
+	{
+		if (i % 1000000 == 0)
+		{
+			pthread_mutex_lock(&check_status->checked_mutex);
+			complete = check_status->map.checked;
+			pthread_mutex_unlock(&check_status->checked_mutex);
+			if (complete)
+				return (NULL);
+			pthread_mutex_lock(&check_status->iteration_mutex);
+			curr_iteration = check_status->elems.iterations;
+			pthread_mutex_unlock(&check_status->iteration_mutex);
+			update_loading("Checking map", curr_iteration * 100 / iterations);
+		}
+		i++;
+	}
+	return(NULL);
+}
+
+void	find_accessible_elems(t_checking_status *check_status)
 {
 	t_pos_stack	*stack;
 	t_pos_stack	*actual_stack;
-	// size_t		i;
-	// size_t		iterations;
+	t_map	*map;
+	t_elems	*elems;
+	pthread_t	thread_id;
 
-	// iterations = map->max_x - 1 * map->max_x - 1 - map->walls_amount - map->collectible_amount;
-	// i = 0;
-	// TODO: Calculate loader in a thread
+	map = &check_status->map;
+	elems = &check_status->elems;
+	map->checked = 0;
+	pthread_mutex_init(&check_status->iteration_mutex, NULL);
+	pthread_mutex_init(&check_status->checked_mutex, NULL);
+	pthread_create(&thread_id, NULL, check_progress, check_status);
 	stack = new_pos(map->player.pos.x, map->player.pos.y);
 	while (stack)
 	{
 		actual_stack = stack;
 		stack = stack->next;
-		elems->iterations++;
 		if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == 'A' || map->spaces[actual_stack->pos.y][actual_stack->pos.x] == WALL)
 		{
 			free(actual_stack);
@@ -85,6 +120,9 @@ void	find_accessible_elems(t_map *map, t_elems *elems)
 		else if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == COLLECTIBLE)
 			elems->collectibles++;
 		map->spaces[actual_stack->pos.y][actual_stack->pos.x] = 'A';
+		pthread_mutex_lock(&check_status->iteration_mutex);
+		elems->iterations++;
+		pthread_mutex_unlock(&check_status->iteration_mutex);
 		if (map->spaces[actual_stack->pos.y][actual_stack->pos.x + 1] != 'A'
 				&& map->spaces[actual_stack->pos.y][actual_stack->pos.x + 1] != WALL)
 			push_pos(&stack, actual_stack->pos.x + 1, actual_stack->pos.y);
@@ -98,25 +136,29 @@ void	find_accessible_elems(t_map *map, t_elems *elems)
 				&& map->spaces[actual_stack->pos.y - 1][actual_stack->pos.x] != WALL)
 			push_pos(&stack, actual_stack->pos.x, actual_stack->pos.y - 1);
 		free(actual_stack);
-		// update_loading("Checking map", ++i * 100 / iterations);
 	}
+	update_loading("Checking map", 100);
+	pthread_mutex_lock(&check_status->checked_mutex);
+	map->checked = 1;
+	pthread_mutex_unlock(&check_status->checked_mutex);
+	pthread_join(thread_id, NULL);
+	pthread_mutex_destroy(&check_status->iteration_mutex);
+	pthread_mutex_destroy(&check_status->checked_mutex);
+	exit(0);
 }
 
 int	has_valid_path_map(t_map *map)
 {
-	t_elems	elems;
-	t_map	accessible_map;
+	t_checking_status	check_status;
 
-	update_loading("Checking map", 0);
-	copy_map(&accessible_map, map);
-	elems.collectibles = 0;
-	elems.exit = 0;
-	elems.iterations = 0;
-	find_accessible_elems(&accessible_map, &elems);
-	terminate_map(&accessible_map);
-	update_loading("Checking map", 100);
-	return (elems.exit == map->exit_amount &&
-				elems.collectibles == map->collectible_amount);
+	copy_map(&check_status.map, map);
+	check_status.elems.collectibles = 0;
+	check_status.elems.exit = 0;
+	check_status.elems.iterations = 0;
+	find_accessible_elems(&check_status);
+	terminate_map(&check_status.map);
+	return (check_status.elems.exit == map->exit_amount &&
+				check_status.elems.collectibles == map->collectible_amount);
 }
 
 void	check_map(t_map *map)
@@ -242,6 +284,7 @@ void	init_map(t_map *map, char *path)
 	map->name = ft_substr(map->filename, 0, ft_strlen(map->filename) - 4);
 	map->position.y = 0;
 	map->position.x = 0;
+	map->checked = 0;
 	init_player(&map->player);
 }
 

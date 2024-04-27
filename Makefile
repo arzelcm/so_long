@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/25 15:09:02 by arcanava         ###   ########.fr        #
+#    Updated: 2024/04/27 17:01:24 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ CIAN = \033[1;36m
 
 #----COMPILER----#
 CC = cc
-CCFLAGS = -Wall -Werror -Wextra -g -O3 #-fsanitize=address
+CCFLAGS = -Wall -Werror -Wextra -g -O3 #-fsanitize=thread #-fsanitize=address
 
 #----DIRS----#
 BIN_DIR = bin/

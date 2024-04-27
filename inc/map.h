@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 21:18:28 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 16:56:09 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 # include "position.h"
 # include "player.h"
 # include "texture.h"
-#include <sys/stat.h>
+# include "position_stack.h"
+# include <sys/stat.h>
+# include <pthread.h>
 
 typedef struct s_lposition
 {
@@ -51,6 +53,7 @@ typedef struct s_map
 	off_t		size;
 	int			exit_amount;
 	int			player_amount;
+	int			checked;
 }	t_map;
 
 typedef struct s_accessible_elems
@@ -59,6 +62,15 @@ typedef struct s_accessible_elems
 	size_t		collectibles;
 	size_t		iterations;
 }	t_elems;
+
+typedef struct s_checking_status
+{
+	t_map			map;
+	t_elems			elems;
+	t_pos_stack		**stack;
+	pthread_mutex_t	checked_mutex;
+	pthread_mutex_t	iteration_mutex;
+}	t_checking_status;
 
 void		handle_map(char **argv, t_map *map);
 

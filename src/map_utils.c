@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 21:17:37 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/27 12:17:25 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	copy_map(t_map *dst, t_map *src)
 	dst->elems = NULL;
 	dst->max_x = src->max_x;
 	dst->max_y = src->max_y;
+	dst->walls_amount = src->walls_amount;
+	dst->collectible_amount = src->collectible_amount;
 	dst->player.pos.x = src->player.pos.x;
 	dst->player.pos.y = src->player.pos.y;
 }
