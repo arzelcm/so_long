@@ -6,14 +6,14 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 16:11:17 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 19:40:32 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:20:42 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "window.h"
 
-void init_window(t_window *window)
+void	init_window(t_window *window)
 {
 	window->height = 0;
 	window->width = 0;

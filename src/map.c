@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 19:48:54 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:20:04 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ void	print_map(t_map *map)
 
 	ft_printf("Opened map: %s\n", map->path);
 	i = -1;
-	(void) i;
-	// while (++i < map->max_y)
-	// 	ft_printf("%s\n", map->spaces[i]);
+	while (++i < map->max_y)
+		ft_printf("%s\n", map->spaces[i]);
 	ft_printf("Elems: %s\n", map->elems);
-	ft_printf("Player pos: (%i, %i)\n", map->player.pos.y, map->player.pos.x);
-	ft_printf("players: %i, exits: %i, collectibles: %i, walls: %i\n", map->player_amount, map->exit_amount, map->collectible_amount, map->walls_amount);
+	ft_printf("Player pos: (%i, %i)\n",
+		map->player.pos.y, map->player.pos.x);
+	ft_printf("players: %i, exits: %i, collectibles: %i, walls: %i\n",
+		map->player_amount, map->exit_amount,
+		map->collectible_amount, map->walls_amount);
 }
 
 int	is_closed_map(t_map *map)
@@ -66,8 +68,9 @@ void	*check_progress(void *param)
 	i = 1;
 	curr_iteration = 0;
 	complete = 0;
-	iterations = (check_status->map.max_x) * (check_status->map.max_x) - check_status->map.walls_amount - check_status->map.collectible_amount;
-	while(1)
+	iterations = (check_status->map.max_x) * (check_status->map.max_x)
+		- check_status->map.walls_amount - check_status->map.collectible_amount;
+	while (1)
 	{
 		if (i % 1000000 == 0)
 		{
@@ -83,15 +86,15 @@ void	*check_progress(void *param)
 		}
 		i++;
 	}
-	return(NULL);
+	return (NULL);
 }
 
 void	find_accessible_elems(t_checking_status *check_status)
 {
 	t_pos_stack	*stack;
 	t_pos_stack	*actual_stack;
-	t_map	*map;
-	t_elems	*elems;
+	t_map		*map;
+	t_elems		*elems;
 	pthread_t	thread_id;
 
 	map = &check_status->map;
@@ -105,7 +108,8 @@ void	find_accessible_elems(t_checking_status *check_status)
 	{
 		actual_stack = stack;
 		stack = stack->next;
-		if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == 'A' || map->spaces[actual_stack->pos.y][actual_stack->pos.x] == WALL)
+		if (map->spaces[actual_stack->pos.y][actual_stack->pos.x] == 'A'
+			|| map->spaces[actual_stack->pos.y][actual_stack->pos.x] == WALL)
 		{
 			free(actual_stack);
 			continue ;
@@ -156,8 +160,8 @@ int	has_valid_path_map(t_map *map)
 	check_status.elems.iterations = 0;
 	find_accessible_elems(&check_status);
 	terminate_map(&check_status.map);
-	return (check_status.elems.exit == map->exit_amount &&
-				check_status.elems.collectibles == map->collectible_amount);
+	return (check_status.elems.exit == map->exit_amount
+		&& check_status.elems.collectibles == map->collectible_amount);
 }
 
 void	check_map(t_map *map)
@@ -176,7 +180,8 @@ void	check_map(t_map *map)
 		message = "collectibles and exit must be acessible by player";
 	else
 		return ;
-	ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n%s: %s\n\033[?25h", map->path, message);
+	ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n%s: %s\n\033[?25h",
+		map->path, message);
 	exit(EXIT_FAILURE);
 }
 
@@ -192,15 +197,16 @@ void	push_elems(char *str, size_t i, t_map *map)
 		if (elem != WALL && elem != EMPTY && elem != PLAYER
 			&& elem != EXIT && elem != COLLECTIBLE)
 		{
-			ft_printff(STDERR_FILENO, "\033[1A\033[2KError\nin %s, %c: ", map->filename, elem);
-			custom_error("is not a valid map element. Only 1, 0, P, C and E are.");
+			ft_printff(STDERR_FILENO,
+				"\033[1A\033[2KError\nin %s, %c: is not a valid map element. ",
+				map->filename, elem);
+			custom_error("Only 1, 0, P, C and E are.");
 		}
 		else if (elem == PLAYER)
 		{
 			map->player_amount++;
 			map->player.pos.y = i;
 			map->player.pos.x = j;
-
 		}
 		else if (str[j] == WALL)
 			map->walls_amount++;
@@ -250,7 +256,8 @@ void	set_map(char *path, t_map *map)
 		map->max_y++;
 		i++;
 		if (i % 100 == 0)
-			update_loading("Loading map", i * map->max_x * sizeof(char) * 100 / map->size);
+			update_loading("Loading map",
+				i * map->max_x * sizeof(char) * 100 / map->size);
 	}
 	safe_close(&fd);
 	if (!correct)
@@ -296,6 +303,4 @@ void	handle_map(char **argv, t_map *map)
 	check_extension(map);
 	set_map(argv[1], map);
 	check_map(map);
-	// TODO: Passar la norminette
-	// print_map(map);
 }

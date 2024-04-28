@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:55:29 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 21:59:44 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:53:03 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 
 # include "context.h"
 
-void set_actuator(t_context *context);
+void	set_actuator(t_context *context);
 
 #endif

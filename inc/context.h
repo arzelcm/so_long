@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 18:32:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/26 20:11:04 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:51:24 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "map.h"
 # include "window.h"
+
 typedef struct s_context
 {
 	t_map		map;

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 22:34:44 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:58:16 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ void	terminate_map(t_map *map)
 		free(map->elems);
 }
 
-void game_over(t_player *player, t_map *map)
+void	game_over(t_player *player, t_map *map)
 {
 	if (player->collectibles == map->collectible_amount)
 	{
-		ft_printf("\033[1A\033[2KYEAH!!! YOU WON!\nMovements: %i\n\033[?25h", map->player.movements);
+		ft_printf("\033[1A\033[2KYEAH!!! YOU WON!\n");
+		ft_printf("Movements: %i\n\033[?25h", map->player.movements);
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -74,7 +75,8 @@ int	check_collitions(t_map *map, char tile)
 
 void	move_player(t_player *player, size_t x, size_t y, t_map *map)
 {
-	if (!check_collitions(map, map->spaces[player->pos.y + y][player->pos.x + x]))
+	if (!check_collitions(map,
+			map->spaces[player->pos.y + y][player->pos.x + x]))
 		return ;
 	map->spaces[player->pos.y][player->pos.x] = EMPTY;
 	player->pos.y += y;

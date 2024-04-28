@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 22:47:06 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:26:33 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,27 @@ void	init_texture(t_texture *texture, char *img_path, void *mlx)
 	texture->x_size = 0;
 	texture->y_size = 0;
 	texture->img = mlx_xpm_file_to_image(mlx, img_path,
-		&texture->x_size, &texture->y_size);
+			&texture->x_size, &texture->y_size);
 }
 
 void	set_window(t_texture *wall, t_texture *empty_space,
 			t_map *map, t_context *context)
 {
-	if (wall->x_size != wall->y_size || wall->x_size != empty_space->x_size || wall->y_size != empty_space->y_size)
-		custom_error("Texture .xpm images must be square and have exactly the same size!");
+	if (wall->x_size != wall->y_size || wall->x_size != empty_space->x_size
+		|| wall->y_size != empty_space->y_size)
+		custom_error(
+			"Texture images must be square and have exactly the same size!");
 	context->window.title = context->map.name;
 	context->window.width = empty_space->x_size * map->max_x;
 	context->window.height = empty_space->y_size * map->max_y;
 	if (context->window.width > WINDOW_MAX_WIDTH)
-		context->window.width = ft_closest_multiple(WINDOW_MAX_WIDTH, wall->x_size);
+		context->window.width = ft_closest_multiple(WINDOW_MAX_WIDTH,
+				wall->x_size);
 	if (context->window.height > WINDOW_MAX_HEIGHT)
-		context->window.height = ft_closest_multiple(WINDOW_MAX_HEIGHT, wall->y_size);
+		context->window.height = ft_closest_multiple(WINDOW_MAX_HEIGHT,
+				wall->y_size);
 	context->window.ref = mlx_new_window(context->mlx, context->window.width,
-							context->window.height, map->name);
+			context->window.height, map->name);
 }
 
 void	parse_map(t_map *map, t_context *context)
@@ -53,10 +57,11 @@ void	parse_map(t_map *map, t_context *context)
 
 	x_factr = map->empty_space.x_size;
 	y_factr = map->empty_space.y_size;
-	initial_y = ft_normalize(map->position.y, 0, map->max_y - context->window.height / y_factr);
-	initial_x = ft_normalize(map->position.x, 0, map->max_x - context->window.width / x_factr);
+	initial_y = ft_normalize(map->position.y, 0,
+			map->max_y - context->window.height / y_factr);
+	initial_x = ft_normalize(map->position.x, 0,
+			map->max_x - context->window.width / x_factr);
 	y = 0;
-	// TODO: Remove ??
 	mlx_clear_window(context->mlx, context->window.ref);
 	while (y < map->max_y && y < (size_t) context->window.height / y_factr)
 	{
@@ -103,12 +108,11 @@ void	set_map_initial_pos(t_map *map, t_context *context)
 
 	x_middle = context->window.width / 2 / map->wall.x_size;
 	y_middle = context->window.height / 2 / map->wall.y_size;
-
 	map->position.x = (long) map->player.pos.x - x_middle;
 	map->position.y = (long) map->player.pos.y - y_middle;
 }
 
-void	move_map_position(long x_increment, long y_increment, t_context *context)
+void	move_map_view(long x_increment, long y_increment, t_context *context)
 {
 	context->map.position.x += x_increment;
 	context->map.position.y += y_increment;
@@ -120,13 +124,15 @@ void	use_map(t_map *map, t_context *context)
 	update_loading("Building map", 0);
 	init_texture(&map->wall, "./assets/textures/wall.xpm", context->mlx);
 	update_loading("Building map", 10);
-	init_texture(&map->empty_space, "./assets/textures/empty-space.xpm", context->mlx);
+	init_texture(&map->empty_space, "./assets/textures/empty-space.xpm",
+		context->mlx);
 	update_loading("Building map", 20);
 	init_texture(&map->collectible, "./assets/sprites/fish.xpm", context->mlx);
 	update_loading("Building map", 30);
 	init_texture(&map->exit, "./assets/sprites/bed.xpm", context->mlx);
 	update_loading("Building map", 50);
-	init_texture(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm", context->mlx);
+	init_texture(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm",
+		context->mlx);
 	update_loading("Building map", 70);
 	set_window(&map->wall, &map->empty_space, map, context);
 	update_loading("Building map", 90);

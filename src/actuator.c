@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 22:01:04 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:03:15 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	check_player_movement(t_context *context)
 {
 	t_position	pos;
 
-	if (context->map.player.movement_iterations++ % ft_normalize(KEY_ITERATION_DELAY - context->map.player.acceleration, 2, KEY_ITERATION_DELAY) != 0)
+	if (context->map.player.movement_iterations++
+		% ft_normalize(KEY_ITERATION_DELAY - context->map.player.acceleration,
+			2, KEY_ITERATION_DELAY) != 0)
 		return ;
 	pos = context->map.player.pos;
 	if (context->map.player.moving_up)
@@ -31,12 +33,13 @@ void	check_player_movement(t_context *context)
 		move_player(&context->map.player, -1, 0, &context->map);
 	if (context->map.player.moving_right)
 		move_player(&context->map.player, 1, 0, &context->map);
-	if (pos.y != context->map.player.pos.y || pos.x != context->map.player.pos.x)
-		move_map_position(context->map.player.pos.x - pos.x,
+	if (pos.y != context->map.player.pos.y
+		|| pos.x != context->map.player.pos.x)
+		move_map_view(context->map.player.pos.x - pos.x,
 			context->map.player.pos.y - pos.y, context);
 }
 
-int background_loop(t_context *context)
+int	background_loop(t_context *context)
 {
 	check_player_movement(context);
 	context->window.loop_iter++;
@@ -61,7 +64,7 @@ int	on_key_up(int key, t_context *context)
 	return (1);
 }
 
-void set_actuator(t_context *context)
+void	set_actuator(t_context *context)
 {
 	mlx_do_key_autorepeatoff(context->mlx);
 	mlx_hook(context->window.ref, 2, 1L << 0, on_key_down, context);
