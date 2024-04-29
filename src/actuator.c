@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 11:54:34 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:18:56 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	background_loop(t_context *context)
 
 int	on_key_down(int key, t_context *context)
 {
-	ft_printf("key: %d\n\n", key);
 	if (key == ESC_KEYCODE)
 	{
 		mlx_destroy_window(context->mlx, context->window.ref);
@@ -60,7 +59,7 @@ int	on_key_down(int key, t_context *context)
 
 int	on_key_up(int key, t_context *context)
 {
-	update_player_movement(key, &context->map.player, 0);
+	update_player_movement(key, &context->map.player, -1);
 	return (1);
 }
 
