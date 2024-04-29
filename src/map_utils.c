@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 10:32:06 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:50:37 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,17 @@ void	terminate_map(t_map *map)
 		free(map->elems);
 }
 
-void	game_over(t_player *player, t_map *map)
+void	check_game_over(t_player *player, t_map *map, char tile)
 {
-	if (player->collectibles == map->collectible_amount)
+	if (tile == EXIT && player->collectibles == map->collectible_amount)
 	{
-		ft_printf("\033[1A\033[2KYEAH!!! YOU WON!\n");
+		ft_printf("\033[1A\033[2KYEAH!!! YOU WON! :)\n");
 		ft_printf("Movements: %i\n\033[?25h", map->player.movements);
+		exit(EXIT_SUCCESS);
+	}
+	else if (tile == ENEMY)
+	{
+		ft_printf("\033[1A\033[2KYOU LOST! :(\n\033[?25h");
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -65,9 +70,14 @@ int	check_collitions(t_map *map, char tile)
 		map->player.collectibles++;
 		tile = EMPTY;
 	}
+	else if (tile == ENEMY)
+	{
+		check_game_over(&map->player, map, tile);
+		return (0);
+	}
 	else if (tile == EXIT)
 	{
-		game_over(&map->player, map);
+		check_game_over(&map->player, map, tile);
 		return (0);
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 08:40:51 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:37:53 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,12 +196,12 @@ void	push_elems(char *str, size_t i, t_map *map)
 	{
 		elem = str[j];
 		if (elem != WALL && elem != EMPTY && elem != PLAYER
-			&& elem != EXIT && elem != COLLECTIBLE)
+			&& elem != EXIT && elem != COLLECTIBLE && elem != ENEMY)
 		{
 			ft_printff(STDERR_FILENO,
 				"\033[1A\033[2KError\nin %s, %c: is not a valid map element. ",
 				map->filename, elem);
-			custom_error("Only 1, 0, P, C and E are.");
+			custom_error("Only 1, 0, P, C, M and E are.");
 		}
 		else if (elem == PLAYER)
 		{

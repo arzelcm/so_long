@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/28 14:26:33 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:43:20 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,13 @@ void	parse_map(t_map *map, t_context *context)
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->player.texture.img, x * x_factr, y * y_factr);
 			}
+			else if (map->spaces[y + initial_y][x + initial_x] == ENEMY)
+			{
+				mlx_put_image_to_window(context->mlx, context->window.ref,
+					map->empty_space.img, x * x_factr, y * y_factr);
+				mlx_put_image_to_window(context->mlx, context->window.ref,
+					map->enemy.img, x * x_factr, y * y_factr);
+			}
 			x++;
 		}
 		y++;
@@ -132,6 +139,8 @@ void	use_map(t_map *map, t_context *context)
 	init_texture(&map->exit, "./assets/sprites/bed.xpm", context->mlx);
 	update_loading("Building map", 50);
 	init_texture(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm",
+		context->mlx);
+	init_texture(&map->enemy, "./assets/textures/enemy.xpm",
 		context->mlx);
 	update_loading("Building map", 70);
 	set_window(&map->wall, &map->empty_space, map, context);
