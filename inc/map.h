@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 16:56:09 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:43:11 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,6 @@
 # include "position_stack.h"
 # include <sys/stat.h>
 # include <pthread.h>
-
-typedef struct s_lposition
-{
-	long	y;
-	long	x;
-}	t_lposition;
 
 typedef struct s_map
 {

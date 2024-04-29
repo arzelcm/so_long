@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 10:30:18 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:54:34 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@ void	check_player_movement(t_context *context)
 			2, KEY_ITERATION_DELAY) != 0)
 		return ;
 	pos = context->map.player.pos;
-	if (context->map.player.moving_up)
+	if (context->map.player.moving_up && !context->map.player.moving_down)
 		move_player(&context->map.player, 0, -1, &context->map);
-	if (context->map.player.moving_down)
+	if (context->map.player.moving_down && !context->map.player.moving_up)
 		move_player(&context->map.player, 0, 1, &context->map);
-	if (context->map.player.moving_left)
+	if (context->map.player.moving_left && !context->map.player.moving_right)
 		move_player(&context->map.player, -1, 0, &context->map);
-	if (context->map.player.moving_right)
+	if (context->map.player.moving_right && !context->map.player.moving_left)
 		move_player(&context->map.player, 1, 0, &context->map);
-	if (pos.y != context->map.player.pos.y
-		|| pos.x != context->map.player.pos.x)
+	if (pos.y != context->map.player.pos.y || pos.x != context->map.player.pos.x)
 		move_map_view(context->map.player.pos.x - pos.x,
 			context->map.player.pos.y - pos.y, context);
 }
