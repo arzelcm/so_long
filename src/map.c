@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/28 14:20:04 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 08:40:51 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	*check_progress(void *param)
 		}
 		i++;
 	}
+	// TODO: Detach 
 	return (NULL);
 }
 

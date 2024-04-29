@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/28 13:58:16 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:32:06 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,6 @@ void	move_player(t_player *player, size_t x, size_t y, t_map *map)
 	player->pos.x += x;
 	player->movements++;
 	map->spaces[player->pos.y][player->pos.x] = PLAYER;
-	player->acceleration += 300 + 200 / player->acceleration;
+	player->acceleration += 300 + 200 / (player->acceleration + 1);
 	ft_printf("\033[1A\033[2KMovements: %i\n", player->movements);
 }

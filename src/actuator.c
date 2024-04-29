@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/28 14:03:15 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:30:18 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	background_loop(t_context *context)
 
 int	on_key_down(int key, t_context *context)
 {
+	ft_printf("key: %d\n\n", key);
 	if (key == ESC_KEYCODE)
 	{
 		mlx_destroy_window(context->mlx, context->window.ref);
@@ -68,7 +69,7 @@ void	set_actuator(t_context *context)
 {
 	mlx_do_key_autorepeatoff(context->mlx);
 	mlx_hook(context->window.ref, 2, 1L << 0, on_key_down, context);
-	mlx_hook(context->window.ref, 3, 1L << 0, on_key_up, context);
+	mlx_hook(context->window.ref, 3, 1L << 1, on_key_up, context);
 	mlx_hook(context->window.ref, 17, 0, on_destroy, NULL);
 	mlx_loop_hook(context->mlx, background_loop, context);
 	mlx_loop(context->mlx);
