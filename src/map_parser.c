@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 16:41:08 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 18:11:20 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "libft.h"
 #include "window.h"
 #include "so_long.h"
+#include "limits.h"
 
 void	init_texture(t_texture *texture, char *img_path, void *mlx)
 {
@@ -44,6 +45,24 @@ void	set_window(t_texture *wall, t_texture *empty_space,
 				wall->y_size);
 	context->window.ref = mlx_new_window(context->mlx, context->window.width,
 			context->window.height, map->name);
+}
+
+void	put_moves(t_context *context)
+{
+	// unsigned long	num;
+	// char	actual;
+
+	// num = context->map.player.movements;
+	// // while (num > 0)
+	// // {
+	// // 	actual = num % 10 + '0';
+	// // 	ft_printf("nuuum: %c\n\n", actual);
+	// // 	num /= 10;
+	// // }
+	printf("long: %ld, ltoa: %s\n\n", LONG_MIN, ft_ltoa(LONG_MIN));
+	mlx_put_image_to_window(context->mlx, context->window.ref,
+					context->map.enemy.img, context->window.width / 2, context->window.height / 2);
+	mlx_string_put(context->mlx, context->window.ref, 0, context->window.width / 2, context->window.height / 2, ft_itoa(context->map.player.movements));
 }
 
 void	parse_map(t_map *map, t_context *context)
@@ -106,6 +125,7 @@ void	parse_map(t_map *map, t_context *context)
 		}
 		y++;
 	}
+	put_moves(context);
 }
 
 void	set_map_initial_pos(t_map *map, t_context *context)
