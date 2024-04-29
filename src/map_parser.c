@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 15:43:20 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:41:08 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	move_map_view(long x_increment, long y_increment, t_context *context)
 void	use_map(t_map *map, t_context *context)
 {
 	update_loading("Building map", 0);
-	init_texture(&map->wall, "./assets/textures/wall.xpm", context->mlx);
+	init_texture(&map->wall, "./assets/textures/waterfall.xpm", context->mlx);
 	update_loading("Building map", 10);
 	init_texture(&map->empty_space, "./assets/textures/empty-space.xpm",
 		context->mlx);
@@ -140,7 +140,7 @@ void	use_map(t_map *map, t_context *context)
 	update_loading("Building map", 50);
 	init_texture(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm",
 		context->mlx);
-	init_texture(&map->enemy, "./assets/textures/enemy.xpm",
+	init_texture(&map->enemy, "./assets/textures/wall.xpm",
 		context->mlx);
 	update_loading("Building map", 70);
 	set_window(&map->wall, &map->empty_space, map, context);
