@@ -22,7 +22,7 @@ void	check_player_movement(t_context *context)
 
 	if (context->map.player.movement_iterations++
 		% ft_normalize(KEY_ITERATION_DELAY - context->map.player.acceleration,
-			2, KEY_ITERATION_DELAY) != 0)
+			1, KEY_ITERATION_DELAY) != 0)
 		return ;
 	pos = context->map.player.pos;
 	if (context->map.player.moving_up && !context->map.player.moving_down)

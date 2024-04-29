@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:35:59 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 12:13:30 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:19:21 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ void	init_player(t_player *player)
 void	update_player_movement(int key, t_player *player, int moving)
 {
 
-	player->movement_iterations = 0;
-	player->acceleration = 0;
+	if (moving == 1)
+	{
+		player->movement_iterations = 0;
+		player->acceleration = 0;
+	}
 	if (key == UP_KEYCODE || key == K_KEYCODE || key == W_KEYCODE)
 		player->moving_up += moving;
 	else if (key == DOWN_KEYCODE || key == J_KEYCODE || key == S_KEYCODE)
