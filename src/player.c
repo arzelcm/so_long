@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:35:59 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 13:19:21 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 22:49:57 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	init_player(t_player *player)
 
 void	update_player_movement(int key, t_player *player, int moving)
 {
-
 	if (moving == 1)
 	{
 		player->movement_iterations = 0;

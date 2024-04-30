@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 15:37:53 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 22:53:44 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,31 +62,25 @@ void	*check_progress(void *param)
 	t_checking_status	*check_status;
 	size_t				i;
 	size_t				curr_iteration;
-	int					complete;
 
 	check_status = (t_checking_status *) param;
-	i = 1;
-	curr_iteration = 0;
-	complete = 0;
+	i = 0;
 	iterations = (check_status->map.max_x) * (check_status->map.max_x)
 		- check_status->map.walls_amount - check_status->map.collectible_amount;
 	while (1)
 	{
-		if (i % 1000000 == 0)
+		if (i++ % 1000000 == 0)
 		{
 			pthread_mutex_lock(&check_status->checked_mutex);
-			complete = check_status->map.checked;
-			pthread_mutex_unlock(&check_status->checked_mutex);
-			if (complete)
+			if (check_status->map.checked)
 				return (NULL);
+			pthread_mutex_unlock(&check_status->checked_mutex);
 			pthread_mutex_lock(&check_status->iteration_mutex);
 			curr_iteration = check_status->elems.iterations;
 			pthread_mutex_unlock(&check_status->iteration_mutex);
 			update_loading("Checking map", curr_iteration * 100 / iterations);
 		}
-		i++;
 	}
-	// TODO: Detach 
 	return (NULL);
 }
 
@@ -104,6 +98,7 @@ void	find_accessible_elems(t_checking_status *check_status)
 	pthread_mutex_init(&check_status->iteration_mutex, NULL);
 	pthread_mutex_init(&check_status->checked_mutex, NULL);
 	pthread_create(&thread_id, NULL, check_progress, check_status);
+	pthread_detach(thread_id);
 	stack = new_pos(map->player.pos.x, map->player.pos.y);
 	while (stack)
 	{
@@ -145,7 +140,6 @@ void	find_accessible_elems(t_checking_status *check_status)
 	pthread_mutex_lock(&check_status->checked_mutex);
 	map->checked = 1;
 	pthread_mutex_unlock(&check_status->checked_mutex);
-	pthread_join(thread_id, NULL);
 	update_loading("Checking map", 100);
 	pthread_mutex_destroy(&check_status->iteration_mutex);
 	pthread_mutex_destroy(&check_status->checked_mutex);

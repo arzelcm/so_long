@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   font.h                                             :+:      :+:    :+:   */
+/*   background_worker.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/30 14:52:48 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 22:14:49 by arcanava         ###   ########.fr       */
+/*   Created: 2024/04/30 22:22:11 by arcanava          #+#    #+#             */
+/*   Updated: 2024/04/30 22:25:47 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FONT_H
-# define FONT_H
+#ifndef BACKGROUND_WORKER_H
+# define BACKGROUND_WORKER_H
 
-# define NUMBERS_AMOUNT 10
+# define KEY_ITERATION_DELAY 2000
 
-# include "image.h"
+# include "context.h"
 
-typedef struct s_font
-{
-	t_image	numbers[NUMBERS_AMOUNT];
-}	t_font;
+int	background_loop(t_context *context);
 
 #endif

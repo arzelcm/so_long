@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 21:44:43 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 22:51:51 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 
 void	set_window(t_map *map, t_context *context)
 {
-	if (map->wall->image.x_size != map->wall->image.y_size || map->wall->image.x_size != map->empty_space.x_size
+	if (map->wall->image.x_size != map->wall->image.y_size
+		|| map->wall->image.x_size != map->empty_space.x_size
 		|| map->wall->image.y_size != map->empty_space.y_size)
 		custom_error(
 			"Texture images must be square and have exactly the same size!");
@@ -53,14 +54,15 @@ void	put_moves(t_context *context)
 		num /= 10;
 	}
 	num = context->map.player.movements;
-	base_width = context->window.width / 2 - context->font.numbers[0].x_size * digits / 2;
+	base_width = context->window.width / 2
+		- context->font.numbers[0].x_size * digits / 2;
 	while (num > 0)
 	{
 		actual = num % 10;
 		mlx_put_image_to_window(context->mlx, context->window.ref,
-				context->font.numbers[actual].ref,
-				base_width + context->font.numbers[actual].x_size * (digits - 1),
-				context->window.height - context->font.numbers[actual].y_size);
+			context->font.numbers[actual].ref,
+			base_width + context->font.numbers[actual].x_size * (digits - 1),
+			context->window.height - context->font.numbers[actual].y_size);
 		digits--;
 		num /= 10;
 	}
@@ -134,10 +136,14 @@ void	move_map_view(long x_increment, long y_increment, t_context *context)
 void	set_wall_sprite(t_context *context)
 {
 	context->map.wall = NULL;
-	push_sprite(&context->map.wall, "./assets/sprites/waterfall1.xpm", context->mlx);
-	push_sprite(&context->map.wall, "./assets/sprites/waterfall2.xpm", context->mlx);
-	push_sprite(&context->map.wall, "./assets/sprites/waterfall3.xpm", context->mlx);
-	push_sprite(&context->map.wall, "./assets/sprites/waterfall4.xpm", context->mlx);
+	push_sprite(&context->map.wall,
+		"./assets/sprites/waterfall1.xpm", context->mlx);
+	push_sprite(&context->map.wall,
+		"./assets/sprites/waterfall2.xpm", context->mlx);
+	push_sprite(&context->map.wall,
+		"./assets/sprites/waterfall3.xpm", context->mlx);
+	push_sprite(&context->map.wall,
+		"./assets/sprites/waterfall4.xpm", context->mlx);
 }
 
 void	use_map(t_map *map, t_context *context)
