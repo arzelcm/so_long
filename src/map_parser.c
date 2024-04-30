@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 18:11:20 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 16:13:39 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,7 @@
 #include "so_long.h"
 #include "limits.h"
 
-void	init_texture(t_texture *texture, char *img_path, void *mlx)
-{
-	texture->x_size = 0;
-	texture->y_size = 0;
-	texture->img = mlx_xpm_file_to_image(mlx, img_path,
-			&texture->x_size, &texture->y_size);
-}
-
-void	set_window(t_texture *wall, t_texture *empty_space,
+void	set_window(t_image *wall, t_image *empty_space,
 			t_map *map, t_context *context)
 {
 	if (wall->x_size != wall->y_size || wall->x_size != empty_space->x_size
@@ -49,20 +41,30 @@ void	set_window(t_texture *wall, t_texture *empty_space,
 
 void	put_moves(t_context *context)
 {
-	// unsigned long	num;
-	// char	actual;
+	unsigned long	num;
+	int				actual;
+	int				digits;
+	int				base_width;
 
-	// num = context->map.player.movements;
-	// // while (num > 0)
-	// // {
-	// // 	actual = num % 10 + '0';
-	// // 	ft_printf("nuuum: %c\n\n", actual);
-	// // 	num /= 10;
-	// // }
-	printf("long: %ld, ltoa: %s\n\n", LONG_MIN, ft_ltoa(LONG_MIN));
-	mlx_put_image_to_window(context->mlx, context->window.ref,
-					context->map.enemy.img, context->window.width / 2, context->window.height / 2);
-	mlx_string_put(context->mlx, context->window.ref, 0, context->window.width / 2, context->window.height / 2, ft_itoa(context->map.player.movements));
+	num = context->map.player.movements;
+	digits = 0;
+	while (num > 0)
+	{
+		digits++;
+		num /= 10;
+	}
+	num = context->map.player.movements;
+	base_width = context->window.width / 2 - context->font.numbers[0].x_size * digits / 2;
+	while (num > 0)
+	{
+		actual = num % 10;
+		mlx_put_image_to_window(context->mlx, context->window.ref,
+				context->font.numbers[actual].img,
+				base_width + context->font.numbers[actual].x_size * (digits - 1),
+				context->window.height - context->font.numbers[actual].y_size);
+		digits--;
+		num /= 10;
+	}
 }
 
 void	parse_map(t_map *map, t_context *context)
@@ -87,40 +89,24 @@ void	parse_map(t_map *map, t_context *context)
 		x = 0;
 		while (x < map->max_x && x < (size_t) context->window.width / x_factr)
 		{
-			if (map->spaces[y + initial_y][x + initial_x] == EMPTY)
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->empty_space.img, x * x_factr, y * y_factr);
-			else if (map->spaces[y + initial_y][x + initial_x] == WALL)
+			if (map->spaces[y + initial_y][x + initial_x] == WALL)
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->wall.img, x * x_factr, y * y_factr);
-			else if (map->spaces[y + initial_y][x + initial_x] == EXIT)
-			{
+			else
 				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->empty_space.img, x * x_factr, y * y_factr);
+				map->empty_space.img, x * x_factr, y * y_factr);
+			if (map->spaces[y + initial_y][x + initial_x] == EXIT)
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->exit.img, x * x_factr, y * y_factr);
-			}
 			else if (map->spaces[y + initial_y][x + initial_x] == COLLECTIBLE)
-			{
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->empty_space.img, x * x_factr, y * y_factr);
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->collectible.img, x * x_factr, y * y_factr);
-			}
 			else if (map->spaces[y + initial_y][x + initial_x] == PLAYER)
-			{
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->empty_space.img, x * x_factr, y * y_factr);
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->player.texture.img, x * x_factr, y * y_factr);
-			}
 			else if (map->spaces[y + initial_y][x + initial_x] == ENEMY)
-			{
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->empty_space.img, x * x_factr, y * y_factr);
 				mlx_put_image_to_window(context->mlx, context->window.ref,
 					map->enemy.img, x * x_factr, y * y_factr);
-			}
 			x++;
 		}
 		y++;
@@ -149,18 +135,18 @@ void	move_map_view(long x_increment, long y_increment, t_context *context)
 void	use_map(t_map *map, t_context *context)
 {
 	update_loading("Building map", 0);
-	init_texture(&map->wall, "./assets/textures/waterfall.xpm", context->mlx);
+	init_image(&map->wall, "./assets/textures/waterfall.xpm", context->mlx);
 	update_loading("Building map", 10);
-	init_texture(&map->empty_space, "./assets/textures/empty-space.xpm",
+	init_image(&map->empty_space, "./assets/textures/empty-space.xpm",
 		context->mlx);
 	update_loading("Building map", 20);
-	init_texture(&map->collectible, "./assets/sprites/fish.xpm", context->mlx);
+	init_image(&map->collectible, "./assets/sprites/fish.xpm", context->mlx);
 	update_loading("Building map", 30);
-	init_texture(&map->exit, "./assets/sprites/bed.xpm", context->mlx);
+	init_image(&map->exit, "./assets/sprites/bed.xpm", context->mlx);
 	update_loading("Building map", 50);
-	init_texture(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm",
+	init_image(&map->player.texture, "./assets/sprites/nuu-i-pussi.xpm",
 		context->mlx);
-	init_texture(&map->enemy, "./assets/textures/wall.xpm",
+	init_image(&map->enemy, "./assets/textures/wall.xpm",
 		context->mlx);
 	update_loading("Building map", 70);
 	set_window(&map->wall, &map->empty_space, map, context);

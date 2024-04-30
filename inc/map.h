@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 15:36:17 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:08:52 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "stddef.h"
 # include "position.h"
 # include "player.h"
-# include "texture.h"
+# include "image.h"
 # include "position_stack.h"
 # include <sys/stat.h>
 # include <pthread.h>
@@ -36,11 +36,11 @@ typedef struct s_map
 	char		*name;
 	char		**spaces;
 	char		*elems;
-	t_texture	wall;
-	t_texture	empty_space;
-	t_texture	collectible;
-	t_texture	exit;
-	t_texture	enemy;
+	t_image	wall;
+	t_image	empty_space;
+	t_image	collectible;
+	t_image	exit;
+	t_image	enemy;
 	t_lposition	position;
 	size_t		max_y;
 	size_t		max_x;

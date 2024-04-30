@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context.h                                          :+:      :+:    :+:   */
+/*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 18:32:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 15:22:15 by arcanava         ###   ########.fr       */
+/*   Created: 2024/04/30 15:03:12 by arcanava          #+#    #+#             */
+/*   Updated: 2024/04/30 15:13:39 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONTEXT_H
-# define CONTEXT_H
+#include "image.h"
+#include "mlx.h"
 
-# include "map.h"
-# include "window.h"
-# include "font.h"
-
-typedef struct s_context
+t_image *init_image(t_image *image, char *img_path, void *mlx)
 {
-	t_map		map;
-	void		*mlx;
-	t_window	window;
-	t_font		font;
-}	t_context;
-
-void	init_context(t_context *context);
-
-#endif
+	image->x_size = 0;
+	image->y_size = 0;
+	image->img = mlx_xpm_file_to_image(mlx, img_path,
+			&image->x_size, &image->y_size);
+	return (image);
+}

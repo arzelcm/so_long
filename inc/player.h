@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 15:32:36 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/27 21:10:23 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 15:08:52 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define PLAYER_H
 
 # include "position.h"
-# include "texture.h"
+# include "image.h"
 
 typedef struct s_player
 {
@@ -26,7 +26,7 @@ typedef struct s_player
 	int				moving_right;
 	size_t			movements;
 	size_t			movement_iterations;
-	t_texture		texture;
+	t_image		texture;
 	unsigned int	acceleration;
 }	t_player;
 

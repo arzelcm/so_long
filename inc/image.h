@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context.h                                          :+:      :+:    :+:   */
+/*   image.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/09 18:32:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 15:22:15 by arcanava         ###   ########.fr       */
+/*   Created: 2024/04/24 18:45:07 by arcanava          #+#    #+#             */
+/*   Updated: 2024/04/30 15:11:10 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONTEXT_H
-# define CONTEXT_H
+#ifndef TEXTURE_H
+# define TEXTURE_H
 
-# include "map.h"
-# include "window.h"
-# include "font.h"
-
-typedef struct s_context
+typedef struct s_image
 {
-	t_map		map;
-	void		*mlx;
-	t_window	window;
-	t_font		font;
-}	t_context;
+	int		x_size;
+	int		y_size;
+	void	*img;
+}	t_image;
 
-void	init_context(t_context *context);
+t_image *init_image(t_image *image, char *img_path, void *mlx);
 
 #endif
