@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   image.h                                            :+:      :+:    :+:   */
+/*   sprite.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 18:45:07 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 21:12:33 by arcanava         ###   ########.fr       */
+/*   Created: 2024/04/30 18:48:43 by arcanava          #+#    #+#             */
+/*   Updated: 2024/04/30 21:50:27 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEXTURE_H
-# define TEXTURE_H
+#ifndef SPRITE_H
+# define SPRITE_H
 
-typedef struct s_image
+#include "image.h"
+
+typedef struct s_sprite
 {
-	int		x_size;
-	int		y_size;
-	void	*ref;
-}	t_image;
+	t_image 		image;
+	struct s_sprite	*next;
+} t_sprite;
 
-t_image *set_image(t_image *image, char *img_path, void *mlx);
+void	push_sprite(t_sprite	**sprite, char *path, void *mlx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:53:52 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 12:18:56 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 21:51:53 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,18 @@ void	check_player_movement(t_context *context)
 			context->map.player.pos.y - pos.y, context);
 }
 
+void	update_sprites(t_context *context)
+{
+	if (context->window.loop_iter % 5500)
+		return ;
+	context->map.wall = context->map.wall->next;
+	parse_map(&context->map, context);
+}
+
 int	background_loop(t_context *context)
 {
 	check_player_movement(context);
+	update_sprites(context);
 	context->window.loop_iter++;
 	return (1);
 }

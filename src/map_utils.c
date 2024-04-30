@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 18:08:16 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:37:54 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	check_game_over(t_player *player, t_map *map, char tile)
 		ft_printf("\a");
 }
 
-// TODO: tile should be an enum!!!
 int	check_collitions(t_map *map, char tile)
 {
 	if (tile == WALL)
