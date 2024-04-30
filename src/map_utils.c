@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/29 15:50:37 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:08:16 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	check_game_over(t_player *player, t_map *map, char tile)
 	if (tile == EXIT && player->collectibles == map->collectible_amount)
 	{
 		ft_printf("\033[1A\033[2KYEAH!!! YOU WON! :)\n");
-		ft_printf("Movements: %i\n\033[?25h", map->player.movements);
+		ft_printf("Movements: %l\n\033[?25h", map->player.movements);
 		exit(EXIT_SUCCESS);
 	}
 	else if (tile == ENEMY)
@@ -94,5 +94,5 @@ void	move_player(t_player *player, size_t x, size_t y, t_map *map)
 	player->movements++;
 	map->spaces[player->pos.y][player->pos.x] = PLAYER;
 	player->acceleration += 300 + 200 / (player->acceleration + 1);
-	ft_printf("\033[1A\033[2KMovements: %i\n", player->movements);
+	ft_printf("\033[1A\033[2KMovements: %l\n", player->movements);
 }

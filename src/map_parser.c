@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 16:13:39 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/04/30 18:08:06 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,6 @@ void	use_map(t_map *map, t_context *context)
 	set_map_initial_pos(map, context);
 	update_loading("Building map", 100);
 	parse_map(map, context);
-	ft_printf("\033[1A\033[2KMovements: %i\n", context->map.player.movements);
+	ft_printf("\033[1A\033[2KMovements: %l\n", context->map.player.movements);
 	set_actuator(context);
 }
