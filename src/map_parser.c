@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 22:51:51 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/01 22:56:39 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,12 @@ void	put_moves(t_context *context)
 	int				base_width;
 
 	num = context->map.player.movements;
-	digits = 0;
-	while (num > 0)
-	{
-		digits++;
-		num /= 10;
-	}
-	num = context->map.player.movements;
+	if (num == 0)
+		mlx_put_image_to_window(context->mlx, context->window.ref,
+			context->font.numbers[0].ref,
+			context->window.width / 2 - context->font.numbers[0].x_size / 2,
+			context->window.height - context->font.numbers[0].y_size);
+	digits = count_digits(num);
 	base_width = context->window.width / 2
 		- context->font.numbers[0].x_size * digits / 2;
 	while (num > 0)
