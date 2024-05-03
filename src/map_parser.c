@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/01 22:56:39 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/03 12:25:11 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,13 +136,13 @@ void	set_wall_sprite(t_context *context)
 {
 	context->map.wall = NULL;
 	push_sprite(&context->map.wall,
-		"./assets/sprites/waterfall1.xpm", context->mlx);
+		"./assets/sprites/waterfall/waterfall1.xpm", context->mlx);
 	push_sprite(&context->map.wall,
-		"./assets/sprites/waterfall2.xpm", context->mlx);
+		"./assets/sprites/waterfall/waterfall2.xpm", context->mlx);
 	push_sprite(&context->map.wall,
-		"./assets/sprites/waterfall3.xpm", context->mlx);
+		"./assets/sprites/waterfall/waterfall3.xpm", context->mlx);
 	push_sprite(&context->map.wall,
-		"./assets/sprites/waterfall4.xpm", context->mlx);
+		"./assets/sprites/waterfall/waterfall4.xpm", context->mlx);
 }
 
 void	use_map(t_map *map, t_context *context)
