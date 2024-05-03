@@ -6,7 +6,7 @@
 #    By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/29 11:50:28 by arcanava          #+#    #+#              #
-#    Updated: 2024/04/30 22:21:30 by arcanava         ###   ########.fr        #
+#    Updated: 2024/05/03 13:34:48 by arcanava         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,8 +99,8 @@ endif
 #----MACROS----#
 export GNL_BUFFER_SIZE := 50000
 ifeq ($(UNAME_S),Darwin)
-	WINDOW_MAX_WIDTH := $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print substr($$3, 2, length($$3)) - 70}')
-	WINDOW_MAX_HEIGHT := $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk '{print $$5 - 70}')
+	WINDOW_MAX_WIDTH := $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk 'NR==1{print substr($$3, 2, length($$3)) - 70}')
+	WINDOW_MAX_HEIGHT := $(shell system_profiler -json SPDisplaysDataType 2>/dev/null | grep _spdisplays_resolution | awk 'NR==1{print $$5 - 70}')
 	CCFLAGS += -D WINDOW_MAX_HEIGHT=$(WINDOW_MAX_HEIGHT) -D WINDOW_MAX_WIDTH=$(WINDOW_MAX_WIDTH)
 endif
 
@@ -113,7 +113,7 @@ all:
 ifndef BONUS
 $(NAME): $(MLX_LIB) $(LIBFT_LIB) $(OBJS)
 	@printf "$(BLUE)Linking objects and creating program...$(DEF_COLOR)\n"
-	@$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx $(DARWIN_FLAGS) -o $(NAME)
+	$(CC) $(CCFLAGS) $(OBJS) $(LIBFT_LIB) -L$(MLX_DIR) -lmlx $(DARWIN_FLAGS) -o $(NAME)
 	@echo "$(GREEN)[✓] $(PINK)$(NAME)$(GREEN) created!!!$(DEF_COLOR)"
 else
 $(NAME): $(MLX_LIB) $(LIBFT_LIB) $(BOBJS)
