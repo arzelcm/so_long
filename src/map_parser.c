@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/03 12:25:11 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:44:47 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,7 @@
 #include "libft.h"
 #include "window.h"
 #include "so_long.h"
-#include "limits.h"
-
-void	set_window(t_map *map, t_context *context)
-{
-	if (map->wall->image.x_size != map->wall->image.y_size
-		|| map->wall->image.x_size != map->empty_space.x_size
-		|| map->wall->image.y_size != map->empty_space.y_size)
-		custom_error(
-			"Texture images must be square and have exactly the same size!");
-	context->window.title = context->map.name;
-	context->window.width = map->empty_space.x_size * map->max_x;
-	context->window.height = map->empty_space.y_size * map->max_y;
-	if (context->window.width > WINDOW_MAX_WIDTH)
-		context->window.width = ft_closest_multiple(WINDOW_MAX_WIDTH,
-				map->wall->image.x_size);
-	if (context->window.height > WINDOW_MAX_HEIGHT)
-		context->window.height = ft_closest_multiple(WINDOW_MAX_HEIGHT,
-				map->wall->image.y_size);
-	context->window.ref = mlx_new_window(context->mlx, context->window.width,
-			context->window.height, map->name);
-}
+#include "camera.h"
 
 void	put_moves(t_context *context)
 {
@@ -114,24 +94,6 @@ void	parse_map(t_map *map, t_context *context)
 	put_moves(context);
 }
 
-void	set_map_initial_pos(t_map *map, t_context *context)
-{
-	long	x_middle;
-	long	y_middle;
-
-	x_middle = context->window.width / 2 / map->empty_space.x_size;
-	y_middle = context->window.height / 2 / map->empty_space.y_size;
-	map->position.x = (long) map->player.pos.x - x_middle;
-	map->position.y = (long) map->player.pos.y - y_middle;
-}
-
-void	move_map_view(long x_increment, long y_increment, t_context *context)
-{
-	context->map.position.x += x_increment;
-	context->map.position.y += y_increment;
-	parse_map(&context->map, context);
-}
-
 void	set_wall_sprite(t_context *context)
 {
 	context->map.wall = NULL;
@@ -162,9 +124,9 @@ void	use_map(t_map *map, t_context *context)
 	set_image(&map->enemy, "./assets/textures/wall.xpm",
 		context->mlx);
 	update_loading("Building map", 70);
-	set_window(map, context);
+	set_window(&context->window, map, context->mlx);
 	update_loading("Building map", 90);
-	set_map_initial_pos(map, context);
+	set_camera_initial_pos(map, context);
 	update_loading("Building map", 100);
 	parse_map(map, context);
 	ft_printf("\033[1A\033[2KMovements: %l\n", context->map.player.movements);

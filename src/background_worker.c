@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 22:20:02 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 22:26:04 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/03 13:46:02 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "context.h"
 #include "libft.h"
 #include "map_parser.h"
+#include "camera.h"
 
 void	check_player_movement(t_context *context)
 {
@@ -34,7 +35,7 @@ void	check_player_movement(t_context *context)
 		move_player(&context->map.player, 1, 0, &context->map);
 	if (pos.y != context->map.player.pos.y
 		|| pos.x != context->map.player.pos.x)
-		move_map_view(context->map.player.pos.x - pos.x,
+		move_camera(context->map.player.pos.x - pos.x,
 			context->map.player.pos.y - pos.y, context);
 }
 

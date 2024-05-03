@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_parser.h                                       :+:      :+:    :+:   */
+/*   camera.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 17:05:25 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/03 13:45:14 by arcanava         ###   ########.fr       */
+/*   Created: 2024/05/03 13:41:38 by arcanava          #+#    #+#             */
+/*   Updated: 2024/05/03 13:45:41 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_PARSER_H
-# define MAP_PARSER_H
+#ifndef CAMERA_H
+# define CAMERA_H
 
-# include "context.h"
+#include "context.h"
 
-void	use_map(t_map *map, t_context *context);
+void	set_camera_initial_pos(t_map *map, t_context *context);
 
-void	parse_map(t_map *map, t_context *context);
+void	move_camera(long x_increment, long y_increment, t_context *context);
 
 #endif
