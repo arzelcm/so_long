@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 19:22:06 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/04 13:09:51 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_checking_status
 	pthread_mutex_t	iteration_mutex;
 }	t_checking_status;
 
-void		handle_map(char **argv, t_map *map);
+void		set_map(char *path, t_map *map);
 
 void		terminate_map(t_map *map);
 
@@ -78,5 +78,9 @@ void		print_map(t_map *map);
 void		copy_map(t_map *dst, t_map *src);
 
 void		move_player(t_player *player, size_t x, size_t y, t_map *map);
+
+void		check_extension(t_map *map);
+
+void		check_map(t_map *map);
 
 #endif

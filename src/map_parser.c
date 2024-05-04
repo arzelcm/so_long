@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 11:39:11 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/03 13:44:47 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/04 11:09:49 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,46 +47,49 @@ void	put_moves(t_context *context)
 	}
 }
 
+void	put_image(char space, t_context *context, long x, long y)
+{
+	if (space == WALL)
+		mlx_put_image_to_window(context->mlx, context->window.ref,
+			context->map.wall->image.ref, x, y);
+	else
+		mlx_put_image_to_window(context->mlx, context->window.ref,
+			context->map.empty_space.ref, x, y);
+	if (space == EXIT)
+		mlx_put_image_to_window(context->mlx, context->window.ref,
+			context->map.exit.ref, x, y);
+	else if (space == COLLECTIBLE)
+		mlx_put_image_to_window(context->mlx, context->window.ref,
+			context->map.collectible.ref, x, y);
+	else if (space == PLAYER)
+		mlx_put_image_to_window(context->mlx, context->window.ref,
+			context->map.player.texture.ref, x, y);
+	else if (space == ENEMY)
+		mlx_put_image_to_window(context->mlx, context->window.ref,
+			context->map.enemy.ref, x, y);
+}
+
 void	parse_map(t_map *map, t_context *context)
 {
 	size_t		x;
 	size_t		y;
-	int			x_factr;
-	int			y_factr;
-	size_t		initial_y;
-	size_t		initial_x;
+	t_lposition	init_pos;
 
-	x_factr = map->empty_space.x_size;
-	y_factr = map->empty_space.y_size;
-	initial_y = ft_normalize(map->position.y, 0,
-			map->max_y - context->window.height / y_factr);
-	initial_x = ft_normalize(map->position.x, 0,
-			map->max_x - context->window.width / x_factr);
+	init_pos.y = ft_normalize(map->position.y, 0,
+			map->max_y - context->window.height / map->empty_space.y_size);
+	init_pos.x = ft_normalize(map->position.x, 0,
+			map->max_x - context->window.width / map->empty_space.x_size);
 	y = 0;
 	mlx_clear_window(context->mlx, context->window.ref);
-	while (y < map->max_y && y < (size_t) context->window.height / y_factr)
+	while (y < map->max_y
+		&& y < (size_t) context->window.height / map->empty_space.y_size)
 	{
 		x = 0;
-		while (x < map->max_x && x < (size_t) context->window.width / x_factr)
+		while (x < map->max_x
+			&& x < (size_t) context->window.width / map->empty_space.x_size)
 		{
-			if (map->spaces[y + initial_y][x + initial_x] == WALL)
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->wall->image.ref, x * x_factr, y * y_factr);
-			else
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->empty_space.ref, x * x_factr, y * y_factr);
-			if (map->spaces[y + initial_y][x + initial_x] == EXIT)
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->exit.ref, x * x_factr, y * y_factr);
-			else if (map->spaces[y + initial_y][x + initial_x] == COLLECTIBLE)
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->collectible.ref, x * x_factr, y * y_factr);
-			else if (map->spaces[y + initial_y][x + initial_x] == PLAYER)
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->player.texture.ref, x * x_factr, y * y_factr);
-			else if (map->spaces[y + initial_y][x + initial_x] == ENEMY)
-				mlx_put_image_to_window(context->mlx, context->window.ref,
-					map->enemy.ref, x * x_factr, y * y_factr);
+			put_image(map->spaces[y + init_pos.y][x + init_pos.x], context,
+				x * map->empty_space.x_size, y * map->empty_space.y_size);
 			x++;
 		}
 		y++;
@@ -128,7 +131,6 @@ void	use_map(t_map *map, t_context *context)
 	update_loading("Building map", 90);
 	set_camera_initial_pos(map, context);
 	update_loading("Building map", 100);
-	parse_map(map, context);
 	ft_printf("\033[1A\033[2KMovements: %l\n", context->map.player.movements);
 	set_actuator(context);
 }

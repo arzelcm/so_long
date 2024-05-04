@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:58:55 by arcanava          #+#    #+#             */
-/*   Updated: 2024/04/30 15:27:22 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/04 13:04:08 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv)
 	ft_printf("\033[?25l\n");
 	signal(SIGINT, terminate);
 	init_context(&context);
-	handle_map(argv, &context.map);
+	set_map(argv[1], &context.map);
 	use_map(&context.map, &context);
 	return (EXIT_FAILURE);
 }
