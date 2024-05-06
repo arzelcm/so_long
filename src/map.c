@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/04 13:12:29 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:31:09 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void	load_map(char *path, t_map *map)
 
 void	set_map(char *path, t_map *map)
 {
-	check_extension(map);
 	map->spaces = NULL;
 	map->elems = NULL;
 	map->max_y = 0;
@@ -132,12 +131,12 @@ void	set_map(char *path, t_map *map)
 	map->player_amount = 0;
 	map->path = path;
 	map->filename = ft_filename(path);
+	check_extension(map);
 	map->name = ft_substr(map->filename, 0, ft_strlen(map->filename) - 4);
 	map->position.y = 0;
 	map->position.x = 0;
 	map->checked = 0;
 	init_player(&map->player);
-	check_extension(map);
 	load_map(path, map);
 	check_map(map);
 }
