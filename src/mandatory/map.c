@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/06 14:21:17 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:44:46 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	load_map(char *path, t_map *map)
 	char	*line;
 	int		fd;
 
+	update_loading("Loading map", 0);
 	fd = safe_open(path, O_RDONLY);
-	set_map_size(map, fd);
 	line = get_next_line(fd, 0);
 	map->max_x = ft_strlen(line);
 	while (line)
@@ -87,12 +87,10 @@ void	load_map(char *path, t_map *map)
 		push_string(line, &map->spaces, map->max_y);
 		find_elems(line, map->max_y, map);
 		line = get_next_line(fd, 0);
-		if (map->max_y % 100 == 0)
-			update_loading("Loading map",
-				map->max_y * map->max_x * sizeof(char) * 100 / map->size);
 		map->max_y++;
 	}
 	safe_close(&fd);
+	update_loading("Loading map", 100);
 }
 
 void	set_map(char *path, t_map *map)
@@ -117,8 +115,6 @@ void	set_map(char *path, t_map *map)
 	map->position.x = 0;
 	map->checked = 0;
 	init_player(&map->player);
-	update_loading("Loading map", 0);
 	load_map(path, map);
-	update_loading("Loading map", 100);
 	check_map(map);
 }

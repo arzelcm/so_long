@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 14:11:08 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/06 14:08:05 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:46:15 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ void	terminate_map(t_map *map)
 
 void	set_map_size(t_map *map, int fd)
 {
-	struct stat	stat;
-
-	fstat(fd, &stat);
-	map->size = stat.st_size;
+	(void) fd;
+	map->size = -1;
 }
