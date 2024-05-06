@@ -6,14 +6,14 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 13:41:38 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/03 13:45:41 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:32:07 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
 # define CAMERA_H
 
-#include "context.h"
+# include "context.h"
 
 void	set_camera_initial_pos(t_map *map, t_context *context);
 

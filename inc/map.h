@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:23:16 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/04 13:09:51 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:04:41 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_map
 	char		*filename;
 	char		*name;
 	char		**spaces;
-	char		*elems;
 	t_sprite	*wall;
 	t_image		empty_space;
 	t_image		collectible;
@@ -77,10 +76,10 @@ void		print_map(t_map *map);
 
 void		copy_map(t_map *dst, t_map *src);
 
-void		move_player(t_player *player, size_t x, size_t y, t_map *map);
-
-void		check_extension(t_map *map);
-
 void		check_map(t_map *map);
+
+void		*check_progress(void *param);
+
+void		set_map_size(t_map *map, int fd);
 
 #endif

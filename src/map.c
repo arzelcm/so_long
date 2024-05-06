@@ -6,7 +6,7 @@
 /*   By: arcanava <arcanava@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 15:17:57 by arcanava          #+#    #+#             */
-/*   Updated: 2024/05/06 11:31:09 by arcanava         ###   ########.fr       */
+/*   Updated: 2024/05/06 14:21:17 by arcanava         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	print_map(t_map *map)
 	i = -1;
 	while (++i < map->max_y)
 		ft_printf("%s\n", map->spaces[i]);
-	ft_printf("Elems: %s\n", map->elems);
 	ft_printf("Player pos: (%i, %i)\n",
 		map->player.pos.y, map->player.pos.x);
 	ft_printf("players: %i, exits: %i, collectibles: %i, walls: %i\n",
@@ -34,95 +33,71 @@ void	print_map(t_map *map)
 		map->collectible_amount, map->walls_amount);
 }
 
+void	increment_elems(char elem, t_map *map, size_t i, size_t j)
+{
+	if (elem == PLAYER)
+	{
+		map->player_amount++;
+		map->player.pos.y = i;
+		map->player.pos.x = j;
+	}
+	else if (elem == WALL)
+		map->walls_amount++;
+	else if (elem == EXIT)
+		map->exit_amount++;
+	else if (elem == COLLECTIBLE)
+		map->collectible_amount++;
+}
 
-
-void	push_elems(char *str, size_t i, t_map *map)
+void	find_elems(char *str, size_t i, t_map *map)
 {
 	size_t	j;
-	char	elem;
 
-	j = 0;
-	while (str[j])
+	j = -1;
+	while (str[++j])
 	{
-		elem = str[j];
-		if (elem != WALL && elem != EMPTY && elem != PLAYER
-			&& elem != EXIT && elem != COLLECTIBLE && elem != ENEMY)
+		if (str[j] != WALL && str[j] != EMPTY && str[j] != PLAYER
+			&& str[j] != EXIT && str[j] != COLLECTIBLE && str[j] != ENEMY)
 		{
 			ft_printff(STDERR_FILENO,
 				"\033[1A\033[2KError\nin %s, %c: is not a valid map element. ",
-				map->filename, elem);
+				map->filename, str[j]);
 			custom_error("Only 1, 0, P, C, M and E are.");
 		}
-		else if (elem == PLAYER)
-		{
-			map->player_amount++;
-			map->player.pos.y = i;
-			map->player.pos.x = j;
-		}
-		else if (str[j] == WALL)
-			map->walls_amount++;
-		else if (str[j] == EXIT)
-			map->exit_amount++;
-		else if (str[j] == COLLECTIBLE)
-			map->collectible_amount++;
-		if (elem != EMPTY && elem != WALL)
-			push_char(elem, &map->elems);
-		j++;
+		increment_elems(str[j], map, i, j);
 	}
-}
-
-void	load_map_size(t_map *map, int fd)
-{
-	struct stat	stat;
-
-	fstat(fd, &stat);
-	map->size = stat.st_size;
 }
 
 void	load_map(char *path, t_map *map)
 {
 	char	*line;
 	int		fd;
-	int		correct;
-	size_t	i;
 
-	update_loading("Loading map", 0);
-	correct = 1;
 	fd = safe_open(path, O_RDONLY);
-	load_map_size(map, fd);
-	i = 1;
+	set_map_size(map, fd);
 	line = get_next_line(fd, 0);
 	map->max_x = ft_strlen(line);
-	while (line && correct)
+	while (line)
 	{
 		if (map->max_x != ft_strlen(line))
-			correct = 0;
-		else
 		{
-			push_string(line, &map->spaces,
-				map->max_y);
-			push_elems(line, map->max_y, map);
-			line = get_next_line(fd, 0);
+			ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n");
+			custom_error("map must be rectangular!");
 		}
-		map->max_y++;
-		i++;
-		if (i % 100 == 0)
+		push_string(line, &map->spaces, map->max_y);
+		find_elems(line, map->max_y, map);
+		line = get_next_line(fd, 0);
+		if (map->max_y % 100 == 0)
 			update_loading("Loading map",
-				i * map->max_x * sizeof(char) * 100 / map->size);
+				map->max_y * map->max_x * sizeof(char) * 100 / map->size);
+		map->max_y++;
 	}
 	safe_close(&fd);
-	if (!correct)
-	{
-		ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n");
-		custom_error("map must be rectangular!");
-	}
-	update_loading("Loading map", 100);
 }
 
 void	set_map(char *path, t_map *map)
 {
 	map->spaces = NULL;
-	map->elems = NULL;
 	map->max_y = 0;
 	map->max_x = 0;
 	map->walls_amount = 0;
@@ -131,12 +106,19 @@ void	set_map(char *path, t_map *map)
 	map->player_amount = 0;
 	map->path = path;
 	map->filename = ft_filename(path);
-	check_extension(map);
+	if (ft_strlen(map->filename) <= 4
+		|| ft_strnrcmp(map->filename, ".ber", 4) != EQUAL_STRINGS)
+	{
+		ft_printff(STDERR_FILENO, "\033[1A\033[2KError\n%s: ", map->filename);
+		custom_error("invalid file extension, only .ber is allowed!");
+	}
 	map->name = ft_substr(map->filename, 0, ft_strlen(map->filename) - 4);
 	map->position.y = 0;
 	map->position.x = 0;
 	map->checked = 0;
 	init_player(&map->player);
+	update_loading("Loading map", 0);
 	load_map(path, map);
+	update_loading("Loading map", 100);
 	check_map(map);
 }
